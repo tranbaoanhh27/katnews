@@ -1,0 +1,61 @@
+.confirm-otp-card {
+    width: 600px;
+    max-width: 100%;
+    background-color: #721029;
+    border-radius: 30px;
+    color: white;
+    padding: 40px;
+    margin: 100px auto 10px auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    animation: fade-up 0.75s linear;
+}
+
+.confirm-otp-card__footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.confirm-otp-card__footer > button {
+    background-color: #00AFA4;
+    border-radius: 15px;
+    min-width: 120px;
+    padding: 10px 15px;
+    align-self: flex-end !important;
+    border: none !important;
+}
+
+.confirm-otp-card__footer > button:hover {
+    background-color: #008F84 !important;
+}
+
+.resend-otp-link {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.resend-otp-link:hover {
+    cursor: pointer;
+}
+
+.resend-otp-link--disabled {
+    color: gray !important;
+    cursor: not-allowed !important;
+}
+
+.confirm-otp-card__footer > div {
+    text-align: end;
+}
+
+@keyframes fade-up {
+    from {
+        position: relative;
+        bottom: -30px;
+        opacity: 0;
+    }
+    to {
+        position: relative;
+        bottom: 0;
+        opacity: 1;
+    }
+}

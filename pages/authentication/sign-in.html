@@ -96,7 +96,7 @@
         </header>
         <main>
             <div class="login-card">
-                <form action="#" method="post">
+                <form action="#" method="post" onsubmit="submitHandler(event)">
                     <h2>Đăng nhập</h2>
                     <div class="mb-4 mt-5">
                       <label for="login-email" class="form-label">Email</label>
@@ -166,6 +166,10 @@
                     document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');    
                 else
                     document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+            }
+            function submitHandler(event) {
+                event.preventDefault();
+                window.location.replace(window.location.origin);
             }
         </script>
     </body>
