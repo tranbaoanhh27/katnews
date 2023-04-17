@@ -1,0 +1,108 @@
+.signup-card {
+    width: 600px;
+    max-width: 100%;
+    background-color: #105564;
+    border-radius: 30px;
+    color: white;
+    padding: 40px;
+    margin: 100px auto 10px auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    animation: fade-up 0.75s linear;
+}
+
+@keyframes fade-up {
+    from {
+        position: relative;
+        bottom: -30px;
+        opacity: 0;
+    }
+    to {
+        position: relative;
+        bottom: 0;
+        opacity: 1;
+    }
+}
+
+.signup-card__pwd-inputs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.signup-card__pwd-inputs > div {
+    width: calc(50% - 5px);
+}
+
+.signup-card__submit-and-link-to-sign-in {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    height: 50px;
+}
+
+.signup-card__submit-and-link-to-sign-in > button {
+    align-self: flex-end;
+    height: 50px;
+    min-width: 120px;
+    background-color: #EA852F;
+    border-radius: 15px;
+    border: none !important;
+}
+
+.signup-card__submit-and-link-to-sign-in > button:hover {
+    background-color: #CA650F !important;  
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.signup-card__link-to-sign-in {
+    text-align: end;
+}
+
+.signup-card__link-to-sign-in > a {
+    text-decoration: none;
+    font-size: 120%;
+    font-weight: bolder;
+    color: #7BFFFB !important;
+}
+
+.signup-method-seperator {
+    text-align: center;
+    font-size: 120%;
+    margin: 10px auto;
+    animation: fade-up 1s linear;
+}
+
+.quick-signup {
+    width: 600px;
+    max-width: 100%;
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    animation: fade-up 1.25s linear;
+}
+
+.quick-signup__method {
+    background-color: #333333;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px 20px 30px;
+    border-radius: 15px;
+    width: calc(50% - 10px);
+    align-items: center;
+}
+
+.quick-signup__method:hover {
+    background-color: #222222;
+    cursor: pointer;
+}
+
+.quick-signup__method > img {
+    width: 60px;
+    height: 60px;
+    margin-inline-end: 10px;
+}
+
+.quick-signup__method h4 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
