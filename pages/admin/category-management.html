@@ -132,7 +132,7 @@
                                   <td class="list__count">50</td>
                                   <td class="list__actions text-end">
                                     <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
-                                    <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
                                   </td>
                                 </tr>
                                 <tr class="list__item">
@@ -140,7 +140,7 @@
                                     <td class="list__count">58</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
-                                      <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr class="list__item">
@@ -148,7 +148,7 @@
                                     <td class="list__count">32</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
-                                      <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 <tr class="list__item ">
@@ -156,7 +156,7 @@
                                     <td class="list__count">21</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
-                                      <a href="#" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                               </tbody>
@@ -229,6 +229,12 @@
                 });
             }
             
+        </script>
+
+        <script>
+            function deleteRow(row) {
+                row.parentNode.parentNode.remove();
+              }
         </script>
     </body>
 </html>
