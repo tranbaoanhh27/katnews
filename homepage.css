@@ -63,8 +63,19 @@
     font-weight: bold;
 }
 
+.col-top-category {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.col-top-category > .section-title {
+    align-self: flex-start;
+    margin-inline-start: 10%;
+}
+
 .top-category {
-    width: 100%;
+    width: 90%;
     height: 175px;
     border-radius: 30px;
     position: relative;
