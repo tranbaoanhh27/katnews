@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="writer.css">
+    <!-- <style>
+        * {
+            border: solid 1px black;
+        }
+    </style> -->
+    <script src="/assets/ckeditor/ckeditor.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
+            <div class="container">
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/pages/writer/writer.html">
+                    <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                </a>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/pages/writer/writer.html" aria-current="page">Trang chủ <span
+                                    class="visually-hidden">(current)</span></a>
+                        </li>
+                        <li class="nav-item header__nav-li--active">
+                            <a class="nav-link" href="/pages/writer/list_news.html">Danh Sach</a>
+                        </li>
+                        <li class="nav-item header__nav-li--active">
+                            <a class="nav-link" href="/pages/writer/editor.html">Viet Bai</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header__search-container">
+                    <img class="header__search-toggle" src="/assets/images/search-button.svg" alt="Search Toggle Button"
+                        onclick="toggleSearchForm()" />
+                    <form class="d-flex header__search-form header__search-form--hidden">
+                        <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..."
+                            aria-label="Search">
+                        <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+                <a href="/pages/writer/information.html"> <img src="/assets/images/avatar.svg" alt="avatar"
+                        class="rounded-circle" style="width: 50px; height:50px;"></a>
+                <!-- <div class="dropdown">
+                    <button class="dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                    </ul>
+                </div> -->
+            </div>
+        </nav>
+    </header>
+    <main>
+
+        <div class='container mt-3 rounded-3 shadow-lg' style="width: 80%; background-color: lightgray;">
+            <h2 class='mx-4'>Biên soạn</h2>
+            <form>
+                <div class="mb-3">
+                  <!-- <label for="title" class="form-label">Tiêu đề</label> -->
+                  <input type="text" class="form-control" id="title" required placeholder='Tiêu đề'>
+                </div>
+                <div class="mb-3">
+                  <!-- <label for="tag" class="form-label">Tag</label> -->
+                  <input type="text" class="form-control" id="tag" required placeholder='Tag'>
+                </div>
+                <div class="mb-3">
+                    <input type="link" class="form-control" id="linkImage" required placeholder='Link hình ảnh'>    
+                </div>
+                <div class='mb-3'>
+                    <textarea class="form-control" placeholder="Tóm tắt nôị dung"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label></label>
+                <textarea name="content" id="content">&lt;p&gt;Soạn bài viết ở đây.&lt;/p&gt;</textarea>
+
+                <script>
+                    CKEDITOR.replace( 'content' );
+                </script>
+                </div>
+
+                
+                <button type="submit" class="btn btn-primary " required>Nộp</button>
+              </form>
+
+        </div>
+        <script>
+            function toggleSearchForm() {
+                let classes = document.querySelector('.header__search-form').classList;
+                if (classes.contains('header__search-form--hidden'))
+                    document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
+                else
+                    document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+            }
+        </script>
+
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>

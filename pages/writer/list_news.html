@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="writer.css">
+    <!-- <style>
+        * {
+            border: solid 1px black;
+        }
+    </style> -->
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
+            <div class="container">
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/pages/writer/writer.html">
+                    <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                </a>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/pages/writer/writer.html" aria-current="page">Trang chủ <span
+                                    class="visually-hidden">(current)</span></a>
+                        </li>
+                        <li class="nav-item header__nav-li--active">
+                            <a class="nav-link" href="/pages/writer/list_news.html">Danh Sach</a>
+                        </li>
+                        <li class="nav-item header__nav-li--active">
+                            <a class="nav-link" href="/pages/writer/editor.html">Viet Bai</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header__search-container">
+                    <img class="header__search-toggle" src="/assets/images/search-button.svg" alt="Search Toggle Button"
+                        onclick="toggleSearchForm()" />
+                    <form class="d-flex header__search-form header__search-form--hidden">
+                        <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..."
+                            aria-label="Search">
+                        <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+                <a href="/pages/writer/information.html"> <img src="/assets/images/avatar.svg" alt="avatar"
+                        class="rounded-circle" style="width: 50px; height:50px;"></a>
+                <!-- <div class="dropdown">
+                    <button class="dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                    </ul>
+                </div> -->
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class='container ' style='width: 80%;'>
+            <h2 class="mx-5">Danh sách bài viết<h2>
+            <div class='card rounded-4 shadow-lg m-2 border-success border-top-0' style='width: 100%;background-color: lightgrey;'>
+                <div class='row g-2'>
+                    <div class='col-2'>
+                        <img src='/assets/images/writer-logo.jpeg' class='card-img mw-100 rounded-circle' >
+                    </div>
+                    <div class='col-8'>
+                        <div class='card-body'>
+                            <div class='card-title'>Heading 1</div>
+                            <p style='font-size: 13px;'> Lorem ipsum dolor sit amet consectetur adipisicing elit. In provident, ut architecto omnis a nemo quam quo. Iste, odit. Est veniam debitis dicta explicabo vero eaque similique corrupti aut aliquid.</p>
+                        </div>
+                    </div>
+                    <div class='col-2 d-flex flex-column justify-content-center'>
+                        <button type="button" class="btn rounded-5 m-auto" style="background-color: lightgreen;"><i class="bi bi-check2-circle rounded-circle" style="background-color: greenyellow;"></i>Thành công</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class='card rounded-4 shadow-lg m-2 border-danger border-top-0' style='width: 100%;background-color: lightgrey;'>
+                <div class='row g-2'>
+                    <div class='col-2'>
+                        <img src='/assets/images/writer-logo.jpeg' class='card-img mw-100 rounded-circle' >
+                    </div>
+                    <div class='col-8'>
+                        <div class='card-body'>
+                            <div class='card-title'>Heading 1</div>
+                            <p style='font-size: 13px;'> Lorem ipsum dolor sit amet consectetur adipisicing elit. In provident, ut architecto omnis a nemo quam quo. Iste, odit. Est veniam debitis dicta explicabo vero eaque similique corrupti aut aliquid.</p>
+                        </div>
+                    </div>
+                    <div class='col-2 d-flex flex-column justify-content-center'>
+                        <button type="button" class="btn rounded-5 m-auto" style="background-color: lightcoral;"><i class="bi bi-file-earmark-medical"></i></i>Từ chối</button>
+                        <button type="button" class="btn rounded-5 m-auto" style="background-color: lightsalmon;"><i class="bi bi-pencil-fill rounded-circle"></i><a href="editor.html" class='text-black text-decoration-none'>Sửa lại</a></button>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <script>
+            function toggleSearchForm() {
+                let classes = document.querySelector('.header__search-form').classList;
+                if (classes.contains('header__search-form--hidden'))
+                    document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
+                else
+                    document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+            }
+        </script>
+
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
