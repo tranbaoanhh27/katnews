@@ -32,9 +32,14 @@
                         aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="/index.html">
-                        <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
-                    </a>
+                    
+                    <div class="d-flex align-items-center">
+                        <a class="navbar-brand" href="/index.html">
+                            <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                        </a>
+                        <i class="fa-solid fa-bars" onclick="hide_show_sidebar()"></i>
+                    </div>
+                    
                     
                     <div style="display: flex">
                         <div class="header__search-container">
@@ -56,7 +61,7 @@
         <main>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" id = "sidebar-left">
                         <div class="container mx-auto">
                             
                             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start "
@@ -75,8 +80,8 @@
                                     </a>
                                 </li>
                                 <hr>
-                                <li class="nav-item">
-                                    <a href="tag-management.html" class="nav-link align-middle px-0 text-dark">
+                                <li class="nav-item text-dark">
+                                    <a href="tag-management.html" class="nav-link align-middle px-0 ">
                                         <i class="fa-solid fa-tag"></i> <span
                                             class="ms-1 d-none d-sm-inline text-decoration-none">Quản lý nhãn</span>
                                     </a>
@@ -100,8 +105,101 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-9">
-                        
+                    <div class="col-md-9" id = "sidebar-right">
+                        <a href="category-management.html" class="nav-link fw-bold px-0"> Quản lý nhãn</a>
+
+                        <div class="container mt-3">
+                            <!-- Hàng đầu tiên với box search và nút thêm -->
+                            <div class="row mb-3 header">
+                              <div class="col-md-9 header__search d-flex direction-row">
+                                <input type="text" class="form-control " placeholder="Tìm kiếm..." required onkeyup="filter(this.value)">
+                                <button class="btn btn-primary ms-3 float-end" type="button">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                              </div>
+                              <div class="col-md-3 header__button">
+                                <button class="btn btn-primary float-end">Thêm mới</button>
+                              </div>
+                            </div>
+                          
+                            <!-- Bảng danh sách -->
+                            <table class="table list">
+                              <thead>
+                                <tr>
+                                  <th class="list__header">Tên nhãn</th>
+                                  <th class="list__header">Số lượng bài viết</th>
+                                  <th class="list__header"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="list__item">
+                                  <td class="list__name">Bóng đá</td>
+                                  <td class="list__count">80</td>
+                                  <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
+                                  </td>
+                                </tr>
+                                <tr class="list__item">
+                                    <td class="list__name">Làm đẹp</td>
+                                    <td class="list__count">58</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <tr class="list__item">
+                                    <td class="list__name">Công nghệ</td>
+                                    <td class="list__count">32</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <tr class="list__item">
+                                    <td class="list__name">hải sản</td>
+                                    <td class="list__count">32</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                <tr class="list__item ">
+                                    <td class="list__name">Sức khỏe</td>
+                                    <td class="list__count">21</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-warning"><i class="fa-solid fa-pen"></i></a>
+                                      <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            
+                            <div class="row">
+                                <!-- Pagination -->
+                                <div class="col-md-12 mt-4">
+                                  <nav>
+                                    <ul class="pagination justify-content-center">
+                                      <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                      </li>
+                                      <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">1</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                      </li>
+                                    </ul>
+                                  </nav>
+                                </div>
+                              </div>
+                          
                     </div>
                 </div>
             </div>
@@ -130,6 +228,49 @@
                 else
                     document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
             }
+        </script>
+
+        <script>
+            function filter(keyword){
+                keyword = keyword.toLowerCase();
+                document.querySelectorAll('.list__name').forEach(item => {
+                    if (item.innerText.toLowerCase().indexOf(keyword) >= 0){
+                        item.parentElement.style.display = "";
+                    }
+                    else
+                        item.parentElement.style.display = 'none';
+                });
+            }
+            
+        </script>
+
+        <script>
+            function deleteRow(row) {
+                if(confirm("Bạn có chắc chắn muốn xóa nhãn này?"))
+                    row.parentNode.parentNode.remove();
+              }
+        </script>
+
+        <script>
+            // Lấy element của thanh bên trái
+            const colMd3 = document.getElementById('sidebar-left');
+
+            // Lấy element ủa thanh bên phải
+            const colMd9 = document.getElementById("sidebar-right");
+
+            // Thêm sự kiện click vào icon list
+           function hide_show_sidebar() {
+            // Nếu phần col-md-3 đang hiện thì ẩn nó đi, ngược lại hiển thị nó lên
+            if (colMd3.style.display === 'none') {
+                colMd3.style.display = 'block';
+                colMd9.classList.remove("col-md-12");
+                colMd9.classList.add("col-md-9")
+            } else {
+                colMd3.style.display = 'none';
+                colMd9.classList.remove("col-md-9");
+                colMd9.classList.add("col-md-12")
+            }
+            };
         </script>
     </body>
 </html>

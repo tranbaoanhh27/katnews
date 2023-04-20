@@ -32,9 +32,14 @@
                         aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="/index.html">
-                        <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
-                    </a>
+                    
+                    <div class="d-flex align-items-center">
+                        <a class="navbar-brand" href="/index.html">
+                            <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                        </a>
+                        <i class="fa-solid fa-bars" onclick="hide_show_sidebar()"></i>
+                    </div>
+                    
                     
                     <div style="display: flex">
                         <div class="header__search-container">
@@ -56,7 +61,7 @@
         <main>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" id = "sidebar-left">
                         <div class="container mx-auto">
                             
                             <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start "
@@ -100,7 +105,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9" id = "sidebar-right">
                         <a href="category-management.html" class="nav-link fw-bold px-0"> Quản lý chuyên mục</a>
 
                         <div class="container mt-3">
@@ -233,8 +238,31 @@
 
         <script>
             function deleteRow(row) {
-                row.parentNode.parentNode.remove();
+                if (confirm("Bạn có chắc chắn muốn xóa chuyên mục này?"))
+                    row.parentNode.parentNode.remove();
               }
+        </script>
+
+        <script>
+            // Lấy element của thanh bên trái
+            const colMd3 = document.getElementById('sidebar-left');
+
+            // Lấy element ủa thanh bên phải
+            const colMd9 = document.getElementById("sidebar-right");
+
+            // Thêm sự kiện click vào icon list
+           function hide_show_sidebar() {
+            // Nếu phần col-md-3 đang hiện thì ẩn nó đi, ngược lại hiển thị nó lên
+            if (colMd3.style.display === 'none') {
+                colMd3.style.display = 'block';
+                colMd9.classList.remove("col-md-12");
+                colMd9.classList.add("col-md-9")
+            } else {
+                colMd3.style.display = 'none';
+                colMd9.classList.remove("col-md-9");
+                colMd9.classList.add("col-md-12")
+            }
+            };
         </script>
     </body>
 </html>
