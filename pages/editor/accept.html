@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Duyệt</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="writer.css">
+    <!-- <style>
+        * {
+            border: solid 1px black;
+        }
+    </style> -->
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
+            <div class="container">
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/pages/editor/editor.html">
+                    <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                </a>
+
+                <a href="/pages/editor/information.html"> <img src="/assets/images/avatar.svg" alt="avatar"
+                        class="rounded-circle" style="width: 50px; height:50px;"></a>
+                <!-- <div class="dropdown">
+                    <button class="dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                    </ul>
+                </div> -->
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class='container' style='width: 80%;' onclick="handleOnclickBody()">
+            <h2 class='mx-3 mb-5'>Trái cây rớt thảm giá nào cũng có</h2>
+            <form>
+
+                <div class="mx-auto d-flex text-center shadow">
+                    <label for="category" class="form-label">Chuyên mục :</label>
+
+                    <input class="d-inline mx-auto " disabled id="category"></p>
+                    <i class="btn bi bi-pencil-fill mx-5" id="categoryBtn"></i>
+                </div>
+                <hr>
+                <hr>
+                <div class="mx-auto d-flex text-center shadow">
+                    <label for="tag" class="form-label">Tag :</label>
+                    <input class="d-inline mx-auto " disabled id="tag"></p>
+                    <i class="btn bi bi-pencil-fill mx-5" id="tagBtn"></i>
+                </div>
+
+                <hr>
+                <div class="mx-auto d-flex text-center shadow">
+                    <label for="time" class="form-label"> Thời gian xuất bản :</label>
+                    <input type='date' class="d-inline mx-auto " disabled id="time"></p>
+                    <i class="btn bi bi-pencil-fill mx-5" id="timeBtn"></i>
+                </div>
+                <div class='m-auto text-center'>
+                    <button type="submit" class=" text-center  btn btn-primary mt-3 px-3"> Duệt</button>
+                </div>
+            </form>
+            <div class="text-end mt-3">
+                <a href="editor.html">Trở về trang chính</a>
+
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('category').value = 'Nông sản';
+            document.getElementById('tag').value = 'Nông sản, xuất khẩu';
+            document.getElementById('time').valueAsDate = new Date()
+            // function handleOnclickName() {
+            //     console.log('helo')
+            //     document.getElementById('nameInput').disabled = false;
+            // };
+
+            function handleOnclickBody() {
+                var category = document.getElementById('category');
+                var categoryBtn = document.getElementById('categoryBtn');
+                var tag = document.getElementById('tag');
+                var tagBtn = document.getElementById('tagBtn');
+                var time = document.getElementById('time');
+                var timeBtn = document.getElementById('timeBtn');
+
+
+
+                switch (event.target) {
+                    case categoryBtn:
+
+                        category.disabled = false;
+                        break;
+                    case tagBtn:
+                        tag.disabled = false;
+                        break;
+                    case timeBtn:
+                        time.disabled = false;
+                        break;
+                    case category:
+                        break;
+                    case tag:
+                        break;
+                    case time:
+                        break;
+                    default:
+                        category.disabled = true;
+                        tag.disabled = true;
+                        time.disabled = true;
+
+                }
+
+            }
+
+        </script>
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
