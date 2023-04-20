@@ -139,7 +139,7 @@
                             <div class="carousel-item">
                                 <div class="carousel-overlay-content">
                                     <a href="#"><div class="category-badge">Category</div></a>
-                                    <a href="#"><h2 class="homepage__carousel-item-title">Title</h2></a>
+                                    <a href="/pages/news/sports/soccer/real-madrid-nhan-chim-chelsea-tai-stamford-bridge-de-vao-ban-ket-champions-league.html"><h2 class="homepage__carousel-item-title">Title</h2></a>
                                     <p><a href="#">Author's name</a> - Published date</p>
                                 </div>
                                 <div class="carousel-blackcover"></div>
@@ -524,6 +524,7 @@
                         carouselItems[i].querySelector('.category-badge').innerHTML = articlesOfTheWeek[i].subcategory;
                         carouselItems[i].querySelector('.category-badge').style.backgroundColor = articlesOfTheWeek[i].categoryColor;
                         carouselItems[i].querySelector('.homepage__carousel-item-title').innerHTML = articlesOfTheWeek[i].title;
+                        carouselItems[i].querySelector('.homepage__carousel-item-title').parentElement.setAttribute('href', articlesOfTheWeek[i].htmlURL);
                         carouselItems[i].querySelector('p').innerHTML = `<a href="#">${articlesOfTheWeek[i].authorName}<a/> - ${articlesOfTheWeek[i].publishedDate}`;
                     }
 
@@ -535,6 +536,7 @@
                         topCategories[i].querySelector('.category-name').style.backgroundColor = articles[articleIndex].categoryColor;
                         topCategories[i].querySelector('.category-name').innerHTML = articles[articleIndex].subcategory;
                         topCategories[i].querySelector('.top-category-article-title').innerHTML = articles[articleIndex].title;
+                        topCategories[i].querySelector('.top-category-article-title').setAttribute('href', articles[articleIndex].htmlURL);
                         topCategories[i].querySelector('p').innerHTML = `<a href="#">${articles[articleIndex].authorName}<a/> - ${articles[articleIndex].publishedDate}`;
                     }
 
@@ -545,6 +547,7 @@
                         mostViewedArticles[i].querySelector('span').innerHTML = articles[articleIndex].subcategory;
                         mostViewedArticles[i].querySelector('span').style.backgroundColor = articles[articleIndex].categoryColor;
                         mostViewedArticles[i].querySelector('a').innerHTML = articles[articleIndex].title;
+                        mostViewedArticles[i].querySelector('a').setAttribute('href', articles[articleIndex].htmlURL);
                         mostViewedArticles[i].querySelector('p').innerHTML = articles[articleIndex].publishedDate;
                     }
 
@@ -555,6 +558,7 @@
                         latestArticles[i].querySelector('span').innerHTML = articles[articleIndex].subcategory;
                         latestArticles[i].querySelector('span').style.backgroundColor = articles[articleIndex].categoryColor;
                         latestArticles[i].querySelector('a').innerHTML = articles[articleIndex].title;
+                        latestArticles[i].querySelector('a').setAttribute('href', articles[articleIndex].htmlURL);
                         latestArticles[i].querySelector('p').innerHTML = articles[articleIndex].publishedDate;
                     }
                 });
