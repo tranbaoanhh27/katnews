@@ -18,26 +18,24 @@
             border: solid 1px black;
         }
     </style> -->
-    <script src="/assets/ckeditor/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
 </head>
 
 <body>
     <header>
-        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 100 !important">
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
             <div class="container">
                 <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="/pages/writer/writer.html">
+                <a class="navbar-brand" href="/pages/writer/list_news.html">
                     <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
                 </a>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
                     <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pages/writer/writer.html" aria-current="page">Trang chủ </a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="/pages/writer/list_news.html">Danh sách</a>
                         </li>
@@ -74,34 +72,37 @@
             <h2 class='mx-4'>Biên soạn</h2>
             <form>
                 <div class="mb-3">
-                  <!-- <label for="title" class="form-label">Tiêu đề</label> -->
-                  <input type="text" class="form-control" id="title" required placeholder='Tiêu đề'>
+                    <!-- <label for="title" class="form-label">Tiêu đề</label> -->
+                    <input type="text" class="form-control" id="title" required placeholder='Tiêu đề'>
                 </div>
                 <div class="mb-3">
-                  <!-- <label for="tag" class="form-label">Tag</label> -->
-                  <input type="text" class="form-control" id="tag" required placeholder='Tag'>
+                    <!-- <label for="tag" class="form-label">Tag</label> -->
+                    <input type="text" class="form-control" id="tag" required placeholder='Tag'>
                 </div>
                 <div class="mb-3">
-                    <input type="link" class="form-control" id="linkImage" required placeholder='Link hình ảnh'>    
+                    <input type="link" class="form-control" id="linkImage" required placeholder='Link hình ảnh'>
                 </div>
                 <div class='mb-3'>
                     <textarea class="form-control" placeholder="Tóm tắt nôị dung"></textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label></label>
-                <textarea name="content" id="content">&lt;p&gt;Soạn bài viết ở đây.&lt;/p&gt;</textarea>
-
-                <script>
-                    CKEDITOR.replace( 'content' );
-                </script>
+                <div class='mb-3'>
+                    <div id="editor">This is some sample content.</div>
                 </div>
-
-                
                 <button type="submit" class="btn btn-primary " required>Nộp</button>
-              </form>
+            </form>
 
         </div>
+        <script>
+            ClassicEditor
+                .create(document.querySelector('#editor'))
+                .then(editor => {
+                    console.log(editor);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        </script>
         <script>
             function toggleSearchForm() {
                 let classes = document.querySelector('.header__search-form').classList;
