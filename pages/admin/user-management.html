@@ -115,7 +115,7 @@
 
                     <!-- Sidebar bên phải -->
                     <div class="col-md-9" id = "sidebar-right">
-                        <a href="user-management.html" class="nav-link fw-bold px-0"> Quản lý Người dùng</a>
+                        <a href="user-management.html" class="nav-link fw-bold px-0"> Danh sách người dùng</a>
 
                         <div class="container mt-3">
                             <!-- Hàng đầu tiên với box search và nút thêm -->
@@ -127,7 +127,7 @@
                                 </button>
                               </div>
                               <div class="col-md-4 header__add-button">
-                                <button class="btn btn-primary float-end mx-2 add-btn" data-bs-toggle="modal" data-bs-target="#adduserModal">Thêm mới</button>
+                                <!-- <button class="btn btn-primary float-end mx-2 add-btn" data-bs-toggle="modal" data-bs-target="#adduserModal">Thêm mới</button> -->
                                 <button class="btn btn-primary float-end" onclick="deleteSelectedRows()">Xoá</button>
                               </div>
                             </div>
@@ -136,19 +136,19 @@
                             <table class="table list">
                               <thead>
                                 <tr>
-                                  <th class="list__header">Chọn</th>  
-                                  <th class="list__header">Tên nhãn</th>
-                                  <th class="list__header">Chức năng</th>
-                                  <th class="list__header">Số lượng bài viết</th>
-                                  <th class="list__header"></th>
+                                  <th class="list__header" style="width: auto;">Chọn</th>  
+                                  <th class="list__header" style="width: auto;">Tên</th>
+                                  <th class="list__header" style="width: auto;">Phân hệ</th>
+                                  <th class="list__header" style="width: auto;">email</th>
+                                  <th class="list__header" style="width: 14%;"></th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr class="list__item">
                                   <td class="list__check"><input type="checkbox" name="select-user"></td>
                                   <td class="list__name">Bùi Quốc Trung</td>
-                                  <td class="list__function">Độc giả</td>
-                                  <td class="list__count">0</td>
+                                  <td class="list__function">Độc giả</td>                                 
+                                  <td class="list_email">trung2k2@gmail.com</td> 
                                   <td class="list__actions text-end">
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="openEditModal(event)"><i class="fa-solid fa-pen"></i></a>
                                     <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
@@ -158,7 +158,7 @@
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
                                     <td class="list__name">Trần Bảo Anh</td>
                                     <td class="list__function">Biên tập viên</td>
-                                    <td class="list__count">0</td>
+                                    <td class="list_email">anh2k2@gmail.com</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="openEditModal(event)"><i class="fa-solid fa-pen"></i></a>
                                       <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
@@ -167,8 +167,8 @@
                                 <tr class="list__item">
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
                                     <td class="list__name">Phan Quốc Kỳ</td>
-                                    <td class="list__function">Phóng Viên</td>
-                                    <td class="list__count">32</td>
+                                    <td class="list__function">Phóng viên</td>
+                                    <td class="list_email">kydeptrai@gmail.com</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="openEditModal(event)"><i class="fa-solid fa-pen"></i></a>
                                       <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
@@ -178,7 +178,7 @@
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
                                     <td class="list__name">Đoàn Nguyễn Thành</td>
                                     <td class="list__function">Độc giả</td>
-                                    <td class="list__count">0</td>
+                                    <td class="list_email">thangdoan@gmail.com</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="openEditModal(event)"><i class="fa-solid fa-pen"></i></a>
                                       <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
@@ -188,7 +188,7 @@
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
                                     <td class="list__name">Hanh Tran</td>
                                     <td class="list__function">Premium</td>
-                                    <td class="list__count">21</td>
+                                    <td class="list_email">hanhtran@gmail.com</td>
                                     <td class="list__actions text-end">
                                       <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="openEditModal(event)"><i class="fa-solid fa-pen"></i></a>
                                       <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></a>
@@ -237,7 +237,7 @@
                     <div class="modal-body">
                     <div class="mb-3">
                         <label for="edit-modal-name" class="form-user">Tên</label>
-                        <input type="text" id="edit-modal-name" class="form-control" placeholder="Nhập tên">
+                        <input type="text" id="edit-modal-name" class="form-control" readonly placeholder="Nhập tên">
                     </div>
                     <div class="mb-3">
                         <label for="edit-modal-select-user" class="form-user">Chức năng</label>
@@ -249,8 +249,8 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="edit-modal-count" class="form-user">Số lượng bài viết</label>
-                        <input type="number" id="edit-modal-count" class="form-control" placeholder="Nhập số lượng">
+                        <label for="edit-modal-count" class="form-user">Email</label>
+                        <input type="email" id="edit-modal-count" class="form-control" readonly placeholder="Nhập emai">
                     </div>
                       
                     </div>
@@ -264,7 +264,7 @@
 
 
             <!-- Modal thêm nhãn mới-->
-            <div class="modal fade" id="adduserModal" tabindex="-1" aria-labelledby="adduserModaluser" aria-hidden="true">
+            <!-- <div class="modal fade" id="adduserModal" tabindex="-1" aria-labelledby="adduserModaluser" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -287,8 +287,8 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="userCount" class="form-user">Số lượng bài viết</label>
-                            <input type="number" class="form-control" id="userCount" name="Nhập số lượng bài viết">
+                            <label for="userCount" class="form-user">Email</label>
+                            <input type="email" class="form-control" id="userCount" name="Nhập email">
                         </div>
                     </form>
                     </div>
@@ -298,7 +298,7 @@
                     </div>
                 </div>
                 </div>
-            </div>
+            </div> -->
         </main>
         <footer>
             <!-- place footer here -->
@@ -427,14 +427,12 @@
             const row = event.currentTarget.closest('.list__item');
             const name = row.querySelector('.list__name').textContent;
             const Func = row.querySelector('.list__function').textContent;
-            const count = row.querySelector('.list__count').textContent;
+            const count = row.querySelector('.list_email').textContent;
             // console.log(Func); 
             // Lưu thông tin hàng dữ liệu đang được chỉnh sửa vào biến
             currentEditRow = {
                 row,
                 Func,
-                name,
-                count
             };
 
             // Hiển thị thông tin hàng dữ liệu trong modal chỉnh sửa
@@ -446,20 +444,16 @@
             // Định nghĩa hàm để lưu dữ liệu đã chỉnh sửa
             function saveEdit() {
             // Lấy thông tin dữ liệu mới từ modal chỉnh sửa
-            const newName = editModalNameInput.value;
             const newFunc = editModalFuncInput.value;
-            const newCount = editModalCountInput.value;
 
             // Cập nhật thông tin vào hàng dữ liệu đang chỉnh sửa
-            currentEditRow.row.querySelector('.list__name').textContent = newName;
             currentEditRow.row.querySelector('.list__function').textContent= newFunc;
-            currentEditRow.row.querySelector('.list__count').textContent = newCount;
             }
             
         </script>
 
         <!-- Xử lý thêm mới nhãn -->
-        <script>
+        <!-- <script>
             const addModalNameInput = document.querySelector('#userName');
             const addModalCountInput = document.querySelector('#userCount');
             const addModalFunctionInput = document.querySelector('#select-user')
@@ -469,7 +463,7 @@
             
             addButtons.addEventListener('click', function(){
                 addModalNameInput.value = '';
-                addModalCountInput.value = 0;
+                addModalCountInput.value = "";
             });
 
             // Lắng nghe sự kiện click của nút "Thêm" trên modal
@@ -504,7 +498,7 @@
     
                     // Tạo phần tử <td> cho cột Số lượng
                     var userCountCell = document.createElement('td');
-                    userCountCell.setAttribute('class', 'list__count');
+                    userCountCell.setAttribute('class', 'list_email');
                     userCountCell.textContent = userCount;
     
                     // Tạo phần tử <td> cho cột Hành động
@@ -546,6 +540,6 @@
                     tableBody.appendChild(row);
             };
             
-        </script>
+        </script> -->
     </body>
 </html>
