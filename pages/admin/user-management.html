@@ -133,10 +133,11 @@
                             </div>
                           
                             <!-- Bảng danh sách -->
-                            <table class="table list">
+                            <table class="table list align-middle">
                               <thead>
                                 <tr>
                                   <th class="list__header" style="width: auto;">Chọn</th>  
+                                  <th class="list__header" style="width: 8%;"></th>  
                                   <th class="list__header" style="width: auto;">Tên</th>
                                   <th class="list__header" style="width: auto;">Phân hệ</th>
                                   <th class="list__header" style="width: auto;">email</th>
@@ -146,6 +147,7 @@
                               <tbody>
                                 <tr class="list__item">
                                   <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                  <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
                                   <td class="list__name">Bùi Quốc Trung</td>
                                   <td class="list__function">Độc giả</td>                                 
                                   <td class="list_email">trung2k2@gmail.com</td> 
@@ -156,6 +158,7 @@
                                 </tr>
                                 <tr class="list__item">
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
                                     <td class="list__name">Trần Bảo Anh</td>
                                     <td class="list__function">Biên tập viên</td>
                                     <td class="list_email">anh2k2@gmail.com</td>
@@ -166,6 +169,7 @@
                                 </tr>
                                 <tr class="list__item">
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
                                     <td class="list__name">Phan Quốc Kỳ</td>
                                     <td class="list__function">Phóng viên</td>
                                     <td class="list_email">kydeptrai@gmail.com</td>
@@ -176,6 +180,7 @@
                                 </tr>
                                 <tr class="list__item">
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
                                     <td class="list__name">Đoàn Nguyễn Thành</td>
                                     <td class="list__function">Độc giả</td>
                                     <td class="list_email">thangdoan@gmail.com</td>
@@ -186,6 +191,7 @@
                                 </tr>
                                 <tr class="list__item ">
                                     <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
                                     <td class="list__name">Hanh Tran</td>
                                     <td class="list__function">Premium</td>
                                     <td class="list_email">hanhtran@gmail.com</td>
@@ -345,7 +351,7 @@
         <!-- xoa tag -->
         <script>
             function deleteRow(row) {
-                if(confirm("Bạn có chắc chắn muốn xóa nhãn này?"))
+                if(confirm("Bạn có chắc chắn muốn xóa chuyên mục này?"))
                     row.parentNode.parentNode.remove();
               }
         </script>
@@ -397,7 +403,7 @@
                 alert("Vui lòng chọn tag trước khi xóa.");
             } else {
                 // Hiển thị hộp thoại xác nhận xóa
-                if (confirm("Bạn có chắc chắn muốn xóa những tag này?")) {
+                if (confirm("Bạn có chắc chắn muốn xóa những chuyên mục này?")) {
                 // Xóa các dòng đã chọn
                 selectedRows.forEach(row => {
                     row.remove();

@@ -234,7 +234,7 @@
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="edit-modal-cat">Chỉnh sửa người dùng</h5>
+                    <h5 class="modal-title" id="edit-modal-cat">Chỉnh sửa chuyên mục</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                     </div>
                     <div class="modal-body">
@@ -347,7 +347,7 @@
         <!-- xoa tag -->
         <script>
             function deleteRow(row) {
-                if(confirm("Bạn có chắc chắn muốn xóa nhãn này?"))
+                if(confirm("Bạn có chắc chắn muốn xóa chuyên mục này?"))
                     row.parentNode.parentNode.remove();
               }
         </script>
@@ -399,7 +399,7 @@
                 alert("Vui lòng chọn tag trước khi xóa.");
             } else {
                 // Hiển thị hộp thoại xác nhận xóa
-                if (confirm("Bạn có chắc chắn muốn xóa những tag này?")) {
+                if (confirm("Bạn có chắc chắn muốn xóa những chuyên mục này?")) {
                 // Xóa các dòng đã chọn
                 selectedRows.forEach(row => {
                     row.remove();
