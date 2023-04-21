@@ -1,128 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Tin tức | KAT News</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <link rel="icon" href="/assets/images/brand-icon.png" type="image/icon type">
+<head>
+    <title>Tin tức | KAT News</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-            crossorigin="anonymous" />
+    <link rel="icon" href="/assets/images/brand-icon.png" type="image/icon type">
 
-        <link rel="stylesheet" href="/assets/css/header.css" />
-        <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
-        <style>
-            body {
-                font-family: 'Lexend';
-            }
-        </style>
-    </head>
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
 
-    <body>
-        <header>
-            <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 100 !important">
-                <div class="container">
-                    <button
-                        class="navbar-toggler d-lg-none"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapsibleNavId"
-                        aria-controls="collapsibleNavId"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <a class="navbar-brand" href="/index.html">
-                        <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
-                    </a>
-                    <div class="collapse navbar-collapse" id="collapsibleNavId">
-                        <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/index.html" aria-current="page"
-                                    >Trang chủ <span class="visually-hidden">(current)</span></a
-                                >
-                            </li>
-                            <li class="nav-item header__nav-li--active">
-                                <a class="nav-link" href="/pages/news/news.html">Tin tức</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a
-                                    class="nav-link dropdown-toggle"
-                                    href="/pages/news/news.html"
-                                    id="dropdownId"
-                                    data-bs-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    >Chuyên mục</a
-                                >
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownId">
-                                    <li>
-                                        <a href="/pages/news/news.html" class="dropdown-item"
-                                            >Kinh doanh <i class="fa-solid fa-caret-down"></i
-                                        ></a>
-                                        <ul class="dropdown-menu header__dropdown-menu header__dropdown-submenu">
-                                            <li><a href="/pages/news/news.html" class="dropdown-item">Nông sản</a></li>
-                                            <li><a href="/pages/news/news.html" class="dropdown-item">Hải sản</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="/pages/news/news.html" class="dropdown-item"
-                                            >Thể thao <i class="fa-solid fa-caret-down"></i
-                                        ></a>
-                                        <ul class="dropdown-menu header__dropdown-menu header__dropdown-submenu">
-                                            <li><a href="/pages/news/news.html" class="dropdown-item">Bóng đá</a></li>
-                                            <li><a href="/pages/news/news.html" class="dropdown-item">Bóng rổ</a></li>
-                                            <li><a href="/pages/news/news.html" class="dropdown-item">Quần vợt</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="header__search-container">
-                        <img class="header__search-toggle" src="/assets/images/search-button.svg" alt="Search Toggle Button" onclick="toggleSearchForm()"/>
-                        <form class="d-flex header__search-form header__search-form--hidden">
-                            <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..." aria-label="Search">
-                            <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
-                        </form>
-                    </div>
-                    <a href="/pages/authentication/sign-in.html">
-                        <button class="btn btn-primary header__login-button" type="button">Đăng nhập</button>
-                    </a>
+    <link rel="stylesheet" href="/assets/css/header.css" />
+    <link rel="stylesheet" href="./news.css">
+    <link href='https://fonts.googleapis.com/css?family=Lexend' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Lexend';
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 100 !important">
+            <div class="container">
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/index.html">
+                    <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                </a>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index.html" aria-current="page">Trang chủ <span class="visually-hidden">(current)</span></a>
+                        </li>
+                        <li class="nav-item header__nav-li--active">
+                            <a class="nav-link" href="/pages/news/news.html">Tin tức</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="/pages/news/news.html" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Chuyên mục</a>
+                            <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownId">
+                                <li>
+                                    <a href="/pages/news/news.html" class="dropdown-item">Kinh doanh <i class="fa-solid fa-caret-down"></i></a>
+                                    <ul class="dropdown-menu header__dropdown-menu header__dropdown-submenu">
+                                        <li><a href="/pages/news/news.html" class="dropdown-item">Nông sản</a></li>
+                                        <li><a href="/pages/news/news.html" class="dropdown-item">Hải sản</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="/pages/news/news.html" class="dropdown-item">Thể thao <i class="fa-solid fa-caret-down"></i></a>
+                                    <ul class="dropdown-menu header__dropdown-menu header__dropdown-submenu">
+                                        <li><a href="/pages/news/news.html" class="dropdown-item">Bóng đá</a></li>
+                                        <li><a href="/pages/news/news.html" class="dropdown-item">Bóng rổ</a></li>
+                                        <li><a href="/pages/news/news.html" class="dropdown-item">Quần vợt</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-        </header>
-        <main>Đây là trang tin tức</main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-            crossorigin="anonymous"></script>
+                <div class="header__search-container">
+                    <img class="header__search-toggle" src="/assets/images/search-button.svg" alt="Search Toggle Button" onclick="toggleSearchForm()" />
+                    <form class="d-flex header__search-form header__search-form--hidden">
+                        <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..." aria-label="Search">
+                        <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+                <a href="/pages/authentication/sign-in.html">
+                    <button class="btn btn-primary header__login-button" type="button">Đăng nhập</button>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        <div class="row" style="display: flex; justify-content: space-between;">
+            <div class="col-8">
+                <div id="category-select" class="row category-select">
+                    <div class="col-4">
+                        <h5>Chuyên mục:</h5>
+                    </div>
+                    <div class="col-8 btn-toolbar" role="toolbar" aria-label="Toolbar">
+                        <div class="btn-group" role="group" aria-label="Button Group">
+                            <button id="all" type="button" class="btn btn-primary active-category">Tất cả</button>
+                            <button id="business" type="button" class="btn btn-primary">Kinh doanh</button>
+                            <button id="sports" type="button" class="btn btn-primary">Thể thao</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="subcategory-select" class="row category-select">
+                    <div class="col-4">
+                        <h5>Chuyên mục con:</h5>
+                    </div>
+                    <div class="col-8 btn-toolbar" role="toolbar" aria-label="Toolbar">
+                        <div class="btn-group" role="group" aria-label="Button Group">
+                            <button id="all" type="button" class="btn btn-primary active-category">Tất cả</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-list">
+                    <!-- <div class="article">
+                            <img src="/assets/dummy-data/images/article3.jpg" width="250px" height="100%" alt="">
+                            <div class="article__info">
+                                <div class="article-category"><a href="#">Category</a></div>
+                                <h5 class="article-title"><a href="#">Title</a></h5>
+                                <p class="article-intro">Introduction</p>
+                                <small class="article-date">Published Date</small>
+                                <div class="article-tags row">
+                                    <div class="tag">Tag</div>
+                                </div>
+                            </div>
+                        </div> -->
+                </div>
+            </div>
+            <div class="col-3 col-select-tag">
+                <h5>Danh sách nhãn</h5>
+                <div class="active-tags row">
+                    <!-- <div id="tag-value" class="tag active-tag">Example <i class="fa-solid fa-xmark" style="color: #ffffff;"></i></div> -->
+                </div>
+                <div class="tag-select row">
+                    <!-- <div class="tag">Example Tag</div> -->
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 
-        <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
 
-        <script>
-            function toggleSearchForm() {
-                let classes = document.querySelector('.header__search-form').classList;
-                if (classes.contains('header__search-form--hidden'))
-                    document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');    
-                else
-                    document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+    <script>
+        let selectedCategory = 'all';
+        let selectedSubcategory = 'all';
+        let selectedTags = [];
+        let tags = [];
+
+        function toggleSearchForm() {
+            let classes = document.querySelector('.header__search-form').classList;
+            if (classes.contains('header__search-form--hidden'))
+                document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
+            else
+                document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+        }
+
+        function checkSubset(parentArray, subsetArray) {
+            let set = new Set(parentArray);
+            return subsetArray.every(x => set.has(x));
+        }
+
+        function updateArticles(allArticles) {
+            let filteredArticles = allArticles.filter(
+                article =>
+                    (selectedCategory === 'all' || article.engCategory === selectedCategory) &&
+                    (selectedSubcategory === 'all' || article.engSubcategory === selectedSubcategory) &&
+                    checkSubset(article.tag, selectedTags)
+            )
+
+            let articleElements = document.querySelector('.article-list');
+            articleElements.innerHTML = ''; // Clear all old child elements
+            for (const article of filteredArticles) {
+                let articleElement = document.createElement('div');
+                articleElement.classList.add('article');
+                let introToDisplay = article.intro.slice(0, 100);
+                if (article.intro.length > 100) introToDisplay += '...';
+                articleElement.innerHTML = `
+                        <img src="${article.imageURL}" width="250px" height="100%" alt="">
+                        <div class="article__info">
+                            <div class="article-category" style="background-color: ${article.categoryColor}"><a href="#">${article.subcategory}</a></div>
+                            <h5 class="article-title"><a href="${article.htmlURL}">${article.title}</a></h5>
+                            <p class="article-intro">${introToDisplay}</p>
+                            <small class="article-date">${article.publishedDate}</small>
+                            <div class="article-tags row"></div>
+                        </div>
+                    `;
+                for (let tag of article.tag.slice(0, 4)) {
+                    let tagElement = document.createElement('div');
+                    tagElement.classList.add('tag');
+                    tagElement.innerHTML = tag;
+                    articleElement.querySelector('.article-tags').appendChild(tagElement);
+                }
+                articleElements.appendChild(articleElement);
             }
-        </script>
-    </body>
+        }
+
+        function updateSubCategories(articles) {
+            const categories = {
+                all: { all: 'Tất cả' },
+                business: {
+                    all: "Tất cả",
+                    agriculture: "Nông sản",
+                    seafood: "Hải sản",
+                },
+                sports: {
+                    all: "Tất cả",
+                    soccer: "Bóng đá",
+                    basketball: "Bóng rổ",
+                    tennis: "Quần vợt",
+                }
+            }
+
+            let subcategorySelectButtonGroup = document.querySelector('#subcategory-select .btn-group');
+
+            // Reset sub category selection
+            subcategorySelectButtonGroup.innerHTML = '';
+
+            // Add new subcategory select buttons
+            for (const subcategory in categories[selectedCategory]) {
+                let button = document.createElement('button');
+                button.classList.add('btn');
+                button.classList.add('btn-primary');
+                if (subcategory === selectedSubcategory) button.classList.add('active-category');
+                button.setAttribute('id', subcategory);
+                button.innerHTML = categories[selectedCategory][subcategory];
+                subcategorySelectButtonGroup.appendChild(button);
+            }
+
+            // Add click listeners for new subcategory buttons
+            let subcategorySelectButtons = document.querySelectorAll('#subcategory-select button');
+            subcategorySelectButtons.forEach(subButton => {
+                subButton.addEventListener('click', event => {
+                    subcategorySelectButtons.forEach(button => button.classList.remove('active-category'));
+                    subButton.classList.add('active-category');
+                    selectedSubcategory = subButton.id;
+                    updateArticles(articles);
+                    updateTags(articles);
+                })
+            })
+        }
+
+        function updateTags(allArticles) {
+            const filteredArticles = allArticles.filter(
+                article =>
+                    (selectedCategory === 'all' || article.engCategory === selectedCategory) &&
+                    (selectedSubcategory === 'all' || article.engSubcategory === selectedSubcategory)
+            );
+
+            tags = [];
+            filteredArticles.forEach(article => {
+                tags = tags.concat(article.tag);
+            });
+            tags = tags.filter(tag => !selectedTags.includes(tag));
+
+            let tagElements = document.querySelector('.tag-select');
+            tagElements.innerHTML = '';
+            tags.forEach(tag => {
+                let tagElement = document.createElement('div');
+                tagElement.classList.add('tag');
+                tagElement.innerHTML = tag;
+                tagElements.appendChild(tagElement);
+            });
+
+            let selectedTagElements = document.querySelector('.active-tags');
+            selectedTagElements.innerHTML = '';
+            selectedTags.forEach(tag => {
+                // <div class="tag active-tag">Example <i class="fa-solid fa-xmark" style="color: #ffffff;"></i></div>
+                let tagElement = document.createElement('div');
+                tagElement.classList.add('tag');
+                tagElement.classList.add('active-tag');
+                tagElement.innerHTML = `${tag} <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>`;
+                tagElement.setAttribute('id', tag);
+                selectedTagElements.appendChild(tagElement);
+            });
+
+            // Add event listeners for tag buttons
+            let tagButtons = document.querySelectorAll('.tag-select .tag');
+            tagButtons.forEach(button => {
+                button.addEventListener('click', event => {
+                    selectedTags.push(button.innerHTML);
+                    tags = tags.filter(tag => tag !== button.innerHTML);
+                    updateTags(allArticles);
+                    updateArticles(allArticles);
+                })
+            });
+
+            // Add event listeners for selected tags button
+            let selectedTagButtons = document.querySelectorAll('.active-tags .tag');
+            selectedTagButtons.forEach(button => {
+                button.addEventListener('click', event => {
+                    tags.push(button.id);
+                    selectedTags = selectedTags.filter(tag => tag !== button.id);
+                    updateTags(allArticles);
+                    updateArticles(allArticles);
+                })
+            })
+        }
+
+        fetch('/assets/dummy-data/articles.json')
+            .then(response => response.json())
+            .then(json => {
+                const articles = [...json];
+
+                updateArticles(articles);
+                updateTags(articles);
+
+                let categorySelectButtons = document.querySelectorAll('#category-select button');
+                categorySelectButtons.forEach(button => {
+                    button.addEventListener('click', event => {
+                        categorySelectButtons.forEach(button => button.classList.remove('active-category'));
+                        button.classList.add('active-category');
+                        selectedCategory = button.id;
+                        selectedSubcategory = 'all';
+                        updateArticles(articles);
+                        updateSubCategories(articles);
+                        updateTags(articles);
+                    })
+                })
+            })
+    </script>
+</body>
+
 </html>
