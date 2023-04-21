@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Trang chủ | KAT News</title>
+    <title>Quần vợt Việt Nam và Lý Hoàng Nam đặt mục tiêu thắng play-off nhóm 2 Davis Cup | KAT News</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -33,7 +33,7 @@
 <body>
     <header>
         <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 100 !important">
-            <div class="container">
+            <div class="container" style="height: 100%;">
                 <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -77,9 +77,30 @@
                         <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
                     </form>
                 </div>
-                <a href="/pages/authentication/sign-in.html">
-                    <button class="btn btn-primary header__login-button" type="button">Đăng nhập</button>
-                </a>
+                <div id="auth" style="height: 100%; display: flex; align-items: center;">
+                    <!-- <a href="/pages/authentication/sign-in.html">
+                        <button class="btn btn-primary header__login-button" type="button">Đăng nhập</button>
+                    </a> -->
+                    <!-- <div class="account-dropdown-toggle" onclick="toggleAccountMenu()">
+                        <img src="/assets/images/default-user-icon.jpg" height="80%" alt="">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="account-dropdown-menu account-dropdown-menu--hidden">
+                        <div class="account-dropdown-menu__user-info">
+                            <div>
+                                <h5>Username</h5>
+                                <span class="premium-badge">Premium</span>
+                            </div>
+                            <img src="/assets/images/default-user-icon.jpg" height="75px" alt="">
+                        </div>
+                        <div>
+                            <a href="#">Quản lý tài khoản</a>
+                        </div>
+                        <div>
+                            <p onclick="logOut()">Đăng xuất</p>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </nav>
     </header>
@@ -249,15 +270,9 @@
 
     <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
 
-    <script>
-        function toggleSearchForm() {
-            let classes = document.querySelector('.header__search-form').classList;
-            if (classes.contains('header__search-form--hidden'))
-                document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
-            else
-                document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
-        }
+    <script src="/assets/script/header.js"></script>
 
+    <script>
         fetch("/assets/dummy-data/articles.json")
             .then(response => response.json())
             .then(json => {

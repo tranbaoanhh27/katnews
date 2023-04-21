@@ -1,0 +1,201 @@
+.navigation {
+    background-color: #01ADAE;
+    margin-top: 20px;
+    border-radius: 15px;
+    padding: 0px 15px;
+    width: 90%;
+    color: white;
+}
+
+.navigation > div {
+    border-bottom: 1px solid #cccccc;
+    padding: 15px 0px;
+}
+
+.navigation > div:last-child {
+    padding: 15px 0px;
+    border: none;
+}
+
+.navigation__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-picture-container {
+    position: relative;
+}
+
+.change-picture {
+    background-color: #eeeeee;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    color: black;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation__info > span {
+    background-color: #FFB316;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 2px 10px;
+    margin-top: 15px;
+}
+
+.navigation__info > small {
+    margin-top: 10px;
+}
+
+.navigation__function {
+    padding: 0px 20px;
+}
+
+.navigation__function > a {
+    text-decoration: none;
+    color: white;
+}
+
+.function {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    margin: 5px auto;
+    padding: 20px 30px;
+    border-radius: 15px;
+}
+
+.function > p {
+    margin: 0px 0px 0px 20px;
+}
+
+.function:not(.function--active):hover {
+    cursor: pointer;
+    background-color: #019D9E;
+}
+
+.function--active {
+    background-color: white;
+    color: #555555;
+}
+
+.navigation__logout {
+    padding: 0px 20px;
+}
+
+.function-title {
+    margin-top: 20px;
+    border-bottom: 2px solid #555555;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+.function-title > h4 {
+    font-weight: 600;
+}
+
+.account-information-form button {
+    background-color: #01ADAE;
+    border: none;
+    padding: 8px 30px;
+}
+
+.account-information-form button:hover {
+    background-color: #018D8E !important;
+}
+
+.account-change-password-form input {
+    background-color: #eeeeee !important;
+    color: #555555 !important;
+}
+
+.account-information-form input {
+    background-color: #eeeeee !important;
+    color: #555555 !important;
+}
+
+.account-change-password-form button {
+    background-color: #01ADAE;
+    border: none;
+    padding: 8px 30px;
+}
+
+.account-change-password-form button:hover {
+    background-color: #018D8E !important;
+}
+
+.card-select {
+    display: flex;
+}
+
+.visa-card {
+    background-color: #D8E3F3;
+    
+}
+
+.mastercard-card {
+    background-color: #FDEACE;
+    margin-inline-start: 20px;
+}
+
+.payment-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 150px;
+    border-radius: 30px;
+}
+
+.payment-card:not(.payment-card--active):hover {
+    cursor: pointer;
+}
+
+.payment-card--active {
+    border: 4px solid #7C618E;
+}
+
+.account-premium-form {
+    margin-top: 20px;
+}
+
+.account-premium-form input {
+    background-color: #eeeeee !important;
+    color: #555555 !important;
+}
+
+.account-premium-form label {
+    font-weight: 700;
+}
+
+.premium-form-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.premium-form-actions .form-check-input:checked {
+    background-color: #7C618E !important;
+}
+
+.premium-form-actions > button {
+    background-color: #AE4F71;
+    border: 1px solid #9E3F61;
+    font-size: 130%;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+.premium-form-actions > button:hover {
+    background-color: #9E3F61 !important;
+    border: 1px solid #9E3F61 !important;
+}
