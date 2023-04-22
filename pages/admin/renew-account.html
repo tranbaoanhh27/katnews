@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tin tức | KAT News</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+        <link rel="icon" href="/assets/images/brand-icon.png" type="image/icon type">
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+            crossorigin="anonymous" />
+
+        <link rel="stylesheet" href="/assets/css/header.css" />
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
+                <div class="container">
+                    <button
+                        class="navbar-toggler d-lg-none"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavId"
+                        aria-controls="collapsibleNavId"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="d-flex align-items-center">
+                        <a class="navbar-brand" href="/index.html">
+                            <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                        </a>
+                        <i class="fa-solid fa-bars" onclick="hide_show_sidebar()"></i>
+                    </div>
+                    
+                    
+                    <div style="display: flex">
+                        <div class="header__search-container">
+                            <img class="header__search-toggle" src="/assets/images/search-button.svg" alt="Search Toggle Button" onclick="toggleSearchForm()"/>
+                            <form class="d-flex header__search-form header__search-form--hidden">
+                                <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..." aria-label="Search">
+                                <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+                            </form>
+                        </div>
+                        <a href=""> <img src="/assets/images/avatar.svg" alt="avatar"
+                            class="rounded-circle" style="width: 50px; height:50px;"></a>
+                    </div>
+                </div>
+                
+            </nav>
+            
+        </header>
+       
+
+        <main>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" id = "sidebar-left">
+                        <div class="container mx-auto">
+                            
+                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start "
+                                id="menu">                                
+                                <li class="nav-item">
+                                    <a href="category-management.html" class="nav-link align-middle px-0 text-dark">
+                                        <i class="fa-regular fa-rectangle-list"></i> <span
+                                            class="ms-1 d-none d-sm-inline text-decoration-none">Quản lý chuyên mục</span>
+                                    </a>
+                                </li>
+                                <hr>
+                                <li class="nav-item">
+                                    <a href="tag-management.html" class="nav-link align-middle px-0 text-dark">
+                                        <i class="fa-solid fa-tag"></i> <span
+                                            class="ms-1 d-none d-sm-inline text-decoration-none">Quản lý nhãn</span>
+                                    </a>
+                                </li>
+                                <hr>
+                                <li class="nav-item">
+                                    <a href="post-management.html" class="nav-link align-middle px-0 text-dark">
+                                        <i class="fa-solid fa-newspaper"></i> <span
+                                            class="ms-1 d-none d-sm-inline text-decoration-none">Quản lý bài viết</span>
+                                    </a>
+                                </li>
+                                <hr>
+                                <li class="nav-item">
+                                    <a href="user-management.html" class="nav-link align-middle px-0 text-dark">
+                                        <i class="fa-solid fa-users"></i> <span
+                                            class="ms-1 d-none d-sm-inline text-decoration-none">Quản lý người dùng</span>
+                                    </a>
+                                </li>
+                                <hr>
+                                <li class="nav-item">
+                                    <a href="assign-work.html" class="nav-link align-middle px-0 text-dark">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"></i></i><span
+                                            class="ms-1 d-none d-sm-inline text-decoration-none">Phân công công việc</span>
+                                    </a>
+                                </li>
+                                <hr>
+                                <li class="nav-item text-dark">
+                                    <a href="renew-account.html" class="nav-link align-middle px-0">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"></i></i> <span
+                                            class="ms-1 d-none d-sm-inline text-decoration-none">Gia hạn tài khoản</span>
+                                    </a>
+                                </li>
+    
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar bên phải -->
+                    <div class="col-md-9" id = "sidebar-right">
+                        <a href="user-management.html" class="nav-link fw-bold px-0"> Danh sách độc giả</a>
+
+                        <div class="container mt-3">
+                            <!-- Hàng đầu tiên với box search và nút thêm -->
+                            <div class="row mb-3 header">
+                              <div class="col-md-8 header__search d-flex direction-row">
+                                <input type="text" class="form-control " placeholder="Tìm kiếm..." required onkeyup="filter(this.value)">
+                                <button class="btn btn-primary ms-3 float-end" type="button">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                              </div>
+                            </div>
+                          
+                            <!-- Bảng danh sách -->
+                            <table class="table list align-middle">
+                              <thead>
+                                <tr>
+                                  <th class="list__header" style="width: 5%;"></th>  
+                                  <th class="list__header" style="width: auto;">Tên</th>
+                                  <th class="list__header" style="width: auto;">Email</th>
+                                  <th class="list__header" style="width: auto;">Ngày gia hạn</th>
+                                  <th class="list__header" style="width: auto;">Ngày hết hạn</th>
+                                  <th class="list__header" style="width: 11.5%;">Trạng thái</th>
+                                  <th class="list__header" style="width: auto;"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="list__item">
+                                  <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
+                                  <td class="list__name">Bùi Quốc Trung</td>
+                                                                   
+                                  <td class="list_email">trung2k2@gmail.com</td> 
+                                  <td class="list_date-start">
+                                    <input type="date" readonly id="start-date" name="start-date" value="2023-04-22">
+                                  </td>
+                                  <td class="list_date-end">
+                                    <input type="date" readonly id="end-date" name="end-date" value="2023-04-29">
+                                  </td>
+                                  <td class="list_status">Còn hạn</td>
+                                  <td class="list__actions text-end">
+                                    <!-- <a href="#" class="btn btn-danger" onclick="renewDate(this)"><i class="fa-regular fa-calendar-check"></i>    </a> -->
+                                  </td>
+                                </tr>
+                                <tr class="list__item">
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
+                                    <td class="list__name">Trần Bảo Anh</td>
+                                    
+                                    <td class="list_email">anh2k2@gmail.com</td>
+                                    <td class="list_date-start">
+                                        <input type="date" readonly id="start-date" name="start-date" value="2023-04-11">
+                                      </td>
+                                      <td class="list_date-end">
+                                        <input type="date" readonly id="end-date" name="end-date" value="2023-04-18">
+                                      </td>
+                                      <td class="list_status">Hết hạn</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-danger" onclick="renewDate(this)"><i class="fa-regular fa-calendar-check"></i>   </a>
+
+                                    </td>
+                                </tr>
+                                <tr class="list__item">
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
+                                    <td class="list__name">Phan Quốc Kỳ</td>
+                                    
+                                    <td class="list_email">kydeptrai@gmail.com</td>
+                                    <td class="list_date-start">
+                                        <input type="date" readonly id="start-date" name="start-date" value="2023-04-23">
+                                    </td>
+                                    <td class="list_date-end">
+                                        <input type="date" readonly id="end-date" name="end-date" value="2023-04-30">
+                                    </td>
+                                    <td class="list_status">Còn hạn</td>
+                                    <td class="list__actions text-end">
+                                        <!-- <a href="#" class="btn btn-danger" onclick="renewDate(this)"><i class="fa-regular fa-calendar-check"></i>    </a> -->
+  
+                                      </td>
+                                </tr>
+                                <tr class="list__item">
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
+                                    <td class="list__name">Đoàn Nguyễn Thành</td>
+                                    
+                                    <td class="list_email">thdoan@gmail.com</td>
+                                    <td class="list_date-start">
+                                        <input type="date" readonly id="start-date" name="start-date" value="2023-04-15">
+                                      </td>
+                                      <td class="list_date-end">
+                                        <input type="date" readonly id="end-date" name="end-date" value="2023-04-22">
+                                      </td>
+                                      <td class="list_status">Hết hạn</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-danger" onclick="renewDate(this)"><i class="fa-regular fa-calendar-check"></i>   </a>
+
+                                    </td>
+                                </tr>
+                                <tr class="list__item ">
+                                    <td class="list_image"><img src="/assets/images/default-user-icon.jpg"  width="100%" height="100%" class="d-block" alt="First slide"></td>
+                                    <td class="list__name">Hanh Tran</td>
+                                    
+                                    <td class="list_email">hanhtran@gmail.com</td>
+                                    <td class="list_date-start">
+                                        <input type="date" readonly id="start-date" name="start-date" value="2023-03-22">
+                                      </td>
+                                      <td class="list_date-end">
+                                        <input type="date" readonly id="end-date" name="end-date" value="2023-03-29">
+                                      </td>
+                                      <td class="list_status">Hết hạn</td>
+                                    <td class="list__actions text-end">
+                                      <a href="#" class="btn btn-danger" onclick="renewDate(this)"><i class="fa-regular fa-calendar-check"></i>   </a>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            
+                            <div class="row">
+                                <!-- Pagination -->
+                                <div class="col-md-12 mt-4">
+                                  <nav>
+                                    <ul class="pagination justify-content-center">
+                                      <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                      </li>
+                                      <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">1</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                      </li>
+                                      <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                      </li>
+                                    </ul>
+                                  </nav>
+                                </div>
+                              </div>
+                          
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+            crossorigin="anonymous"></script>
+
+        <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
+
+        <!-- hien form tim kiem tren trang web -->
+        <script>
+            function toggleSearchForm() {
+                let classes = document.querySelector('.header__search-form').classList;
+                if (classes.contains('header__search-form--hidden'))
+                    document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');    
+                else
+                    document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+            }
+        </script>
+
+        <!-- Tim kiem  -->
+        <script>
+            function filter(keyword){
+                keyword = keyword.toLowerCase();
+                document.querySelectorAll('.list__name').forEach(item => {
+                    if (item.innerText.toLowerCase().indexOf(keyword) >= 0){
+                        item.parentElement.style.display = "";
+                    }
+                    else
+                        item.parentElement.style.display = 'none';
+                });
+            }
+            
+        </script>
+
+        <!-- dong mo the -->
+        <script>
+            // Lấy element của thanh bên trái
+            const colMd3 = document.getElementById('sidebar-left');
+
+            // Lấy element ủa thanh bên phải
+            const colMd9 = document.getElementById("sidebar-right");
+
+            // Thêm sự kiện click vào icon list
+           function hide_show_sidebar() {
+            // Nếu phần col-md-3 đang hiện thì ẩn nó đi, ngược lại hiển thị nó lên
+            if (colMd3.style.display === 'none') {
+                colMd3.style.display = 'block';
+                colMd9.classList.remove("col-md-12");
+                colMd9.classList.add("col-md-9")
+            } else {
+                colMd3.style.display = 'none';
+                colMd9.classList.remove("col-md-9");
+                colMd9.classList.add("col-md-12")
+            }
+            };
+        </script>
+
+        <script>
+            function renewDate(row){
+                const rowParent = row.closest('.list__item');
+                const startDateInput = rowParent.querySelector('.list_date-start #start-date');
+                const endDateInput = rowParent.querySelector('.list_date-end #end-date');
+                const currentDate = new Date();
+                startDateInput.value = currentDate.toISOString().slice(0, 10);
+                currentDate.setDate(currentDate.getDate() + 7);
+                endDateInput.value = currentDate.toISOString().slice(0, 10);
+                rowParent.querySelector('.list_status').textContent = "Còn hạn";
+                row.remove();
+            }
+        </script>
+
+    </body>
+</html>
