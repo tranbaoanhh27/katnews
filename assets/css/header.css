@@ -2,10 +2,6 @@ body {
     margin-top: 80px;
 }
 
-.navbar {
-    height: 80px !important;
-}
-
 .header__dropdown-menu li {
     position: relative;
 }
@@ -111,6 +107,8 @@ body {
 
 .account-dropdown-toggle > img {
     margin-inline-end: 8px;
+    height: 50px;
+    width: auto;
 }
 
 .account-dropdown-menu {
