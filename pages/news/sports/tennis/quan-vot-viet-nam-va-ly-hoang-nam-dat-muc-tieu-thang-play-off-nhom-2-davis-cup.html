@@ -175,19 +175,19 @@
                         </div>
                     </div>
                     <nav class="comment-pagination-container" aria-label="Page navigation">
-                      <ul class="pagination">
-                        <li class="page-item disabled">
-                          <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item">
-                          <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
                     </nav>
                 </div>
                 <div class="col-3">
@@ -203,8 +203,12 @@
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active">
                                 <div class="carousel-overlay-content">
-                                    <a href="#"><div class="category-badge">Category</div></a>
-                                    <a href="#"><p>Title</p></a>
+                                    <a href="#">
+                                        <div class="category-badge">Category</div>
+                                    </a>
+                                    <a href="#">
+                                        <p>Title</p>
+                                    </a>
                                     <small>Published date</small>
                                 </div>
                                 <div class="carousel-blackcover"></div>
@@ -212,8 +216,12 @@
                             </div>
                             <div class="carousel-item">
                                 <div class="carousel-overlay-content">
-                                    <a href="#"><div class="category-badge">Category</div></a>
-                                    <a href="#"><p>Title</p></a>
+                                    <a href="#">
+                                        <div class="category-badge">Category</div>
+                                    </a>
+                                    <a href="#">
+                                        <p>Title</p>
+                                    </a>
                                     <small>Published date</small>
                                 </div>
                                 <div class="carousel-blackcover"></div>
@@ -221,8 +229,12 @@
                             </div>
                             <div class="carousel-item">
                                 <div class="carousel-overlay-content">
-                                    <a href="#"><div class="category-badge">Category</div></a>
-                                    <a href="#"><p>Title</p></a>
+                                    <a href="#">
+                                        <div class="category-badge">Category</div>
+                                    </a>
+                                    <a href="#">
+                                        <p>Title</p>
+                                    </a>
                                     <small>Published date</small>
                                 </div>
                                 <div class="carousel-blackcover"></div>
@@ -230,8 +242,12 @@
                             </div>
                             <div class="carousel-item">
                                 <div class="carousel-overlay-content">
-                                    <a href="#"><div class="category-badge">Category</div></a>
-                                    <a href="#"><p>Title</p></a>
+                                    <a href="#">
+                                        <div class="category-badge">Category</div>
+                                    </a>
+                                    <a href="#">
+                                        <p>Title</p>
+                                    </a>
                                     <small>Published date</small>
                                 </div>
                                 <div class="carousel-blackcover"></div>
@@ -239,8 +255,12 @@
                             </div>
                             <div class="carousel-item">
                                 <div class="carousel-overlay-content">
-                                    <a href="#"><div class="category-badge">Category</div></a>
-                                    <a href="#"><p>Title</p></a>
+                                    <a href="#">
+                                        <div class="category-badge">Category</div>
+                                    </a>
+                                    <a href="#">
+                                        <p>Title</p>
+                                    </a>
                                     <small>Published date</small>
                                 </div>
                                 <div class="carousel-blackcover"></div>
@@ -282,7 +302,7 @@
                 document.querySelector('.main-image').setAttribute('src', article.imageURL);
 
                 let articleInfoElement = document.querySelector('.article-info__overlay-content');
-                articleInfoElement.querySelector('span').innerHTML = `<a href="#"">${article.subcategory}<a/>`;
+                articleInfoElement.querySelector('span').innerHTML = `<a href="/pages/news/news.html">${article.subcategory}<a/>`;
                 articleInfoElement.querySelector('span').style.backgroundColor = article.categoryColor;
                 articleInfoElement.querySelector('h1').innerHTML = article.title;
                 articleInfoElement.querySelector('h5').innerHTML = article.intro;
@@ -291,7 +311,7 @@
                 article.tag.forEach(tag => {
                     let tagSpan = document.createElement('span');
                     let tagAnchor = document.createElement('a');
-                    tagAnchor.href = "#";
+                    tagAnchor.href = "/pages/news/news.html";
                     tagAnchor.innerHTML = tag;
                     tagSpan.appendChild(tagAnchor);
                     document.querySelector('.tag-list').appendChild(tagSpan);
@@ -310,6 +330,21 @@
                     item.querySelector('img').setAttribute('src', article.imageURL);
                 })
             });
+
+        try {
+            if (user) {
+                user = JSON.parse(user);
+                document.querySelector('.comment-submit-button').classList.remove('comment-submit-button--disabled');
+                document.querySelector('.comment-submit-button').innerHTML = 'Đăng bình luận';
+            }
+        } catch {
+            let user = localStorage.getItem('user');
+            if (user) {
+                user = JSON.parse(user);
+                document.querySelector('.comment-submit-button').classList.remove('comment-submit-button--disabled');
+                document.querySelector('.comment-submit-button').innerHTML = 'Đăng bình luận';
+            }
+        }
     </script>
 </body>
 

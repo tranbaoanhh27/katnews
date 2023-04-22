@@ -282,7 +282,7 @@
                 document.querySelector('.main-image').setAttribute('src', article.imageURL);
 
                 let articleInfoElement = document.querySelector('.article-info__overlay-content');
-                articleInfoElement.querySelector('span').innerHTML = `<a href="#"">${article.subcategory}<a/>`;
+                articleInfoElement.querySelector('span').innerHTML = `<a href="/pages/news/news.html">${article.subcategory}<a/>`;
                 articleInfoElement.querySelector('span').style.backgroundColor = article.categoryColor;
                 articleInfoElement.querySelector('h1').innerHTML = article.title;
                 articleInfoElement.querySelector('h5').innerHTML = article.intro;
@@ -291,7 +291,7 @@
                 article.tag.forEach(tag => {
                     let tagSpan = document.createElement('span');
                     let tagAnchor = document.createElement('a');
-                    tagAnchor.href = "#";
+                    tagAnchor.href = "/pages/news/news.html";
                     tagAnchor.innerHTML = tag;
                     tagSpan.appendChild(tagAnchor);
                     document.querySelector('.tag-list').appendChild(tagSpan);
@@ -310,6 +310,21 @@
                     item.querySelector('img').setAttribute('src', article.imageURL);
                 })
             });
+
+        try {
+            if (user) {
+                user = JSON.parse(user);
+                document.querySelector('.comment-submit-button').classList.remove('comment-submit-button--disabled');
+                document.querySelector('.comment-submit-button').innerHTML = 'Đăng bình luận';
+            }
+        } catch {
+            let user = localStorage.getItem('user');
+            if (user) {
+                user = JSON.parse(user);
+                document.querySelector('.comment-submit-button').classList.remove('comment-submit-button--disabled');
+                document.querySelector('.comment-submit-button').innerHTML = 'Đăng bình luận';
+            }
+        }
     </script>
 </body>
 
