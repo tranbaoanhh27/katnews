@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Trang chủ | KAT News</title>
+    <title>Real Madrid 'nhấn chìm' Chelsea tại Stamford Bridge để vào bán kết Champions League | KAT News</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -33,7 +33,7 @@
 <body>
     <header>
         <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 100 !important">
-            <div class="container">
+            <div class="container" style="height: 100%;">
                 <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -77,9 +77,30 @@
                         <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
                     </form>
                 </div>
-                <a href="/pages/authentication/sign-in.html">
-                    <button class="btn btn-primary header__login-button" type="button">Đăng nhập</button>
-                </a>
+                <div id="auth" style="height: 100%; display: flex; align-items: center;">
+                    <!-- <a href="/pages/authentication/sign-in.html">
+                        <button class="btn btn-primary header__login-button" type="button">Đăng nhập</button>
+                    </a> -->
+                    <!-- <div class="account-dropdown-toggle" onclick="toggleAccountMenu()">
+                        <img src="/assets/images/default-user-icon.jpg" height="80%" alt="">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <div class="account-dropdown-menu account-dropdown-menu--hidden">
+                        <div class="account-dropdown-menu__user-info">
+                            <div>
+                                <h5>Username</h5>
+                                <span class="premium-badge">Premium</span>
+                            </div>
+                            <img src="/assets/images/default-user-icon.jpg" height="75px" alt="">
+                        </div>
+                        <div>
+                            <a href="#">Quản lý tài khoản</a>
+                        </div>
+                        <div>
+                            <p onclick="logOut()">Đăng xuất</p>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </nav>
     </header>
@@ -249,15 +270,9 @@
 
     <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
 
-    <script>
-        function toggleSearchForm() {
-            let classes = document.querySelector('.header__search-form').classList;
-            if (classes.contains('header__search-form--hidden'))
-                document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
-            else
-                document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
-        }
+    <script src="/assets/script/header.js"></script>
 
+    <script>
         fetch("/assets/dummy-data/articles.json")
             .then(response => response.json())
             .then(json => {
@@ -267,7 +282,7 @@
                 document.querySelector('.main-image').setAttribute('src', article.imageURL);
 
                 let articleInfoElement = document.querySelector('.article-info__overlay-content');
-                articleInfoElement.querySelector('span').innerHTML = `<a href="#"">${article.subcategory}<a/>`;
+                articleInfoElement.querySelector('span').innerHTML = `<a href="/pages/news/news.html">${article.subcategory}<a/>`;
                 articleInfoElement.querySelector('span').style.backgroundColor = article.categoryColor;
                 articleInfoElement.querySelector('h1').innerHTML = article.title;
                 articleInfoElement.querySelector('h5').innerHTML = article.intro;
@@ -276,7 +291,7 @@
                 article.tag.forEach(tag => {
                     let tagSpan = document.createElement('span');
                     let tagAnchor = document.createElement('a');
-                    tagAnchor.href = "#";
+                    tagAnchor.href = "/pages/news/news.html";
                     tagAnchor.innerHTML = tag;
                     tagSpan.appendChild(tagAnchor);
                     document.querySelector('.tag-list').appendChild(tagSpan);
@@ -295,6 +310,21 @@
                     item.querySelector('img').setAttribute('src', article.imageURL);
                 })
             });
+
+        try {
+            if (user) {
+                user = JSON.parse(user);
+                document.querySelector('.comment-submit-button').classList.remove('comment-submit-button--disabled');
+                document.querySelector('.comment-submit-button').innerHTML = 'Đăng bình luận';
+            }
+        } catch {
+            let user = localStorage.getItem('user');
+            if (user) {
+                user = JSON.parse(user);
+                document.querySelector('.comment-submit-button').classList.remove('comment-submit-button--disabled');
+                document.querySelector('.comment-submit-button').innerHTML = 'Đăng bình luận';
+            }
+        }
     </script>
 </body>
 
