@@ -1,0 +1,34 @@
+.header__user {
+    position: relative;
+    display: block;
+}
+  
+.header__user-menu {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 50%;
+    list-style-type: none;
+    white-space: nowrap;
+    border: 1px solid lightgray;
+    border-radius: 5%;
+    background-color: #fff ;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 10px 0px;
+    width: 250%;
+}
+
+.header__user-menu li{
+    display: block;
+    padding: 5% 10%;
+}
+  
+.header__user-menu a{
+    text-decoration: none;
+    color: gray;
+}
+
+.header__user-menu--active {
+    display: block;
+  }
+  
+  
