@@ -1,8 +1,13 @@
 const express = require('express');
-const handlebars = require('express-handlebars')
+const handlebars = require('express-handlebars');
+const subdomain = require('express-subdomain'); 
 const app = express();
 
+
+//set static folder 
 app.use(express.static(__dirname + '/public'));
+
+//config handlebars
 app.engine('hbs', handlebars.engine({
     layoutsDir: __dirname + '/views/layouts',
     defaultLayout: 'layout',
@@ -11,9 +16,13 @@ app.engine('hbs', handlebars.engine({
 }));
 app.set('view engine', 'hbs');
 
-app.get('/', (req, res)=> {
-    res.render("home");
-})
+
+app.use(subdomain('writer',require('./routers/writerRoutes')));
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+
 
 app.set('port', process.env.PORT || 5000);
 app.listen(app.get('port'), ()=>{
