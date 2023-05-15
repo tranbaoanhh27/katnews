@@ -17,11 +17,11 @@ app.engine('hbs', handlebars.engine({
 app.set('view engine', 'hbs');
 
 
+//all of the 
+app.use('/', require('./routers/userRoutes'));
 app.use(subdomain('writer',require('./routers/writerRoutes')));
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
+app.use(subdomain('editor', require('./routers/editorRoutes')));
+app.use(subdomain('admin', require('./routers/adminRoutes')));
 
 
 app.set('port', process.env.PORT || 5000);
