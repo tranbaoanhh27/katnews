@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const userControllers = require('../controllers/userControllers');
+const userControllers = require('../../controllers/user/userControllers');
 
 const handlebars = require('express-handlebars');
 

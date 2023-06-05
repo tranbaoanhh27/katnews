@@ -18,11 +18,12 @@ app.set('view engine', 'hbs');
 
 
 //all of the 
-app.use('/', require('./routers/userRoutes'));
-app.use(subdomain('writer',require('./routers/writerRoutes')));
-app.use(subdomain('editor', require('./routers/editorRoutes')));
-app.use(subdomain('admin', require('./routers/adminRoutes')));
+app.use(subdomain('writer',require('./routers/writer/writerRoutes')));
+app.use(subdomain('editor', require('./routers/editor/editorRoutes')));
+app.use(subdomain('admin', require('./routers/admin/adminRoutes')));
 
+app.use('/', require('./routers/user/userRoutes'));
+app.use('/news', require('./routers/user/newsRouter'))
 
 app.set('port', process.env.PORT || 5000);
 app.listen(app.get('port'), ()=>{
