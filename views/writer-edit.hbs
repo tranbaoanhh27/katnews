@@ -1,0 +1,60 @@
+<script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
+<main>
+
+    <div class='container mt-3 rounded-3 shadow-lg' style="width: 80%; background-color: lightgray;">
+        <h2 class='mx-4'>Biên soạn</h2>
+        <form>
+            <div class="mb-3">
+                <!-- <label for="title" class="form-label">Tiêu đề</label> -->
+                <input type="text" class="form-control" id="title" required placeholder='Tiêu đề'>
+            </div>
+            <div class="mb-3">
+                <!-- <label for="tag" class="form-label">Tag</label> -->
+                <input type="text" class="form-control" id="tag" required placeholder='Tag'>
+            </div>
+            <div class="mb-3">
+                <input type="link" class="form-control" id="linkImage" required placeholder='Link hình ảnh'>
+            </div>
+            <div class='mb-3'>
+                <textarea class="form-control" placeholder="Tóm tắt nôị dung"></textarea>
+            </div>
+
+            <div class='mb-3'>
+                <div id="editor">This is some sample content.</div>
+            </div>
+            <button type="submit" class="btn btn-primary " required>Nộp</button>
+        </form>
+
+    </div>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <script>
+        function toggleSearchForm() {
+            let classes = document.querySelector('.header__search-form').classList;
+            if (classes.contains('header__search-form--hidden'))
+                document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
+            else
+                document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+        }
+    </script>
+
+</main>
+<footer>
+    <!-- place footer here -->
+</footer>
+<!-- Bootstrap JavaScript Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>

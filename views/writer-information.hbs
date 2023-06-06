@@ -1,0 +1,109 @@
+ <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    {{>writer-information-nav}}
+                </div>
+                <div class="col-md-9 col-sm-6">
+                    <div class="container" onclick="handleOnclickBody()">
+                        <form>
+                            <img src="/assets/images/writer-logo.jpeg" style="width: 25%;height: 25%;"
+                                class="mx-auto d-block">
+                            <hr>
+                            <div class="mx-auto d-flex text-center shadow">
+                                <label for="" class="form-label">Tên tác giả</label>
+    
+                                <input class="d-inline mx-auto " disabled id="nameInput"></p>
+                                <i class="btn bi bi-pencil-fill mx-5" id="nameInputBtn"></i>
+                            </div>
+                            <hr>
+                            <hr>
+                            <div class="mx-auto d-flex text-center shadow">
+                                <label for="" class="form-label">Bút danh</label>
+                                <input class="d-inline mx-auto " disabled id="aliasInput"></p>
+                                <i class="btn bi bi-pencil-fill mx-5" id="aliasInputBtn"></i>
+                            </div>
+
+                            <hr>
+                            <div class="mx-auto d-flex text-center shadow">
+                                <label for="" class="form-label">Ngày sinh</label>
+                                <input type='date' class="d-inline mx-auto " disabled id="birthInput"></p>
+                                <i class="btn bi bi-pencil-fill mx-5" id="birthInputBtn"></i>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Thay đổi</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+    <footer>
+        <!-- place footer here -->
+    </footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+    <script>
+        document.getElementById('nameInput').value = 'Phan Quoc Ky';
+        document.getElementById('aliasInput').value = 'Vua bao';
+        document.getElementById('birthInput').valueAsDate = new Date("2002-10-16")
+        // function handleOnclickName() {
+        //     console.log('helo')
+        //     document.getElementById('nameInput').disabled = false;
+        // };
+
+        function handleOnclickBody() {
+            var nameInput = document.getElementById('nameInput');
+            var nameInputBtn = document.getElementById('nameInputBtn');
+            var aliasInput = document.getElementById('aliasInput');
+            var aliasInputBtn = document.getElementById('aliasInputBtn');
+            var birthInput = document.getElementById('birthInput');
+            var birthInputBtn = document.getElementById('birthInputBtn');
+
+
+
+            switch (event.target) {
+                case nameInputBtn:
+                    console.log('nameinput')
+                    nameInput.disabled = false;
+                    break;
+                case aliasInputBtn:
+                    aliasInput.disabled = false;
+                    break;
+                case birthInputBtn:
+                    birthInput.disabled = false;
+                    break;
+                case nameInput:
+                    break;
+                case aliasInput:
+                    break;
+                case birthInput:
+                    break;
+                default:
+                    nameInput.disabled = true;
+                    aliasInput.disabled = true;
+                    birthInput.disabled = true;
+                    console.log('outdide');
+
+            }
+
+        }
+
+    </script>
+    <script>
+        function toggleSearchForm() {
+                let classes = document.querySelector('.header__search-form').classList;
+                if (classes.contains('header__search-form--hidden'))
+                    document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');    
+                else
+                    document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+            }
+    </script>

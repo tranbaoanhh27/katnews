@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Danh sách bài viết</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/assets/css/writer.css">
+    <!-- <style>
+        * {
+            border: solid 1px black;
+        }
+    </style> -->
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
+            <div class="container">
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/listNews">
+                    <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                </a>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
+
+                        <li class="nav-item header__nav-li--active">
+                            <a class="nav-link" href="/listNews">Danh Sách <span
+                                    class="visually-hidden">(current)</span></a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/edit">Viết Bài</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="header__search-container">
+                    <img class="header__search-toggle" src="/assets/images/search-button.svg" alt="Search Toggle Button"
+                        onclick="toggleSearchForm()" />
+                    <form class="d-flex header__search-form header__search-form--hidden">
+                        <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..."
+                            aria-label="Search">
+                        <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+                    </form>
+                </div>
+                <a href="/information"> <img src="/assets/images/avatar.svg" alt="avatar"
+                        class="rounded-circle" style="width: 50px; height:50px;"></a>
+                <!-- <div class="dropdown">
+                    <button class="dropdown-toggle" data-bs-toggle="dropdown"></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                    </ul>
+                </div> -->
+            </div>
+        </nav>
+    </header>
+    {{{body}}}
+</body>
+
+</html>
