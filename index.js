@@ -22,6 +22,13 @@ app.use(subdomain('writer',require('./routers/writer/writerRoutes')));
 app.use(subdomain('editor', require('./routers/editor/editorRoutes')));
 app.use(subdomain('admin', require('./routers/admin/adminRoutes')));
 
+
+app.use('/sync', (req, res) => {
+    const models = require('./models')
+    models.sequelize.sync().then(()=> {
+        res.send("model create success")
+    })
+})
 app.use('/', require('./routers/user/userRoutes'));
 app.use('/news', require('./routers/user/newsRouter'))
 
