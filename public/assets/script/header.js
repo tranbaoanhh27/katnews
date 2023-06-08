@@ -6,10 +6,10 @@ function toggleSearchForm() {
 }
 
 function toggleAccountMenu() {
-    let menu = document.querySelector(".account-dropdown-menu");
-    if (menu.classList.contains("account-dropdown-menu--hidden"))
-        menu.classList.remove("account-dropdown-menu--hidden");
-    else menu.classList.add("account-dropdown-menu--hidden");
+    let menu = document.querySelector(".header-account-dropdown-menu");
+    if (menu.classList.contains("header-account-dropdown-menu--hidden"))
+        menu.classList.remove("header-account-dropdown-menu--hidden");
+    else menu.classList.add("header-account-dropdown-menu--hidden");
 }
 
 function logOut() {
@@ -21,12 +21,12 @@ let user = localStorage.getItem("user");
 if (user) {
     user = JSON.parse(user);
     document.querySelector(".navbar #auth").innerHTML = `
-        <div class="account-dropdown-toggle" onclick="toggleAccountMenu()">
+        <div class="header-account-dropdown-toggle" onclick="toggleAccountMenu()">
             <img src="/assets/images/default-user-icon.jpg" height="80%" alt="">
             <i class="fa-solid fa-caret-down"></i>
         </div>
-        <div class="account-dropdown-menu account-dropdown-menu--hidden">
-            <div class="account-dropdown-menu__user-info">
+        <div class="header-account-dropdown-menu header-account-dropdown-menu--hidden">
+            <div class="header-account-dropdown-menu__user-info">
                 <div>
                     <h5>${user.username}</h5>
                     <span class="premium-badge">Premium</span>

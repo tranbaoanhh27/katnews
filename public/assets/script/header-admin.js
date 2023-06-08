@@ -1,4 +1,4 @@
-const userAvatar = document.querySelector('.account-dropdown-toggle');
+const userAvatar = document.querySelector('.header-account-dropdown-toggle');
 const userMenu = document.querySelector('.header__user-menu');
 
 userAvatar.addEventListener('click', function() {
