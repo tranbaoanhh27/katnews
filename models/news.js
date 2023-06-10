@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       News.belongsTo(models.Writer, {foreignKey: "writerId"})
       News.belongsTo(models.SubCategory, {foreignKey: "categoryId"})
       News.belongsToMany(models.Tag, {through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId'})
+      News.hasMany(models.Comment, { foreignKey: 'newsId' });
     }
   }
   News.init({
