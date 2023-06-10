@@ -75,9 +75,11 @@
                     <div class="top-category-overlay-content">
                         <div class="top-category-title">
                             <span class="top-number" style="background-color: {{badgeColor}};">{{rank}}</span>
-                            <span class="category-name" style="background-color: {{badgeColor}};">{{name}}</span>
+                            <span class="category-name" style="background-color: {{badgeColor}};">
+                                <a href="/news?subCategoryId={{id}}">{{name}}</a>
+                            </span>
                         </div>
-                        <a href="#" class="top-category-article-title">{{latestPost.title}}</a>
+                        <a href="/news/{{latestPost.id}}" class="top-category-article-title">{{latestPost.title}}</a>
                         <p>{{latestPost.updatedAtString}}</p>
                     </div>
                 </div>

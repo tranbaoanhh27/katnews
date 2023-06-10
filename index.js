@@ -29,7 +29,7 @@ app.use("/create-database-tables", (req, res) => {
         res.send("models created successfully");
     });
 });
-app.use("/", require("./routers/user/userRouter"));
+app.use("/", require("./routers/user/indexRouter"));
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
