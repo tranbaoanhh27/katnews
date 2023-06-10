@@ -10,45 +10,11 @@
                         <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="2" aria-label="Third slide"></li>
                     </ol>
                     <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active">
-                            <div class="carousel-overlay-content">
-                                <a href="#">
-                                    <div class="category-badge">Category</div>
-                                </a>
-                                <a href="#">
-                                    <h2 class="homepage__carousel-item-title">Title</h2>
-                                </a>
-                                <p><a href="#">Author's name</a> - Published date</p>
-                            </div>
-                            <div class="carousel-blackcover"></div>
-                            <img src="holder.js/900x500/auto/#777:#555/text:First slide" width="100%" height="100%" class="d-block" alt="First slide">
-                        </div>
+                        {{#each weeklyTopThree}}
                         <div class="carousel-item">
-                            <div class="carousel-overlay-content">
-                                <a href="#">
-                                    <div class="category-badge">Category</div>
-                                </a>
-                                <a href="#">
-                                    <h2 class="homepage__carousel-item-title">Title</h2>
-                                </a>
-                                <p><a href="#">Author's name</a> - Published date</p>
-                            </div>
-                            <div class="carousel-blackcover"></div>
-                            <img src="holder.js/900x500/auto/#666:#444/text:Second slide" width="100%" height="100%" class="d-block" alt="Second slide">
+                            {{> homepage-carousel-overlay }}
                         </div>
-                        <div class="carousel-item">
-                            <div class="carousel-overlay-content">
-                                <a href="#">
-                                    <div class="category-badge">Category</div>
-                                </a>
-                                <a href="/pages/news/sports/soccer/real-madrid-nhan-chim-chelsea-tai-stamford-bridge-de-vao-ban-ket-champions-league.html">
-                                    <h2 class="homepage__carousel-item-title">Title</h2>
-                                </a>
-                                <p><a href="#">Author's name</a> - Published date</p>
-                            </div>
-                            <div class="carousel-blackcover"></div>
-                            <img src="holder.js/900x500/auto/#666:#444/text:Third slide" width="100%" height="100%" class="d-block" alt="Third slide">
-                        </div>
+                        {{/each}}
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#articlesOfTheWeek" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -404,55 +370,8 @@
     <script src="/assets/script/header.js"></script>
 
     <script>
-        fetch("/assets/dummy-data/articles.json")
-            .then(response => response.json())
-            .then(json => {
-                let articles = [...json];
-
-                let articlesOfTheWeek = articles.slice(0, 3);
-                let carouselItems = document.querySelectorAll(".carousel-item");
-                for (let i = 0; i < 3; i++) {
-                    carouselItems[i].querySelector('img').setAttribute('src', articlesOfTheWeek[i].imageURL);
-                    carouselItems[i].querySelector('.category-badge').innerHTML = articlesOfTheWeek[i].subcategory;
-                    carouselItems[i].querySelector('.category-badge').style.backgroundColor = articlesOfTheWeek[i].categoryColor;
-                    carouselItems[i].querySelector('.homepage__carousel-item-title').innerHTML = articlesOfTheWeek[i].title;
-                    carouselItems[i].querySelector('.homepage__carousel-item-title').parentElement.setAttribute('href', articlesOfTheWeek[i].htmlURL);
-                    carouselItems[i].querySelector('p').innerHTML = `<a href="#">${articlesOfTheWeek[i].authorName}<a/> - ${articlesOfTheWeek[i].publishedDate}`;
-                }
-
-                let topCategories = document.querySelectorAll('.top-category');
-                for (let i = 0; i < 10; i++) {
-                    const articleIndex = i % articles.length;
-                    topCategories[i].querySelector('img').setAttribute('src', articles[articleIndex].imageURL);
-                    topCategories[i].querySelector('.top-number').style.backgroundColor = articles[articleIndex].categoryColor;
-                    topCategories[i].querySelector('.category-name').style.backgroundColor = articles[articleIndex].categoryColor;
-                    topCategories[i].querySelector('.category-name').innerHTML = articles[articleIndex].subcategory;
-                    topCategories[i].querySelector('.top-category-article-title').innerHTML = articles[articleIndex].title;
-                    topCategories[i].querySelector('.top-category-article-title').setAttribute('href', articles[articleIndex].htmlURL);
-                    topCategories[i].querySelector('p').innerHTML = `<a href="#">${articles[articleIndex].authorName}<a/> - ${articles[articleIndex].publishedDate}`;
-                }
-
-                let mostViewedArticles = document.querySelectorAll('.most-viewed-article');
-                for (let i = 0; i < mostViewedArticles.length; i++) {
-                    const articleIndex = i % articles.length;
-                    mostViewedArticles[i].querySelector('img').setAttribute('src', articles[articleIndex].imageURL);
-                    mostViewedArticles[i].querySelector('span').innerHTML = articles[articleIndex].subcategory;
-                    mostViewedArticles[i].querySelector('span').style.backgroundColor = articles[articleIndex].categoryColor;
-                    mostViewedArticles[i].querySelector('a').innerHTML = articles[articleIndex].title;
-                    mostViewedArticles[i].querySelector('a').setAttribute('href', articles[articleIndex].htmlURL);
-                    mostViewedArticles[i].querySelector('p').innerHTML = articles[articleIndex].publishedDate;
-                }
-
-                let latestArticles = document.querySelectorAll('.latest-news-article');
-                for (let i = 0; i < latestArticles.length; i++) {
-                    const articleIndex = i % articles.length;
-                    latestArticles[i].querySelector('img').setAttribute('src', articles[articleIndex].imageURL);
-                    latestArticles[i].querySelector('span').innerHTML = articles[articleIndex].subcategory;
-                    latestArticles[i].querySelector('span').style.backgroundColor = articles[articleIndex].categoryColor;
-                    latestArticles[i].querySelector('a').innerHTML = articles[articleIndex].title;
-                    latestArticles[i].querySelector('a').setAttribute('href', articles[articleIndex].htmlURL);
-                    latestArticles[i].querySelector('p').innerHTML = articles[articleIndex].publishedDate;
-                }
-            });
+        document.querySelector('.homepage__main-container .carousel-inner')
+            .querySelector('.carousel-item:first-child')
+            .classList.add('active');
     </script>
 
