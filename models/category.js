@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      // An Editor has many Categories
+      Category.belongsTo(models.Editor, { foreignKey: 'editorId' });
     }
   }
   Category.init({
