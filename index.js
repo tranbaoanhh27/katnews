@@ -1,6 +1,8 @@
+'use strict';
+
 const express = require('express');
 const handlebars = require('express-handlebars');
-const subdomain = require('express-subdomain'); 
+const subdomain = require('express-subdomain');
 const app = express();
 
 
@@ -18,14 +20,14 @@ app.set('view engine', 'hbs');
 
 
 //all of the 
-app.use(subdomain('writer',require('./routers/writer/writerRoutes')));
+app.use(subdomain('writer', require('./routers/writer/writerRoutes')));
 app.use(subdomain('editor', require('./routers/editor/editorRoutes')));
 app.use(subdomain('admin', require('./routers/admin/adminRoutes')));
 
 
 app.use('/sync', (req, res) => {
     const models = require('./models')
-    models.sequelize.sync().then(()=> {
+    models.sequelize.sync().then(() => {
         res.send("model create success")
     })
 })
@@ -33,6 +35,6 @@ app.use('/', require('./routers/user/userRoutes'));
 app.use('/news', require('./routers/user/newsRouter'))
 
 app.set('port', process.env.PORT || 5000);
-app.listen(app.get('port'), ()=>{
+app.listen(app.get('port'), () => {
     console.log(`server is running on port ${app.get('port')}`);
 })
