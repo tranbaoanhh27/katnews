@@ -1,0 +1,287 @@
+<main>
+    <div class="container">
+        <div class="row">
+            {{> admin-left-sidebar}}
+
+            <!-- Sidebar bên phải -->
+            <div class="col-md-9" id="sidebar-right">
+                <a href="/user" class="nav-link fw-bold px-0"> Danh sách người dùng</a>
+
+                <div class="container mt-3">
+                    <!-- Hàng đầu tiên với box search và nút thêm -->
+                    <div class="row mb-3 header">
+                        <div class="col-md-8 header__search d-flex direction-row">
+                            <input type="text" class="form-control " placeholder="Tìm kiếm..." required
+                                onkeyup="filter(this.value)">
+                            <button class="btn btn-primary ms-3 float-end" type="button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-4 header__add-button">
+                            <!-- <button class="btn btn-primary float-end mx-2 add-btn" data-bs-toggle="modal" data-bs-target="#adduserModal">Thêm mới</button> -->
+                            <button class="btn btn-primary float-end" onclick="deleteSelectedRows()">Xoá</button>
+                        </div>
+                    </div>
+
+                    <!-- Bảng danh sách -->
+                    <table class="table list align-middle">
+                        <thead>
+                            <tr>
+                                <th class="list__header" style="width: auto;">Chọn</th>
+                                <th class="list__header" style="width: 8%;"></th>
+                                <th class="list__header" style="width: auto;">Tên</th>
+                                <th class="list__header" style="width: auto;">Phân hệ</th>
+                                <th class="list__header" style="width: auto;">email</th>
+                                <th class="list__header" style="width: 14%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                <td class="list_image"><img src="/assets/images/default-user-icon.jpg" width="100%"
+                                        height="100%" class="d-block" alt="First slide"></td>
+                                <td class="list__name">Bùi Quốc Trung</td>
+                                <td class="list__function">Độc giả</td>
+                                <td class="list_email">trung2k2@gmail.com</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                <td class="list_image"><img src="/assets/images/default-user-icon.jpg" width="100%"
+                                        height="100%" class="d-block" alt="First slide"></td>
+                                <td class="list__name">Trần Bảo Anh</td>
+                                <td class="list__function">Biên tập viên</td>
+                                <td class="list_email">anh2k2@gmail.com</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                <td class="list_image"><img src="/assets/images/default-user-icon.jpg" width="100%"
+                                        height="100%" class="d-block" alt="First slide"></td>
+                                <td class="list__name">Phan Quốc Kỳ</td>
+                                <td class="list__function">Phóng viên</td>
+                                <td class="list_email">kydeptrai@gmail.com</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                <td class="list_image"><img src="/assets/images/default-user-icon.jpg" width="100%"
+                                        height="100%" class="d-block" alt="First slide"></td>
+                                <td class="list__name">Đoàn Nguyễn Thành</td>
+                                <td class="list__function">Độc giả</td>
+                                <td class="list_email">thangdoan@gmail.com</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item ">
+                                <td class="list__check"><input type="checkbox" name="select-user"></td>
+                                <td class="list_image"><img src="/assets/images/default-user-icon.jpg" width="100%"
+                                        height="100%" class="d-block" alt="First slide"></td>
+                                <td class="list__name">Hanh Tran</td>
+                                <td class="list__function">Premium</td>
+                                <td class="list_email">hanhtran@gmail.com</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <!-- Pagination -->
+                        <div class="col-md-12 mt-4">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal chỉnh sửa -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-user" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit-modal-user">Chỉnh sửa người dùng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-modal-name" class="form-user">Tên</label>
+                        <input type="text" id="edit-modal-name" class="form-control" readonly placeholder="Nhập tên">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-modal-select-user" class="form-user">Chức năng</label>
+                        <select id="edit-modal-select-user" class="form-select">
+                            <option value="Độc giả">Độc giả</option>
+                            <option value="Biên tập viên">Biên tập viên</option>
+                            <option value="Phóng viên">Phóng viên</option>
+                            <option value="Premium">Premium</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-modal-count" class="form-user">Email</label>
+                        <input type="email" id="edit-modal-count" class="form-control" readonly placeholder="Nhập emai">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEdit()"
+                        data-bs-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <!-- place footer here -->
+</footer>
+
+<!-- Tim kiem user -->
+<script>
+    function filter(keyword) {
+        keyword = keyword.toLowerCase();
+        document.querySelectorAll('.list__name').forEach(item => {
+            if (item.innerText.toLowerCase().indexOf(keyword) >= 0) {
+                item.parentElement.style.display = "";
+            }
+            else
+                item.parentElement.style.display = 'none';
+        });
+    }
+
+</script>
+
+<!-- xoa user -->
+<script>
+    function deleteRow(row) {
+        if (confirm("Bạn có chắc chắn muốn xóa chuyên mục này?"))
+            row.parentNode.parentNode.remove();
+    }
+</script>
+
+<!-- Xoa cac user duoc chon -->
+<script>
+    // Khai báo biến lưu danh sách các dòng đã chọn
+    let selectedRows = [];
+
+    // Hàm xóa các dòng được chọn
+    function deleteSelectedRows() {
+        // Lấy danh sách các hàng trong bảng
+        const rows = document.querySelectorAll('table tbody tr');
+
+        // Lặp qua từng hàng và kiểm tra xem hàng đó có được chọn không
+        rows.forEach(row => {
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (checkbox.checked) {
+                // Nếu hàng đó được chọn thì thêm vào danh sách các dòng đã chọn
+                selectedRows.push(row);
+            }
+        });
+
+        // Kiểm tra xem có dòng nào được chọn không
+        if (selectedRows.length === 0) {
+            alert("Vui lòng chọn tag trước khi xóa.");
+        } else {
+            // Hiển thị hộp thoại xác nhận xóa
+            if (confirm("Bạn có chắc chắn muốn xóa những chuyên mục này?")) {
+                // Xóa các dòng đã chọn
+                selectedRows.forEach(row => {
+                    row.remove();
+                });
+            }
+        }
+
+        // Xóa danh sách các dòng đã chọn
+        selectedRows = [];
+    }
+</script>
+
+
+<!-- Chinh sua bai user -->
+<script>
+    // Lấy các phần tử HTML cần sử dụng
+    const editModalNameInput = document.querySelector('#edit-modal-name');
+    const editModalFuncInput = document.querySelector('#edit-modal-select-user');
+    const editModalCountInput = document.querySelector('#edit-modal-count');
+    // Khai báo biến chứa dữ liệu đang được chỉnh sửa
+    let currentEditRow;
+
+    // Định nghĩa hàm để mở modal chỉnh sửa
+    function openEditModal(event) {
+
+        // Lấy thông tin hàng dữ liệu đang được chỉnh sửa
+        const row = event.currentTarget.closest('.list__item');
+        const name = row.querySelector('.list__name').textContent;
+        const Func = row.querySelector('.list__function').textContent;
+        const count = row.querySelector('.list_email').textContent;
+        // console.log(Func); 
+        // Lưu thông tin hàng dữ liệu đang được chỉnh sửa vào biến
+        currentEditRow = {
+            row,
+            Func,
+        };
+
+        // Hiển thị thông tin hàng dữ liệu trong modal chỉnh sửa
+        editModalNameInput.value = name;
+        editModalFuncInput.value = Func;
+        editModalCountInput.value = count;
+    }
+
+    // Định nghĩa hàm để lưu dữ liệu đã chỉnh sửa
+    function saveEdit() {
+        // Lấy thông tin dữ liệu mới từ modal chỉnh sửa
+        const newFunc = editModalFuncInput.value;
+
+        // Cập nhật thông tin vào hàng dữ liệu đang chỉnh sửa
+        currentEditRow.row.querySelector('.list__function').textContent = newFunc;
+    }
+
+</script>

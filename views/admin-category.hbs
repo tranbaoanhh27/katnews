@@ -1,0 +1,404 @@
+<main>
+    <div class="container">
+        <div class="row">
+            {{> admin-left-sidebar}}
+
+            <!-- Sidebar bên phải -->
+            <div class="col-md-9" id="sidebar-right">
+                <a href="/category" class="nav-link fw-bold px-0"> Danh sách chuyên mục</a>
+
+                <div class="container mt-3">
+                    <!-- Hàng đầu tiên với box search và nút thêm -->
+                    <div class="row mb-3 header">
+                        <div class="col-md-8 header__search d-flex direction-row">
+                            <input type="text" class="form-control " placeholder="Tìm kiếm..." required
+                                onkeyup="filter(this.value)">
+                            <button class="btn btn-primary ms-3 float-end" type="button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-4 header__add-button">
+                            <button class="btn btn-primary float-end mx-2 add-btn" data-bs-toggle="modal"
+                                data-bs-target="#addCatModal">Thêm mới</button>
+                            <button class="btn btn-primary float-end" onclick="deleteSelectedRows()">Xoá</button>
+                        </div>
+                    </div>
+
+                    <!-- Bảng danh sách -->
+                    <table class="table list">
+                        <thead>
+                            <tr>
+                                <th class="list__header" style="width: auto;">Chọn</th>
+                                <th class="list__header" style="width: auto;">Tên</th>
+                                <th class="list__header" style="width: auto;">Chuyên mục cha</th>
+                                <th class="list__header" style="width: 14%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-category"></td>
+                                <td class="list__cat">Nông sản</td>
+                                <td class="list__pcat">Kinh doanh</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-category"></td>
+                                <td class="list__cat">Hải sản</td>
+                                <td class="list__pcat">Kinh doanh</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-category"></td>
+                                <td class="list__cat">Kinh doanh</td>
+                                <td class="list__pcat"></td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item">
+                                <td class="list__check"><input type="checkbox" name="select-category"></td>
+                                <td class="list__cat">Thể thao</td>
+                                <td class="list__cat">Bóng đá</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item ">
+                                <td class="list__check"><input type="checkbox" name="select-category"></td>
+                                <td class="list__cat">Bóng rỗ</td>
+                                <td class="list__pcat">Thể thao</td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="list__item ">
+                                <td class="list__check"><input type="checkbox" name="select-category"></td>
+                                <td class="list__cat">Thể thao</td>
+                                <td class="list__pcat"></td>
+                                <td class="list__actions text-end">
+                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
+                                            class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <!-- Pagination -->
+                        <div class="col-md-12 mt-4">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal chỉnh sửa -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-cat" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit-modal-cat">Chỉnh sửa chuyên mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-modal-name" class="form-catagory">Tên chuyên mục</label>
+                        <input type="text" id="edit-modal-name" class="form-control"
+                            placeholder="Hãy nhập tên chuyên mục">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-modal-select-category" class="form-catagory">Chuyên mục cha</label>
+                        <select id="edit-modal-select-category" class="form-select">
+                            <option value="">Không có chuyên mục cha</option>
+                            <option value="Kinh doanh">Kinh doanh</option>
+                            <option value="Thể thao">Thể thao</option>
+                            <option value="Giáo dục">Giáo dục</option>
+                            <option value="Du lịch">Du lịch</option>
+                            <option value="Xã hội">Xã hội</option>
+                            <option value="Môi trường">Môi trường</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEdit()"
+                        data-bs-dismiss="modal">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal thêm mới-->
+    <div class="modal fade" id="addCatModal" tabindex="-1" aria-labelledby="addCatModalcat" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCatModalcat">Thêm nhãn mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="catName" class="form-catagory">Tên</label>
+                            <input type="text" class="form-control" id="catName" name="catName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="add-modal-select-category" class="form-catagory">Chuyên mục cha</label>
+                            <select id="add-modal-select-category" class="form-select">
+                                <option value="">Không có chuyên mục cha</option>
+                                <option value="Kinh doanh">Kinh doanh</option>
+                                <option value="Thể thao">Thể thao</option>
+                                <option value="Giáo dục">Giáo dục</option>
+                                <option value="Du lịch">Du lịch</option>
+                                <option value="Xã hội">Xã hội</option>
+                                <option value="Môi trường">Môi trường</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="addcatBtn" onclick="AddedTag()"
+                        data-bs-dismiss="modal">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <!-- place footer here -->
+</footer>
+
+<!-- Tim kiem tag -->
+<script>
+    function filter(keyword) {
+        keyword = keyword.toLowerCase();
+        document.querySelectorAll('.list__cat').forEach(item => {
+            if (item.innerText.toLowerCase().indexOf(keyword) >= 0) {
+                item.parentElement.style.display = "";
+            }
+            else
+                item.parentElement.style.display = 'none';
+        });
+    }
+
+</script>
+
+<!-- xoa tag -->
+<script>
+    function deleteRow(row) {
+        if (confirm("Bạn có chắc chắn muốn xóa chuyên mục này?"))
+            row.parentNode.parentNode.remove();
+    }
+</script>
+
+<!-- Xoa cac tag duoc chon -->
+<script>
+    // Khai báo biến lưu danh sách các dòng đã chọn
+    let selectedRows = [];
+
+    // Hàm xóa các dòng được chọn
+    function deleteSelectedRows() {
+        // Lấy danh sách các hàng trong bảng
+        const rows = document.querySelectorAll('table tbody tr');
+
+        // Lặp qua từng hàng và kiểm tra xem hàng đó có được chọn không
+        rows.forEach(row => {
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (checkbox.checked) {
+                // Nếu hàng đó được chọn thì thêm vào danh sách các dòng đã chọn
+                selectedRows.push(row);
+            }
+        });
+
+        // Kiểm tra xem có dòng nào được chọn không
+        if (selectedRows.length === 0) {
+            alert("Vui lòng chọn tag trước khi xóa.");
+        } else {
+            // Hiển thị hộp thoại xác nhận xóa
+            if (confirm("Bạn có chắc chắn muốn xóa những chuyên mục này?")) {
+                // Xóa các dòng đã chọn
+                selectedRows.forEach(row => {
+                    row.remove();
+                });
+            }
+        }
+
+        // Xóa danh sách các dòng đã chọn
+        selectedRows = [];
+    }
+</script>
+
+
+<!-- Chinh sua bai tag -->
+<script>
+    // Lấy các phần tử HTML cần sử dụng
+    const editModalNameInput = document.querySelector('#edit-modal-name');
+    const editModalpcatInput = document.querySelector('#edit-modal-select-category');
+    const editModalCountInput = document.querySelector('#edit-modal-count');
+    // Khai báo biến chứa dữ liệu đang được chỉnh sửa
+    let currentEditRow;
+
+    // Định nghĩa hàm để mở modal chỉnh sửa
+    function openEditModal(event) {
+
+        // Lấy thông tin hàng dữ liệu đang được chỉnh sửa
+        const row = event.currentTarget.closest('.list__item');
+        const name = row.querySelector('.list__cat').textContent;
+        const pcat = row.querySelector('.list__pcat').textContent;
+        // console.log(pcat); 
+        // Lưu thông tin hàng dữ liệu đang được chỉnh sửa vào biến
+        currentEditRow = {
+            row,
+            pcat,
+            name,
+        };
+
+        // Hiển thị thông tin hàng dữ liệu trong modal chỉnh sửa
+        editModalNameInput.value = name;
+        editModalpcatInput.value = pcat;
+    }
+
+    // Định nghĩa hàm để lưu dữ liệu đã chỉnh sửa
+    function saveEdit() {
+        // Lấy thông tin dữ liệu mới từ modal chỉnh sửa
+        const newName = editModalNameInput.value;
+        const newpcat = editModalpcatInput.value;
+
+        // Cập nhật thông tin vào hàng dữ liệu đang chỉnh sửa
+        currentEditRow.row.querySelector('.list__cat').textContent = newName;
+        currentEditRow.row.querySelector('.list__pcat').textContent = newpcat;
+    }
+
+</script>
+
+<!-- Xử lý thêm mới nhãn -->
+<script>
+    const addModalNameInput = document.querySelector('#catName');
+    const addModalFunctionInput = document.querySelector('#add-modal-select-category')
+    const addModal = document.querySelector("#addCatModal")
+    const addButtons = document.querySelector('.add-btn');
+    const tableBody = document.querySelector('table tbody');
+
+    addButtons.addEventListener('click', function () {
+        addModalNameInput.value = '';
+    });
+
+    // Lắng nghe sự kiện click của nút "Thêm" trên modal
+    function AddedTag() {
+        // Lấy giá trị của các input
+        var catName = addModalNameInput.value;
+        var catFunction = addModalFunctionInput.value;
+
+        // Tạo phần tử <tr> cho hàng mới
+        var row = document.createElement('tr');
+        row.setAttribute('class', 'list__item');
+
+        // Tạo phần tử <td> cho cột Checkbox
+        var checkboxCell = document.createElement('td');
+        checkboxCell.setAttribute('class', 'list__check');
+        var checkbox = document.createElement('input');
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.setAttribute('name', 'select-category');
+        checkboxCell.appendChild(checkbox);
+
+        // Tạo phần tử <td> cho cột Tên
+        var catNameCell = document.createElement('td');
+        catNameCell.setAttribute('class', 'list__cat');
+        catNameCell.textContent = catName;
+
+        // Tạo phần tử <td> cho cột Chức Năng
+        var catFunctionCell = document.createElement('td');
+        catFunctionCell.setAttribute('class', 'list__pcat');
+        catFunctionCell.textContent = catFunction;
+
+        // Tạo phần tử <td> cho cột Hành động
+        var actionCell = document.createElement('td');
+        actionCell.setAttribute('class', 'list__actions text-end');
+
+        // Tạo phần tử <a> cho nút Sửa
+        var editButton = document.createElement('a');
+        editButton.setAttribute('href', '#');
+        editButton.setAttribute('class', 'btn btn-warning');
+        editButton.setAttribute('data-bs-toggle', 'modal');
+        editButton.setAttribute('data-bs-target', '#edit-modal');
+        editButton.setAttribute('onclick', "openEditModal(event)")
+        var editIcon = document.createElement('i');
+        editIcon.setAttribute('class', 'fa-solid fa-pen');
+        editButton.appendChild(editIcon);
+
+        // Tạo phần tử <a> cho nút Xóa
+        var deleteButton = document.createElement('a');
+        deleteButton.setAttribute('href', '#');
+        deleteButton.setAttribute('class', 'btn btn-danger ms-1');
+        deleteButton.setAttribute('onclick', 'deleteRow(this)');
+        var deleteIcon = document.createElement('i');
+        deleteIcon.setAttribute('class', 'fa-solid fa-trash');
+        deleteButton.appendChild(deleteIcon);
+
+        // Thêm các phần tử vào cột Hành động
+        actionCell.appendChild(editButton);
+        actionCell.appendChild(deleteButton);
+
+        // Thêm các phần tử vào hàng mới
+        row.appendChild(checkboxCell);
+        row.appendChild(catNameCell);
+        row.appendChild(catFunctionCell)
+
+        row.appendChild(actionCell);
+
+        // Thêm dòng mới vào bảng
+        tableBody.appendChild(row);
+    };
+
+</script>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Tin tức | KAT News</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="icon" href="/assets/images/brand-icon.png" type="image/icon type">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-light" style="z-index: 0 !important">
+            <div class="container">
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="d-flex align-items-center">
+                    <a class="navbar-brand" href="/{{type_name}}">
+                        <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
+                    </a>
+                    <i class="fa-solid fa-bars" onclick="hide_show_sidebar()"></i>
+                </div>
+
+
+                <div style="display: flex">
+                    <div class="header__search-container">
+                        <img class="header__search-toggle" src="/assets/images/search-button.svg"
+                            alt="Search Toggle Button" onclick="toggleSearchForm()" />
+                        <form class="d-flex header__search-form header__search-form--hidden">
+                            <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..."
+                                aria-label="Search">
+                            <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+                        </form>
+                    </div>
+                    <div class="header__user">
+                        <div class="header-account-dropdown-toggle">
+                            <img src="/assets/images/default-user-icon.jpg" alt="avatar" class="rounded-circle"
+                                style="width: 50px; height:50px;">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                        <ul class="header__user-menu text-end p-0">
+                            <li>
+                                <h5 class="m-0">Admin
+                                    <img src="/assets/images/default-user-icon.jpg" alt="avatar" class="rounded-circle"
+                                        style="width: 50px; height:50px; margin-left:5%">
+                                </h5>
+                            </li>
+                            <hr class="m-0">
+                            <li><a href="/">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </nav>
+
+    </header>
+    {{{body}}}
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
+    <!-- Xử lý click avatar -->
+    <script src="/assets/script/header-admin.js"></script>
+    <!-- hien form tim kiem tren trang web -->
+    <script>
+        function toggleSearchForm() {
+            let classes = document.querySelector('.header__search-form').classList;
+            if (classes.contains('header__search-form--hidden'))
+                document.querySelector('.header__search-form').classList.remove('header__search-form--hidden');
+            else
+                document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
+        }
+    </script>
+
+    <!-- dong mo the -->
+    <script>
+        // Lấy element của thanh bên trái
+        const colMd3 = document.getElementById('sidebar-left');
+
+        // Lấy element ủa thanh bên phải
+        const colMd9 = document.getElementById("sidebar-right");
+
+        // Thêm sự kiện click vào icon list
+        function hide_show_sidebar() {
+            // Nếu phần col-md-3 đang hiện thì ẩn nó đi, ngược lại hiển thị nó lên
+            if (colMd3.style.display === 'none') {
+                colMd3.style.display = 'block';
+                colMd9.classList.remove("col-md-12");
+                colMd9.classList.add("col-md-9")
+            } else {
+                colMd3.style.display = 'none';
+                colMd9.classList.remove("col-md-9");
+                colMd9.classList.add("col-md-12")
+            }
+        };
+    </script>
+</body>
+
+</html>
