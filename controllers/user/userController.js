@@ -70,6 +70,54 @@ const queryLatestNews = async () => {
     return news;
 }
 
+const queryLatestNewsOfSubCategory = async (categoryId) => {
+    let result = await models.News.findAll({
+        attributes: ['id', 'title', 'updatedAt', 'tinyImagePath'],
+        include: [{
+            model: models.SubCategory,
+            attributes: [],
+            where: { 'id': categoryId }
+        }],
+        order: [['updatedAt', 'DESC']],
+        limit: 1
+    });
+    result = result[0];
+    result.updatedAtString = (new Date(result.updatedAt)).toLocaleString('vi-VN');
+    return result;
+}
+
+const queryTopTenCategories = async () => {
+    let result = await models.SubCategory.findAll({
+        attributes: [
+            'id', 'name',
+            [sequelize.fn('sum', sequelize.col('News.totalViewsCount')), 'views']
+        ],
+        include: [{
+            model: models.News,
+            attributes: []
+        }],
+        group: ['SubCategory.id'],
+        order: [
+            [sequelize.literal('"views"'), 'DESC']
+        ],
+    });
+    result = result.slice(0, 10);
+    
+    let colorIndex = 0;
+    result.forEach((element, index) => {
+        element.badgeColor = articleColors[colorIndex % articleColors.length];
+        element.rank = index + 1;
+        colorIndex++;
+    });
+
+    for (let i = 0; i < result.length; i++) {
+        const latestPost = await queryLatestNewsOfSubCategory(result[i].id);
+        result[i].latestPost = latestPost;
+    }
+
+    return result;
+}
+
 const controller = {};
 
 controller.showHomePage = async (request, response) => {
@@ -85,6 +133,10 @@ controller.showHomePage = async (request, response) => {
     response.locals.twoLatest = topTenLatest.slice(0, 2);
     response.locals.fourLatest = topTenLatest.slice(2, 6);
     response.locals.nextFourLatest = topTenLatest.slice(6, 10);
+
+    const topTenCategories = await queryTopTenCategories();
+    console.log(topTenCategories);
+    response.locals.topCategories = topTenCategories;
 
     response.render('home');
 };

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Writer.hasMany(models.News, { foreignKey: 'writerId'});
     }
   }
   Writer.init({

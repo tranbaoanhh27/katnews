@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 
       // An Editor has many Categories
       Category.belongsTo(models.Editor, { foreignKey: 'editorId' });
+      Category.hasMany(models.SubCategory, { foreignKey: 'categoryId' });
     }
   }
   Category.init({
