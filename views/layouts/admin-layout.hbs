@@ -28,7 +28,7 @@
                 </button>
 
                 <div class="d-flex align-items-center">
-                    <a class="navbar-brand" href="category-management.html">
+                    <a class="navbar-brand" href="/{{type_name}}">
                         <img src="/assets/images/brand-logo.svg" alt="Brand Logo" />
                     </a>
                     <i class="fa-solid fa-bars" onclick="hide_show_sidebar()"></i>
@@ -59,7 +59,7 @@
                                 </h5>
                             </li>
                             <hr class="m-0">
-                            <li><a href="index.html">Đăng xuất</a></li>
+                            <li><a href="/">Đăng xuất</a></li>
                         </ul>
                     </div>
 
@@ -69,14 +69,8 @@
         </nav>
 
     </header>
+    {{{body}}}
 
-
-    <main>
-        {{{body}}}
-    </main>
-    <footer>
-        <!-- place footer here -->
-    </footer>
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
@@ -98,6 +92,29 @@
             else
                 document.querySelector('.header__search-form').classList.add('header__search-form--hidden');
         }
+    </script>
+
+    <!-- dong mo the -->
+    <script>
+        // Lấy element của thanh bên trái
+        const colMd3 = document.getElementById('sidebar-left');
+
+        // Lấy element ủa thanh bên phải
+        const colMd9 = document.getElementById("sidebar-right");
+
+        // Thêm sự kiện click vào icon list
+        function hide_show_sidebar() {
+            // Nếu phần col-md-3 đang hiện thì ẩn nó đi, ngược lại hiển thị nó lên
+            if (colMd3.style.display === 'none') {
+                colMd3.style.display = 'block';
+                colMd9.classList.remove("col-md-12");
+                colMd9.classList.add("col-md-9")
+            } else {
+                colMd3.style.display = 'none';
+                colMd9.classList.remove("col-md-9");
+                colMd9.classList.add("col-md-12")
+            }
+        };
     </script>
 </body>
 

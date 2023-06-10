@@ -1,6 +1,6 @@
-const express = require('express');
-const handlebars = require('express-handlebars');
-const subdomain = require('express-subdomain');
+const express = require("express");
+const handlebars = require("express-handlebars");
+const subdomain = require("express-subdomain");
 const app = express();
 
 //set static folder
@@ -18,11 +18,10 @@ app.engine('hbs', handlebars.engine({
 }));
 app.set('view engine', 'hbs');
 
-
-//all of the 
-app.use(subdomain('writer', require('./routers/writer/writerRoutes')));
-app.use(subdomain('editor', require('./routers/editor/editorRoutes')));
-app.use(subdomain('admin', require('./routers/admin/adminRoutes')));
+//all of the
+app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
+app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
+app.use(subdomain("admin", require("./routers/admin/adminRoutes")));
 
 app.use("/create-database-tables", (req, res) => {
     const models = require("./models");
@@ -32,16 +31,7 @@ app.use("/create-database-tables", (req, res) => {
 });
 app.use("/", require("./routers/user/userRouter"));
 
-app.use('/sync', (req, res) => {
-    const models = require('./models')
-    models.sequelize.sync().then(() => {
-        res.send("model create success")
-    })
-})
-app.use('/', require('./routers/user/userRoutes'));
-app.use('/news', require('./routers/user/newsRouter'))
-
-app.set('port', process.env.PORT || 5000);
-app.listen(app.get('port'), () => {
-    console.log(`server is running on port ${app.get('port')}`);
-})
+app.set("port", process.env.PORT || 5000);
+app.listen(app.get("port"), () => {
+    console.log(`server is running on port ${app.get("port")}`);
+});
