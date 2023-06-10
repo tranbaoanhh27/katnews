@@ -66,20 +66,20 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 col-top-category">
+            <div class="col-4 homepage__col-top-category">
                 <h3 class="section-title">Top 10 chuyên mục</h3>
                 {{#each topCategories}}
-                <div class="top-category">
+                <div class="homepage__top-category">
                     <img src="{{latestPost.tinyImagePath}}" width="100%" height="100%" alt="">
-                    <div class="top-category-blackcover"></div>
-                    <div class="top-category-overlay-content">
-                        <div class="top-category-title">
+                    <div class="homepage__top-category-blackcover"></div>
+                    <div class="homepage__top-category-overlay-content">
+                        <div class="homepage__top-category-title">
                             <span class="top-number" style="background-color: {{badgeColor}};">{{rank}}</span>
                             <span class="category-name" style="background-color: {{badgeColor}};">
                                 <a href="/news?subCategoryId={{id}}">{{name}}</a>
                             </span>
                         </div>
-                        <a href="/news/{{latestPost.id}}" class="top-category-article-title">{{latestPost.title}}</a>
+                        <a href="/news/{{latestPost.id}}" class="homepage__top-category-article-title">{{latestPost.title}}</a>
                         <p>{{latestPost.updatedAtString}}</p>
                     </div>
                 </div>

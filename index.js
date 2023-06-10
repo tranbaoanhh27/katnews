@@ -30,6 +30,7 @@ app.use("/create-database-tables", (req, res) => {
     });
 });
 app.use("/", require("./routers/user/indexRouter"));
+app.use("/news", require("./routers/user/newsRouter"));
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
