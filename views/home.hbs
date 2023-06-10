@@ -27,208 +27,42 @@
                 </div>
                 <h3 class="section-title mt-5">Tin tức được xem nhiều nhất</h3>
                 <div id="most-viewed">
-                    <div class="wide-article most-viewed-article">
-                        <img src="/assets/dummy-data/images/article3.jpg" width="200px" height="150px" alt="">
-                        <div class="wide-article__text">
-                            <span>Category</span>
-                            <a href="#">Title</a>
-                            <p>Published Date</p>
+                    {{#each twoMostViews}}
+                    {{> homepage-wide-news-item }}
+                    {{/each}}
+                    <div class="row gx-3">
+                        {{#each fourMostViews}}
+                        <div class="col-3 gy-2">
+                            {{> homepage-small-news-item }}
                         </div>
+                        {{/each}}
                     </div>
-                    <div class="wide-article most-viewed-article">
-                        <img src="/assets/dummy-data/images/article3.jpg" width="200px" height="150px" alt="">
-                        <div class="wide-article__text">
-                            <span>Category</span>
-                            <a href="#">Title</a>
-                            <p>Published Date</p>
+                    <div class="row gx-3">
+                        {{#each nextFourMostViews}}
+                        <div class="col-3 gy-4">
+                            {{> homepage-small-news-item }}
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article most-viewed-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
+                        {{/each}}
                     </div>
                 </div>
                 <h3 class="section-title mt-5">Tin tức mới nhất</h3>
                 <div id="latest-news">
-                    <div class="wide-article latest-news-article">
-                        <img src="/assets/dummy-data/images/article3.jpg" width="200px" height="150px" alt="">
-                        <div class="wide-article__text">
-                            <span>Category</span>
-                            <a href="#">Title</a>
-                            <p>Published Date</p>
+                    {{#each twoLatest}}
+                    {{> homepage-wide-news-item }}
+                    {{/each}}
+                    <div class="row gx-3">
+                        {{#each fourLatest}}
+                        <div class="col-3 gy-2">
+                            {{> homepage-small-news-item }}
                         </div>
+                        {{/each}}
                     </div>
-                    <div class="wide-article latest-news-article">
-                        <img src="/assets/dummy-data/images/article3.jpg" width="200px" height="150px" alt="">
-                        <div class="wide-article__text">
-                            <span>Category</span>
-                            <a href="#">Title</a>
-                            <p>Published Date</p>
+                    <div class="row gx-3">
+                        {{#each nextFourLatest}}
+                        <div class="col-3 gy-4">
+                            {{> homepage-small-news-item }}
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="small-article latest-news-article">
-                                <div class="small-article__image-and-category">
-                                    <img src="/assets/dummy-data/images/article3.jpg" width="100%" height="120px" alt="">
-                                    <span>Category</span>
-                                </div>
-                                <a href="#">Title</a>
-                                <p>Published Date</p>
-                            </div>
-                        </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
