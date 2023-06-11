@@ -1,0 +1,32 @@
+<main class="container">
+    <div class="row">
+        <div class="col-5">
+            {{> user-account-nav-pane }}
+        </div>
+        <div class="col-7">
+            <div class="user-account__function-title">
+                <h4>Thông tin người dùng</h4>
+            </div>
+            <form class="user-account__information-form" action="#" method="post" onsubmit="submitHandler(event)">
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Họ và tên</label>
+                    <input type="text" value="{{authenticatedUser.fullName}}" class="form-control" name="fullname"
+                        id="fullname" aria-describedby="helpId" placeholder="">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" value="{{authenticatedUser.email}}" class="form-control" name="email"
+                        id="email" aria-describedby="emailHelpId" placeholder="">
+                </div>
+                <div class="mb-3">
+                    <label for="birthdate" class="form-label">Ngày sinh</label>
+                    <input type="date" value="{{authenticatedUser.birthdate}}" class="form-control" name="birthdate"
+                        id="birthdate" aria-describedby="helpId" placeholder="">
+                </div>
+                <div style="display: flex; justify-content: flex-end; width: 100%;">
+                    <button class="btn btn-primary" type="submit">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

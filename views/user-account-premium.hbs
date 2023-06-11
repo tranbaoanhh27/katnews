@@ -1,0 +1,81 @@
+<main class="container">
+    <div class="row">
+        <div class="col-5">
+            {{> user-account-nav-pane }}
+        </div>
+        <div class="col-7">
+            <div class="user-account__function-title">
+                <h4>Gia hạn tài khoản Premium</h4>
+            </div>
+            <div class="premium-introduction">
+                Với tài khoản Premium, bạn có thể:
+                <ul>
+                    <li>Xem các bài viết Premium</li>
+                    <li>Tải về bản PDF của các bài viết Premium</li>
+                    <li>Tiếp cận các bài viết Premium thông qua đề xuất</li>
+                </ul>
+            </div>
+            <div class="user-account__payment-card-select">
+                <div id="visa" class="user-account__visa-card user-account__payment-card user-account__payment-card--active">
+                    <img src="/images/visa-logo.svg" alt="">
+                </div>
+                <div id="mastercard" class="user-account__master-card user-account__payment-card">
+                    <img src="/images/mastercard-logo.svg" alt="">
+                </div>
+            </div>
+            <form class="user-account__premium-form" action="#" method="post" onsubmit="submitHandler(event)">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="owner-name" class="form-label">Tên chủ thẻ</label>
+                            <input type="text" class="form-control" name="ownerName" id="owner-name"
+                                aria-describedby="helpId" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="card-number" class="form-label">Số thẻ</label>
+                            <input type="text" class="form-control" name="cardNumber" id="card-number"
+                                aria-describedby="helpId" placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="valid-through" class="form-label">Ngày hết hạn</label>
+                            <input type="text" class="form-control" name="validThrough" id="valid-through"
+                                aria-describedby="helpId" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label id="cvvcvc-label" for="cvvcvc" class="form-label">CVV</label>
+                            <input type="text" class="form-control" name="cvvcvc" id="cvvcvc" aria-describedby="helpId"
+                                placeholder="">
+                        </div>
+                    </div>
+                </div>
+                <div class="user-account__premium-form-actions">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="save-payment-card-info">
+                        <label class="form-check-label" for="save-payment-card-info">
+                            Lưu thông tin thẻ
+                        </label>
+                    </div>
+                    <button class="btn btn-primary">Gia hạn</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+    let paymentCards = document.querySelectorAll('.user-account__payment-card');
+    paymentCards.forEach(card => {
+        card.addEventListener('click', event => {
+            paymentCards.forEach(card => card.classList.remove('user-account__payment-card--active'));
+            card.classList.add('user-account__payment-card--active');
+            document.querySelector('#cvvcvc-label').innerHTML = (card.id === 'visa' ? 'CVV' : 'CVC');
+        })
+    });
+</script>

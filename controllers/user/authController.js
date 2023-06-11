@@ -29,4 +29,9 @@ controller.resetPassword = (request, response) => {
     response.redirect('/auth/login');
 }
 
+controller.logout = (request, response) => {
+    response.locals.isLoggedIn = false;
+    response.redirect('/');
+}
+
 module.exports = controller;

@@ -34,14 +34,14 @@
     <p class="user-login-method-seperator">Hoặc</p>
     <div class="user-login-quick-login">
         <div class="user-login-quick-login__method">
-            <img src="/assets/images/google-logo.png" alt="">
+            <img src="/images/google-logo.png" alt="">
             <div>
                 <small>Đăng nhập nhanh với</small>
                 <h4>Google</h4>
             </div>
         </div>
         <div class="user-login-quick-login__method">
-            <img src="/assets/images/facebook-logo.png" alt="">
+            <img src="/images/facebook-logo.png" alt="">
             <div>
                 <small>Đăng nhập nhanh với</small>
                 <h4>Facebook</h4>
@@ -62,17 +62,3 @@
     crossorigin="anonymous"></script>
 
 <script src="https://kit.fontawesome.com/ea0c74c9ad.js" crossorigin="anonymous"></script>
-
-<script src="/assets/script/header.js"></script>
-
-<script>
-    function submitHandler(event) {
-        event.preventDefault();
-        localStorage.setItem('user', JSON.stringify({
-            username: 'Trần Bảo Anh',
-            email: 'tranbaoanhh27@gmail.com',
-            birthdate: new Date('2002-04-27')
-        }));
-        window.location.replace(window.location.origin);
-    }
-</script>

@@ -1,0 +1,61 @@
+<div class="user-account-navigation">
+    <div class="user-account-navigation__info">
+        <div class="user-account__profile-picture-container">
+            <img src="/images/default-user-icon.jpg" width="150px" alt="">
+            <div class="user-account__change-picture">
+                <i class="fa-solid fa-camera" style="width: 25px; height: 25px;"></i>
+            </div>
+        </div>
+        <span>Premium</span>
+        <small>Còn lại {{authenticatedUser.premiumRemainingDays}} ngày</small>
+    </div>
+    <div class="user-account-navigation__function">
+        <a href="/account">
+            {{#if accountPage}}
+            <div class="user-account__function user-account__function--active">
+                <i class="fa-solid fa-user" style="width: 30px; height: 30px;"></i>
+                <p>Thông tin tài khoản</p>
+            </div>
+            {{else}}
+            <div class="user-account__function">
+                <i class="fa-solid fa-user" style="width: 30px; height: 30px;"></i>
+                <p>Thông tin tài khoản</p>
+            </div>
+            {{/if}}
+        </a>
+        <a href="/account/change-password">
+            {{#if changePasswordPage}}
+            <div class="user-account__function user-account__function--active">
+                <i class="fa-solid fa-lock" style="width: 30px; height: 30px;"></i>
+                <p>Đổi mật khẩu</p>
+            </div>
+            {{else}}
+            <div class="user-account__function">
+                <i class="fa-solid fa-lock" style="width: 30px; height: 30px;"></i>
+                <p>Đổi mật khẩu</p>
+            </div>
+            {{/if}}
+        </a>
+        <a href="/account/premium">
+            {{#if premiumPage}}
+            <div class="user-account__function user-account__function--active">
+                <i class="fa-solid fa-gem" style="width: 30px; height: 30px;"></i>
+                <p>Tài khoản Premium</p>
+            </div>
+            {{else}}
+            <div class="user-account__function">
+                <i class="fa-solid fa-gem" style="width: 30px; height: 30px;"></i>
+                <p>Tài khoản Premium</p>
+            </div>
+            {{/if}}
+        </a>
+    </div>
+    <div class="user-account-navigation__logout">
+        <a href="/auth/logout">
+            <div class="user-account__function">
+                <i class="fa-solid fa-right-from-bracket" style="width: 30px; height: 30px;"></i>
+                <p>Đăng xuất</p>
+            </div>
+        </a>
+    </div>
+</div>

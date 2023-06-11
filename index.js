@@ -22,6 +22,14 @@ app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Middleware
+app.use((request, response, next) => {
+    // Authentication
+    response.locals.isLoggedIn = true;  // request.isAuthenticated();
+    response.locals.headerUser = { name: "Bao Anh", isPremium: true, email: 'tranbaoanhh27@gmail.com' };
+    next();
+});
+
 //all of the
 app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
 app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
@@ -36,6 +44,7 @@ app.use("/create-database-tables", (req, res) => {
 app.use("/", require("./routers/user/indexRouter"));
 app.use("/news", require("./routers/user/newsRouter"));
 app.use("/auth", require("./routers/user/authRouter"));
+app.use('/account', require('./routers/user/accountRouter'));
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
