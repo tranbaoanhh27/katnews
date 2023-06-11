@@ -1,0 +1,39 @@
+<main>
+    <div class="user-enter-otp-card">
+        <form action="/auth/new-password" method="post">
+            <h2>Nhập mã OTP</h2>
+            <p class="mt-4">Chúng tôi đã gửi một email chứa mã OTP đến địa chỉ {{email}}, vui lòng kiểm tra
+                email để lấy mã OTP</p>
+            <div class="mb-4">
+                <label for="otp" class="form-label">Mã OTP</label>
+                <input type="text" class="form-control" name="otp" id="otp" placeholder="_ _ _ _ _ _">
+            </div>
+            <div class="user-enter-otp-card__footer">
+                <button type="submit" class="btn btn-primary mb-5">Xác nhận</button>
+                <div>
+                    <p>Không nhận được mã?</p>
+                    <h5 id="resend-otp" class="user-enter-otp__resend-link user-enter-otp__resend-link--disabled">Gửi
+                        lại OTP (30s)</h5>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<script>
+    let remainingSeconds = 30;
+    let countdown = setInterval(() => {
+        let resendOTP = document.getElementById('resend-otp');
+        if (remainingSeconds !== 0)
+            resendOTP.innerHTML = `Gửi lại OTP (${remainingSeconds}s)`;
+        else {
+            resendOTP.innerHTML = 'Gửi lại OTP';
+            clearInterval(countdown);
+            resendOTP.classList.remove('user-enter-otp__resend-link--disabled');
+            resendOTP.onclick = (event) => {
+                alert("Đã gửi lại mã OTP!");
+                window.location.reload();
+            }
+        }
+        remainingSeconds--;
+    }, 1000);
+</script>

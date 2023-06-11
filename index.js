@@ -18,6 +18,10 @@ app.engine('hbs', handlebars.engine({
 }));
 app.set('view engine', 'hbs');
 
+// To be able to get data from POST request body
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 //all of the
 app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
 app.use(subdomain("editor", require("./routers/editor/editorRoutes")));

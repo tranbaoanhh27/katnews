@@ -1,0 +1,49 @@
+<main>
+    <div class="user-sign-up-card">
+        <form action="#" method="post" onsubmit="submitHandler(event)">
+            <h2>Đăng ký</h2>
+            <div class="mb-4 mt-5">
+                <label for="signup-email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="signup-email" aria-describedby="emailHelpId"
+                    placeholder="address@domain.com">
+            </div>
+            <div class="user-sign-up-card__pwd-inputs">
+                <div class="mb-4">
+                    <label for="signup-password" class="form-label">Mật khẩu</label>
+                    <input type="password" class="form-control" name="password" id="signup-password"
+                        placeholder="**********">
+                </div>
+                <div class="mb-3">
+                    <label for="signup-password-confirm" class="form-label">Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control" name="pwd-confirm" id="signup-password-confirm"
+                        placeholder="**********">
+                </div>
+            </div>
+            <div class="user-sign-up-card__submit-and-link-to-sign-in">
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+                <div class="user-sign-up-card__link-to-sign-in">
+                    <small>Đã có tài khoản?</small>
+                    <br>
+                    <a href="/auth/login">Đăng nhập</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <p class="user-sign-up-method-seperator">Hoặc</p>
+    <div class="user-sign-up-quick">
+        <div class="user-sign-up-quick__method">
+            <img src="/assets/images/google-logo.png" alt="">
+            <div>
+                <small>Đăng ký nhanh với</small>
+                <h4>Google</h4>
+            </div>
+        </div>
+        <div class="user-sign-up-quick__method">
+            <img src="/assets/images/facebook-logo.png" alt="">
+            <div>
+                <small>Đăng ký nhanh với</small>
+                <h4>Facebook</h4>
+            </div>
+        </div>
+    </div>
+</main>
