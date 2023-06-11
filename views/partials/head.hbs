@@ -22,23 +22,16 @@
                         <a class="nav-link dropdown-toggle" href="/news" id="dropdownId" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">Chuyên mục</a>
                         <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownId">
+                            {{#each categories}}
                             <li>
-                                <a href="/pages/news/news.html" class="dropdown-item">Kinh doanh <i
-                                        class="fa-solid fa-caret-down"></i></a>
+                                <a href="/news?categoryId={{id}}" class="dropdown-item">{{name}}</a>
                                 <ul class="dropdown-menu header__dropdown-menu header__dropdown-submenu">
-                                    <li><a href="/pages/news/news.html" class="dropdown-item">Nông sản</a></li>
-                                    <li><a href="/pages/news/news.html" class="dropdown-item">Hải sản</a></li>
+                                    {{#each SubCategories}}
+                                    <li><a href="/news?subCategoryId={{id}}" class="dropdown-item">{{name}}</a></li>
+                                    {{/each}}
                                 </ul>
                             </li>
-                            <li>
-                                <a href="/pages/news/news.html" class="dropdown-item">Thể thao <i
-                                        class="fa-solid fa-caret-down"></i></a>
-                                <ul class="dropdown-menu header__dropdown-menu header__dropdown-submenu">
-                                    <li><a href="/pages/news/news.html" class="dropdown-item">Bóng đá</a></li>
-                                    <li><a href="/pages/news/news.html" class="dropdown-item">Bóng rổ</a></li>
-                                    <li><a href="/pages/news/news.html" class="dropdown-item">Quần vợt</a></li>
-                                </ul>
-                            </li>
+                            {{/each}}
                         </ul>
                     </li>
                 </ul>

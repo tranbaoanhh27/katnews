@@ -1,6 +1,7 @@
 const express = require("express");
 const handlebars = require("express-handlebars");
 const subdomain = require("express-subdomain");
+const models = require('./models');
 const app = express();
 
 //set static folder
@@ -23,10 +24,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Middleware
-app.use((request, response, next) => {
+app.use(async (request, response, next) => {
     // Authentication
     response.locals.isLoggedIn = true;  // request.isAuthenticated();
     response.locals.headerUser = { name: "Bao Anh", isPremium: true, email: 'tranbaoanhh27@gmail.com' };
+
+    // Query categories for header menu
+    const categories = await models.Category.findAll({
+        attributes: ['id', 'name'],
+        include: [{
+            model: models.SubCategory,
+            attributes: ['id', 'name']
+        }]
+    });
+    response.locals.categories = categories;
+
     next();
 });
 
