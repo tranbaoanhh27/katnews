@@ -16,8 +16,25 @@ router.post('/login',
     controller.login,
 )
 
-router.get('/logout', controller.logout)
+router.get('/logout', controller.logout);
+
 router.get('/register', controller.showSignUpPage);
+router.post('/register',
+    body('fullName').trim().notEmpty().withMessage('Vui lòng không để trống họ và tên!'),
+    body('email').trim().notEmpty().withMessage('Vui lòng không bỏ trống địa chỉ email!').isEmail().withMessage('Địa chỉ email không hợp lệ!'),
+    body('password').matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/).withMessage('Mật khẩu phải có ít nhất 8 kí tự, trong đó phải có ít nhất một kí tự số, một kí tự in hoa, và một kí tự in thường!'),
+    body('passwordconfirm').custom((confirmPassword, { req }) => {
+        if (confirmPassword != req.body.password) throw new Error('Mật khẩu không khớp!');
+        return true;
+    }),
+    (request, response, next) => {
+        const message = getErrorMessage(request);
+        if (message) return response.render('user-sign-up', { registerMessage: message });
+        next();
+    },
+    controller.register
+)
+
 router.get('/forgot-password', controller.showForgotPasswordPage);
 router.post('/forgot-password', controller.showEnterOTPPage);
 router.post('/new-password', controller.showEnterNewPasswordPage);

@@ -1,24 +1,41 @@
 <main>
     <div class="user-sign-up-card">
-        <form action="#" method="post" onsubmit="submitHandler(event)">
+        <form action="/auth/register" method="post" id="user-register-form">
             <h2>Đăng ký</h2>
             <div class="mb-4 mt-5">
+                <label for="signup-fullname" class="form-label">Họ và tên</label>
+                <input type="text" class="form-control" name="fullName" id="signup-fullname" onblur="validateFullname()" required>
+                <p id="user-register-fullname-error"
+                    class="user-sign-up-input__error-message user-sign-up-input__error-message--hidden">Họ và tên không
+                    được để trống!</p>
+            </div>
+            <div class="mb-3">
                 <label for="signup-email" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" id="signup-email" aria-describedby="emailHelpId"
-                    placeholder="address@domain.com">
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" onblur="validateEmail()" required>
+                <p id="user-register-email-error"
+                    class="user-sign-up-input__error-message user-sign-up-input__error-message--hidden">Địa chỉ email
+                    không được để trống và phải có dạng address@domain.com</p>
             </div>
             <div class="user-sign-up-card__pwd-inputs">
-                <div class="mb-4">
+                <div>
                     <label for="signup-password" class="form-label">Mật khẩu</label>
                     <input type="password" class="form-control" name="password" id="signup-password"
-                        placeholder="**********">
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        title="Mật khẩu phải có ít nhất 8 kí tự, bao gồm ít nhất một chữ số, một chữ cái in hoa, và một chữ cái in thường"
+                        onblur="validatePassword()" required>
                 </div>
-                <div class="mb-3">
+                <div>
                     <label for="signup-password-confirm" class="form-label">Xác nhận mật khẩu</label>
-                    <input type="password" class="form-control" name="pwd-confirm" id="signup-password-confirm"
-                        placeholder="**********">
+                    <input type="password" class="form-control" name="passwordconfirm" id="signup-password-confirm" onchange="validatePassword()" required>
                 </div>
             </div>
+            <p id="user-register-password-error"
+                class="mb-3 user-sign-up-input__error-message user-sign-up-input__error-message--hidden">Mật khẩu không được
+                để trống!</p>
+            {{#if registerMessage }}
+            <div class="alert alert-warning mt-3">{{{registerMessage}}}</div>
+            {{/if}}
             <div class="user-sign-up-card__submit-and-link-to-sign-in">
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
                 <div class="user-sign-up-card__link-to-sign-in">
@@ -47,3 +64,62 @@
         </div>
     </div>
 </main>
+<script>
+    const validateFullname = () => {
+        const form = document.querySelector('#user-register-form');
+
+        // Check full name not empty
+        const fullname = form.querySelector('[name=fullName]');
+        if (fullname.value.trim() === '') {
+            fullname.classList.add('user-sign-up-card__input--error');
+            document.getElementById('user-register-fullname-error').classList.remove('user-sign-up-input__error-message--hidden');
+        }
+        else {
+            fullname.classList.remove('user-sign-up-card__input--error');
+            document.getElementById('user-register-fullname-error').classList.add('user-sign-up-input__error-message--hidden');
+        }
+    }
+
+    const validateEmail = () => {
+        const form = document.querySelector('#user-register-form');
+
+        // Check email not empty and valid
+        const email = form.querySelector('[name=email]');
+        const emailValue = email.value.trim();
+        const emailError = document.getElementById('user-register-email-error');
+        if (emailValue === '' || !emailValue.match('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$')) {
+            email.classList.add('user-sign-up-card__input--error');
+            emailError.classList.remove('user-sign-up-input__error-message--hidden');
+        } else {
+            email.classList.remove('user-sign-up-card__input--error');
+            emailError.classList.add('user-sign-up-input__error-message--hidden');
+        }
+    }
+
+    const validatePassword = () => {
+        const form = document.querySelector('#user-register-form');
+
+        // Check if password, password confirmation not empty and match
+        const password = form.querySelector('[name=password]');
+        const passwordConfirm = form.querySelector('[name=passwordconfirm]');
+        const passwordValue = password.value.trim();
+        const passwordConfirmValue = passwordConfirm.value.trim();
+        const passwordError = document.getElementById('user-register-password-error');
+        if (passwordValue === '') {
+            password.classList.add('user-sign-up-card__input--error');
+            passwordError.innerText = 'Mật khẩu không được để trống!';
+            passwordError.classList.remove('user-sign-up-input__error-message--hidden');
+        } else {
+            password.classList.remove('user-sign-up-card__input--error');
+            passwordError.classList.add('user-sign-up-input__error-message--hidden');
+            if (passwordConfirmValue !== passwordValue) {
+            passwordConfirm.classList.add('user-sign-up-card__input--error');
+            passwordError.innerText = 'Mật khẩu không khớp!';
+            passwordError.classList.remove('user-sign-up-input__error-message--hidden');
+            } else {
+                passwordConfirm.classList.remove('user-sign-up-card__input--error');
+                passwordError.classList.add('user-sign-up-input__error-message--hidden');
+            }
+        }
+    }
+</script>

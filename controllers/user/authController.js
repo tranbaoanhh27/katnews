@@ -29,7 +29,23 @@ controller.login = (request, response, next) => {
 };
 
 controller.showSignUpPage = (request, response) => {
-    response.render('user-sign-up');
+    response.render('user-sign-up', {
+        registerMessage: request.flash('registerMessage')
+    });
+}
+
+controller.register = (request, response, next) => {
+    const reqUrl = request.body.reqUrl
+        ? request.body.reqUrl
+        : "/account";
+    passport.authenticate("user-local-register", (error, user) => {
+        if (error) return next(error);
+        if (!user) return response.redirect(`/auth/register?reqUrl=${reqUrl}`);
+        request.logIn(user, (error) => {
+            if (error) return next(error);
+            response.redirect(reqUrl);
+        });
+    })(request, response, next);
 }
 
 controller.showForgotPasswordPage = (request, response) => {

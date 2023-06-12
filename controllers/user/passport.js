@@ -43,8 +43,7 @@ passport.use('user-local-login', new passportLocal({
                 ));
             
             // If password is wrong, return error message
-            // const passwordMatch = bcrypt.compareSync(password, user.password);
-            const passwordMatch = password == user.password;
+            const passwordMatch = bcrypt.compareSync(password, user.password);
             if (!passwordMatch) 
                 return done(null, false, request.flash(
                     'loginMessage', 
@@ -62,5 +61,26 @@ passport.use('user-local-login', new passportLocal({
         done(error);
     }
 }));
+
+passport.use('user-local-register', new passportLocal({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+}, async (request, email, password, done) => {
+    if (email) email = email.trim().toLowerCase();
+    if (request.user) return done(null, request.user);
+    try {
+        let user = await models.User.findOne({ where: { email }});
+        if (user) return done(null, false, request.flash('registerMessage', 'Địa chỉ email này đã được sử dụng!'));
+        user = await models.User.create({
+            fullName: request.body.fullName,
+            email: email,
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
+        });
+        done(null, false, request.flash('registerMessage', 'Đăng ký tài khoản thành công!<br/>Hãy chuyển đến trang <a href="/auth/login">Đăng nhập</a>!'));
+    } catch (error) {
+        done(error);
+    }
+}))
 
 module.exports = passport;
