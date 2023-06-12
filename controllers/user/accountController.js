@@ -1,13 +1,14 @@
 'use strict';
+const moment = require('moment')
 
 const controller = {};
 
 controller.middleware = (request, response, next) => {
     response.locals.authenticatedUser = {
-        premiumRemainingDays: 4,
-        fullName: "Tran Bao Anh",
-        email: "tranbaoanh@gmail.com",
-        birthdate: new Date("2002-04-27"),
+        premiumRemainingDays: request.user.premiumExpiredTime ? 7 : 0,
+        fullName: request.user.fullName,
+        email: request.user.email,
+        birthdate: moment(new Date(request.user.birthdate)).format('yyyy-MM-DD'),
     };
     next();
 }

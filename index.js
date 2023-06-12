@@ -1,7 +1,23 @@
+'use strict';
+require('dotenv').config();
+
 const express = require("express");
 const handlebars = require("express-handlebars");
 const subdomain = require("express-subdomain");
 const models = require('./models');
+const session = require('express-session');
+const redisStore = require('connect-redis').default;
+const { createClient } = require('redis');
+const userPassport = require('./controllers/user/passport');
+const connectFlash = require('connect-flash');
+
+// Configure redis connection
+const redisClient = createClient({
+    url: process.env.REDIS_URL
+});
+redisClient.connect().catch(console.error);
+
+// Initialize ExpressJS application
 const app = express();
 
 //set static folder
@@ -23,11 +39,47 @@ app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Middleware
+// Setup session
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    store: new redisStore({ client: redisClient }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 20 * 60 * 1000,
+        httpOnly: true,
+    }
+}));
+
+//all of the
+app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
+app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
+app.use(subdomain("admin", require("./routers/admin/adminRoutes")));
+
+// Setup User's Passport
+app.use(userPassport.initialize());
+app.use(userPassport.session());
+
+// Setup Connect Flash
+app.use(connectFlash());
+
+app.use("/create-database-tables", (req, res) => {
+    const models = require("./models");
+    models.sequelize.sync().then(() => {
+        res.send("models created successfully");
+    });
+});
+
+// User's Middleware
 app.use(async (request, response, next) => {
     // Authentication
-    response.locals.isLoggedIn = true;  // request.isAuthenticated();
-    response.locals.headerUser = { name: "Bao Anh", isPremium: true, email: 'tranbaoanhh27@gmail.com' };
+    response.locals.isLoggedIn = request.isAuthenticated();
+    if (request.user) {
+        response.locals.headerUser = { 
+            name: request.user.fullName, 
+            isPremium: true, 
+        };
+    }
 
     // Query categories for header menu
     const categories = await models.Category.findAll({
@@ -42,17 +94,6 @@ app.use(async (request, response, next) => {
     next();
 });
 
-//all of the
-app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
-app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
-app.use(subdomain("admin", require("./routers/admin/adminRoutes")));
-
-app.use("/create-database-tables", (req, res) => {
-    const models = require("./models");
-    models.sequelize.sync().then(() => {
-        res.send("models created successfully");
-    });
-});
 app.use("/", require("./routers/user/indexRouter"));
 app.use("/news", require("./routers/user/newsRouter"));
 app.use("/auth", require("./routers/user/authRouter"));

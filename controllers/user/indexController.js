@@ -135,7 +135,6 @@ controller.showHomePage = async (request, response) => {
     response.locals.nextFourLatest = topTenLatest.slice(6, 10);
 
     const topTenCategories = await queryTopTenCategories();
-    console.log(topTenCategories);
     response.locals.topCategories = topTenCategories;
 
     response.render('home');
