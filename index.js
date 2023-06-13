@@ -42,16 +42,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Setup session
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    store: new redisStore({ client: redisClient }),
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 20 * 60 * 1000,
-        httpOnly: true,
-    }
-}));
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     store: new redisStore({ client: redisClient }),
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         maxAge: 20 * 60 * 1000,
+//         httpOnly: true,
+//     }
+// }));
 
 //all of the router
 app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
