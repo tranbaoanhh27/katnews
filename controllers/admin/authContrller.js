@@ -3,9 +3,9 @@ const passport = require('./passport');
 const controller = {};
 
 controller.show = (req, res) => {
-    // if (req.isAuthenticated()) {
-    //     return res.redirect('/');
-    // }
+    if (req.isAuthenticated()) {
+        return res.redirect('/');
+    }
     res.render('admin-login', { layout: 'admin-login', adminLoginMessage: req.flash('adminLoginMessage'), reqUrl: req.query.reqUrl });
 }
 
