@@ -31,22 +31,22 @@ passport.use('user-local-login', new passportLocal({
     try {
         // If user did not login
         if (!request.user) {
-            
+
             // Try query the user from database to check email existence
             const user = await models.User.findOne({ where: { email } });
-            
+
             // If user doesn't exist, return error message
-            if (!user) 
+            if (!user)
                 return done(null, false, request.flash(
-                    'loginMessage', 
+                    'loginMessage',
                     'Địa chỉ email không liên kết với bất kì tài khoản nào!'
                 ));
-            
+
             // If password is wrong, return error message
             const passwordMatch = bcrypt.compareSync(password, user.password);
-            if (!passwordMatch) 
+            if (!passwordMatch)
                 return done(null, false, request.flash(
-                    'loginMessage', 
+                    'loginMessage',
                     'Sai mật khẩu!'
                 ));
 
@@ -70,7 +70,7 @@ passport.use('user-local-register', new passportLocal({
     if (email) email = email.trim().toLowerCase();
     if (request.user) return done(null, request.user);
     try {
-        let user = await models.User.findOne({ where: { email }});
+        let user = await models.User.findOne({ where: { email } });
         if (user) return done(null, false, request.flash('registerMessage', 'Địa chỉ email này đã được sử dụng!'));
         user = await models.User.create({
             fullName: request.body.fullName,

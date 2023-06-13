@@ -9,7 +9,9 @@ const session = require('express-session');
 const redisStore = require('connect-redis').default;
 const { createClient } = require('redis');
 const userPassport = require('./controllers/user/passport');
+const adminPassport = require('./controllers/admin/passport');
 const connectFlash = require('connect-flash');
+const { isLoggedIn } = require('./controllers/user/authController');
 
 // Configure redis connection
 const redisClient = createClient({
@@ -51,17 +53,26 @@ app.use(session({
     }
 }));
 
-//all of the
+//all of the router
 app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
 app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
-app.use(subdomain("admin", require("./routers/admin/adminRoutes")));
+
+
+// Setup Admin's Passport
+app.use(adminPassport.initialize());
+app.use(adminPassport.session());
+
+// Setup Connect Flash
+app.use(connectFlash());
+
+app.use("/auth", subdomain("admin", require("./routers/admin/authRouter")));
+app.use(subdomain("admin", require("./routers/admin/adminRouter")));
 
 // Setup User's Passport
 app.use(userPassport.initialize());
 app.use(userPassport.session());
 
-// Setup Connect Flash
-app.use(connectFlash());
+
 
 app.use("/create-database-tables", (req, res) => {
     const models = require("./models");
@@ -74,10 +85,12 @@ app.use("/create-database-tables", (req, res) => {
 app.use(async (request, response, next) => {
     // Authentication
     response.locals.isLoggedIn = request.isAuthenticated();
+    console.log(request.isAuthenticated());
+
     if (request.user) {
-        response.locals.headerUser = { 
-            name: request.user.fullName, 
-            isPremium: true, 
+        response.locals.headerUser = {
+            name: request.user.fullName,
+            isPremium: true,
         };
     }
 
@@ -90,14 +103,16 @@ app.use(async (request, response, next) => {
         }]
     });
     response.locals.categories = categories;
-
     next();
 });
+
+
 
 app.use("/", require("./routers/user/indexRouter"));
 app.use("/news", require("./routers/user/newsRouter"));
 app.use("/auth", require("./routers/user/authRouter"));
 app.use('/account', require('./routers/user/accountRouter'));
+
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
