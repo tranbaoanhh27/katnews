@@ -85,7 +85,6 @@ app.use("/create-database-tables", (req, res) => {
 app.use(async (request, response, next) => {
     // Authentication
     response.locals.isLoggedIn = request.isAuthenticated();
-    console.log(request.isAuthenticated());
 
     if (request.user) {
         response.locals.headerUser = {
@@ -113,6 +112,15 @@ app.use("/news", require("./routers/user/newsRouter"));
 app.use("/auth", require("./routers/user/authRouter"));
 app.use('/account', require('./routers/user/accountRouter'));
 
+app.use((req, res, next) => {
+    res.status(404).render('error', { message: "File not found!" });
+})
+
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).render('error', { message: "Internal Server Error!" });
+
+});
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
