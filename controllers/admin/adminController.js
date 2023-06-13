@@ -3,7 +3,7 @@
 const controllers = {};
 
 controllers.login = (req, res) => {
-    res.render('admin-login', { layout: 'admin-layout' });
+    res.render('admin-login', { layout: 'admin-login' });
 }
 
 controllers.showCategory = (req, res) => {

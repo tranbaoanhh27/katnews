@@ -7,25 +7,39 @@
         <img src='/images/brand-logo.svg' style="width: 40%; height:40%">
 
         <div style="width: 60%">
-            <form onsubmit="submitHandler(event)">
+            <form action="/auth/login" method="post">
                 <!-- Email input -->
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-3">
                     <label class="form-label" for="form2Example1">Tên đăng nhập</label>
-                    <input type="email" id="form2Example1" class="form-control" />
+                    <input class="form-control" type="email" placeholder="Email" name="email" required
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                 </div>
 
                 <!-- Password input -->
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-3">
                     <label class="form-label" for="form2Example2">Mật khẩu</label>
-                    <input type="password" id="form2Example2" class="form-control" />
+                    <input class="form-control" type="password" placeholder="Password" name="password" required>
                 </div>
 
+                <div class="form-outline mb-3">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="newaccount" name="keepSignedInAdmin">
+                        <label class="custom-control-label" for="newaccount">Lưu trạng thái đăng nhập</label>
+                    </div>
+                </div>
+
+                {{#if adminLoginMessage }}
+                <div class="alert alert-warning mt-3">
+                    {{{adminLoginMessage}}}
+                </div>
+                {{/if}}
 
                 <!-- Submit button -->
                 <div class='text-center'>
-                    <button type="submit" class="btn btn-primary btn-block mb-4"> Đăng nhập </button>
+                    <button type="submit" class="btn btn-primary btn-block mb-3"> Đăng nhập </button>
                 </div>
 
+                <input type="hidden" name="reqUrl" value="{{reqUrl}}">
             </form>
         </div>
     </div>
