@@ -10,18 +10,17 @@
             <img src='/images/brand-logo.svg'>
 
             <div style="width: 60%">
-                <form>
+                <form action="/login" method="post">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example1">Tên đăng nhập</label>
-                        <input type="email" id="form2Example1" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
+                        <input type="email" id="form2Example1" class="form-control" name="email" required/>
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example2">Mật khẩu</label>
-                        <input type="password" id="form2Example2" class="form-control"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-  title="Phải bao gồm ít nhất 1 chữ số 1 chữ hoa và 1 chữ thường, và ít nhất 8 ký tự" required/>
+                        <input type="password" id="form2Example2" class="form-control" name="password"  required/>
                     </div>
 
                     <!-- 2 column grid layout for inline styling -->
@@ -42,7 +41,7 @@
 
                     <!-- Submit button -->
                     <div class='text-center'>
-                        <a href="/listNews"><button type="submit" class="btn btn-primary btn-block mb-4"> Đăng nhập </button></a>
+                        <button type="submit" class="btn btn-primary btn-block mb-4"> Đăng nhập </button>
                     </div>  
                     <!-- Register buttons -->
                     <div class="text-center">
