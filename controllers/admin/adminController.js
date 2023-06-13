@@ -7,27 +7,27 @@ controllers.login = (req, res) => {
 }
 
 controllers.showCategory = (req, res) => {
-    res.render('admin-category', { layout: 'admin-layout', type_name: 'category' });
+    res.render('admin-category', { layout: 'admin-layout', type_name: 'category', inCategory: "#0d6efd" });
 }
 
 controllers.showTag = (req, res) => {
-    res.render('admin-Tag', { layout: 'admin-layout', type_name: 'tag' });
+    res.render('admin-Tag', { layout: 'admin-layout', inTag: "#0d6efd", type_name: 'tag' });
 }
 
 controllers.showPost = (req, res) => {
-    res.render('admin-Post', { layout: 'admin-layout', type_name: 'post' });
+    res.render('admin-Post', { layout: 'admin-layout', inPost: "#0d6efd", type_name: 'post' });
 }
 
 controllers.showUser = (req, res) => {
-    res.render('admin-user', { layout: 'admin-layout', type_name: 'user' });
+    res.render('admin-user', { layout: 'admin-layout', inUser: "#0d6efd", type_name: 'user' });
 }
 
 controllers.showAssignWork = (req, res) => {
-    res.render('admin-assign-work', { layout: 'admin-layout', type_name: 'assign-work' });
+    res.render('admin-assign-work', { layout: 'admin-layout', inAS: "#0d6efd", type_name: 'assign-work' });
 }
 
 controllers.showRenewAccount = (req, res) => {
-    res.render('admin-renew-account', { layout: 'admin-layout', type_name: 'renew-account' });
+    res.render('admin-renew-account', { layout: 'admin-layout', inRA: "#0d6efd", type_name: 'renew-account' });
 }
 
 module.exports = controllers;

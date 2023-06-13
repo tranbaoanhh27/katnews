@@ -42,16 +42,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Setup session
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     store: new redisStore({ client: redisClient }),
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//         maxAge: 20 * 60 * 1000,
-//         httpOnly: true,
-//     }
-// }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    store: new redisStore({ client: redisClient }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 20 * 60 * 1000,
+        httpOnly: true,
+    }
+}));
 
 //all of the router
 app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
@@ -113,12 +113,12 @@ app.use("/auth", require("./routers/user/authRouter"));
 app.use('/account', require('./routers/user/accountRouter'));
 
 app.use((req, res, next) => {
-    res.status(404).render('error', { message: "File not found!" });
+    res.status(404).render('error', { message: "File not Found!" });
 })
 
 app.use((error, req, res, next) => {
     console.error(error);
-    res.status(500).render('error', { message: "Internal Server Error!" });
+    res.status(500).render('error', { message: "Internal Sever Error!" });
 
 });
 
