@@ -1,6 +1,7 @@
 'use stricts';
 
 const controllers = {};
+const models = require('../../models');
 
 controllers.login = (req, res) => {
     res.render('admin-login', { layout: 'admin-login' });
@@ -10,9 +11,6 @@ controllers.showCategory = (req, res) => {
     res.render('admin-category', { layout: 'admin-layout', type_name: 'category', inCategory: "#0d6efd" });
 }
 
-controllers.showTag = (req, res) => {
-    res.render('admin-Tag', { layout: 'admin-layout', inTag: "#0d6efd", type_name: 'tag' });
-}
 
 controllers.showPost = (req, res) => {
     res.render('admin-Post', { layout: 'admin-layout', inPost: "#0d6efd", type_name: 'post' });

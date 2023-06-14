@@ -12,6 +12,7 @@ const userPassport = require('./controllers/user/passport');
 const adminPassport = require('./controllers/admin/passport');
 const connectFlash = require('connect-flash');
 const { isLoggedIn } = require('./controllers/user/authController');
+const { createPagination } = require('express-handlebars-paginate');
 
 // Configure redis connection
 const redisClient = createClient({
@@ -34,6 +35,9 @@ app.engine('hbs', handlebars.engine({
     runtimeOptions: {
         allowProtoPropertiesByDefault: true
     },
+    helpers: {
+        createPagination
+    }
 }));
 app.set('view engine', 'hbs');
 
