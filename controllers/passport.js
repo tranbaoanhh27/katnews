@@ -25,7 +25,7 @@ passport.deserializeUser(async (request, id, done) => {
         } else if (request.session.subdomains.includes('writer')) {
             // TODO: query logged-in writer and return
             done(error, null);
-            
+
         } else {
             const user = await models.User.findOne({
                 attributes: ['id', 'fullName', 'birthdate', 'email', 'avatarPath', 'premiumExpiredTime'],
@@ -123,8 +123,8 @@ passport.use('admin-local-login', new passportLocal({
 
 
             // If password is wrong, return error message
-            // const passwordMatch = bcrypt.compareSync(password, admin.password);
-            const passwordMatch = password == admin.password;
+            const passwordMatch = bcrypt.compareSync(password, admin.password);
+            // const passwordMatch = password == admin.password;
             if (!passwordMatch)
                 return done(null, false, req.flash(
                     'adminLoginMessage',

@@ -36,7 +36,7 @@ controllers.show = async (req, res) => {
             queryParams: req.query
         };
         res.locals.tags = rows;
-        res.render('admin-Tag', { layout: 'admin-layout', inTag: "#0d6efd", type_name: 'tag' });
+        res.render('admin-tag', { layout: 'admin-layout', inTag: "#0d6efd", type_name: 'tag' });
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi lấy danh sách các tag.' });
     }
