@@ -1,4 +1,5 @@
 "use strict";
+const bcrypt = require('bcrypt');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -6,25 +7,25 @@ module.exports = {
         const editors = [
             {
                 email: "editor1@gmail.com",
-                password: "P@ssW0rd",
+                password: bcrypt.hashSync('P@ssW0rd', 8),
                 fullName: "Nguyễn Kiểm Duyệt Một",
                 avatarPath: "/images/default-writer-avatar.jpeg",
             },
             {
                 email: "editor2@gmail.com",
-                password: "P@ssW0rd",
+                password: bcrypt.hashSync('P@ssW0rd', 8),
                 fullName: "Nguyễn Kiểm Duyệt Hai",
                 avatarPath: "/images/default-writer-avatar.jpeg",
             },
             {
                 email: "editor3@gmail.com",
-                password: "P@ssW0rd",
+                password: bcrypt.hashSync('P@ssW0rd', 8),
                 fullName: "Nguyễn Kiểm Duyệt Ba",
                 avatarPath: "/images/default-writer-avatar.jpeg",
             },
             {
                 email: "editor4@gmail.com",
-                password: "P@ssW0rd",
+                password: bcrypt.hashSync('P@ssW0rd', 8),
                 fullName: "Nguyễn Kiểm Duyệt Bốn",
                 avatarPath: "/images/default-writer-avatar.jpeg",
             },

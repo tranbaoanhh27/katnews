@@ -60,6 +60,14 @@ app.use(
     })
 );
 
+// To create database tables
+app.use("/create-database-tables", (req, res) => {
+    const models = require("./models");
+    models.sequelize.sync().then(() => {
+        res.send("models created successfully");
+    });
+});
+
 // Save subdomains to session so that passport.deserializeUser knows
 // what subdomain being used
 app.use((request, response, next) => {
@@ -79,14 +87,6 @@ app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
 app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
 app.use("/auth", subdomain("admin", require("./routers/admin/authRouter")));
 app.use(subdomain("admin", require("./routers/admin/adminRouter")));
-
-// To create database tables
-app.use("/create-database-tables", (req, res) => {
-    const models = require("./models");
-    models.sequelize.sync().then(() => {
-        res.send("models created successfully");
-    });
-});
 
 // User's Middleware
 app.use(async (request, response, next) => {
