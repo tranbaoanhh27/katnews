@@ -6,6 +6,15 @@ const authController = require('../../controllers/admin/authContrller');
 const tagController = require('../../controllers/admin/tagController');
 
 router.use(authController.adminIsLoggedIn);
+
+// Middleware setup admin page's header
+router.use((request, response, next) => {
+    if (request.user) {
+        response.locals.headerAdmin = request.user;
+    }
+    next();
+});
+
 router.get('/', controllers.showCategory);
 router.get('/category', controllers.showCategory);
 

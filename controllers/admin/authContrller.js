@@ -1,5 +1,5 @@
 'use strict';
-const passport = require('./passport');
+const passport = require('../passport');
 const controller = {};
 
 controller.show = (req, res) => {
