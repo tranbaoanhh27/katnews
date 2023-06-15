@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <label for="signup-password-confirm" class="form-label">Xác nhận mật khẩu</label>
-                    <input type="password" class="form-control" name="passwordconfirm" id="signup-password-confirm" onchange="validatePassword()" required>
+                    <input type="password" class="form-control" name="passwordconfirm" id="signup-password-confirm" onblur="validatePassword()" onkeyup="validatePassword()" required>
                 </div>
             </div>
             <p id="user-register-password-error"
