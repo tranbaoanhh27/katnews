@@ -7,12 +7,28 @@ controllers.show = async (req, res) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let options = {
-            attributes: ['id', 'name']
-        }
+            attributes: ['id', 'name'],
+            order: [['id']],
+            include: [
+                {
+                    model: models.News,
+                }
+            ],
+            group: ['Tag.id'],
+        };
         const limit = 10;
         options.limit = limit;
         options.offset = limit * (page - 1);
-        let { rows, count } = await models.Tag.findAndCountAll(options);
+        let { rows } = await models.Tag.findAndCountAll(options);
+
+        const count = await models.Tag.count();
+
+        rows = rows.map(tag => ({
+            id: tag.id,
+            name: tag.name,
+            postCount: tag.News.length,
+        }));
+
         res.locals.pagination = {
             page: page,
             limit: limit,
@@ -24,7 +40,8 @@ controllers.show = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi lấy danh sách các tag.' });
     }
-}
+};
+
 
 controllers.add = async (req, res) => {
     try {
