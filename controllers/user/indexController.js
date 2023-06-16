@@ -82,7 +82,10 @@ const queryLatestNewsOfSubCategory = async (categoryId) => {
         limit: 1
     });
     result = result[0];
-    result.updatedAtString = (new Date(result.updatedAt)).toLocaleString('vi-VN');
+    if (result) result.updatedAtString = (new Date(result.updatedAt)).toLocaleString('vi-VN');
+    else result = {
+        title: 'NO DATA'
+    }
     return result;
 }
 
