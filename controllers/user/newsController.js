@@ -33,6 +33,7 @@ controller.showNewsDetails = async (request, response) => {
         response.locals.pageTitle = news.title;
         response.locals.news = news;
         response.locals.commentCount = news.Comments.length;
+        response.locals.hasComment = news.Comments.length > 0;
 
         // Query comments
         const currentCommentPage = isNaN(request.query.page) ? 1 : Math.max(1, parseInt(request.query.page));
@@ -71,6 +72,7 @@ controller.showNewsDetails = async (request, response) => {
             attributes: ['id', 'name'],
             include: [{
                 model: models.SubCategory,
+                attributes: ['id'],
                 where: { id: news.categoryId }
             }],
         });
@@ -81,11 +83,7 @@ controller.showNewsDetails = async (request, response) => {
             include: [{
                 model: models.SubCategory,
                 attributes: ['id', 'name'],
-                include: [{
-                    model: models.Category,
-                    attributes: ['id'],
-                    where: { id: category.id }
-                }]
+                where: { categoryId: category.id }
             }],
             where: { id: { [Sequelize.Op.ne]: news.id }},
             limit: 5,

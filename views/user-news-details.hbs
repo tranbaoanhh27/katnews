@@ -56,9 +56,11 @@
                     </div>
                     {{/each}}
                 </div>
+                {{#if hasComment}}
                 <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
                     {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
                 </nav>
+                {{/if}}
             </div>
             <div class="col-3">
                 <h3 class="mt-5">Tin liên quan</h3>
