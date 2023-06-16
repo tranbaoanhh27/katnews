@@ -11,13 +11,26 @@
             </a>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
+                    {{#if isHomePage }}
                     <li class="nav-item header__nav-li--active">
                         <a class="nav-link" href="/" aria-current="page">Trang chủ <span
                                 class="visually-hidden">(current)</span></a>
                     </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" aria-current="page">Trang chủ <span
+                                class="visually-hidden">(current)</span></a>
+                    </li>
+                    {{/if}}
+                    {{#if isNewsPage }}
+                    <li class="nav-item header__nav-li--active">
+                        <a class="nav-link" href="/news">Tin tức</a>
+                    </li>
+                    {{else}}
                     <li class="nav-item">
                         <a class="nav-link" href="/news">Tin tức</a>
                     </li>
+                    {{/if}}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/news" id="dropdownId" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">Chuyên mục</a>
