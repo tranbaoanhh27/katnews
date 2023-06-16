@@ -46,7 +46,7 @@ controllers.show = async (req, res) => {
 controllers.add = async (req, res) => {
     try {
         const { name } = req.body;
-        const newTag = models.Tag.create({ name });
+        const newTag = await models.Tag.create({ name });
         res.status(201).json(newTag);
 
     } catch (error) {

@@ -4,6 +4,7 @@ let router = require('express').Router();
 const controllers = require('../../controllers/admin/adminController');
 const authController = require('../../controllers/admin/authContrller');
 const tagController = require('../../controllers/admin/tagController');
+const categoryController = require('../../controllers/admin/categoryController');
 
 router.use(authController.adminIsLoggedIn);
 
@@ -15,8 +16,9 @@ router.use((request, response, next) => {
     next();
 });
 
-router.get('/', controllers.showCategory);
-router.get('/category', controllers.showCategory);
+router.get('/', categoryController.show);
+// category 
+router.use('/category', require('./categoryRouter'));
 
 //tag
 router.get('/tag', tagController.show);

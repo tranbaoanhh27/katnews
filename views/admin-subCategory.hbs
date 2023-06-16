@@ -5,8 +5,10 @@
 
             <!-- Sidebar bên phải -->
             <div class="col-md-9" id="sidebar-right">
-                <a href="#" class="nav-link fw-bold px-0"> Danh sách chuyên mục</a>
-
+                <div>
+                    <a href="/category" class="nav-link fw-bold px-0 d-inline-block"> Danh sách chuyên mục {{catId}}</a>
+                    > <a href="#" class="nav-link text-dark px-0 d-inline-block">{{nameCategory}}</a>
+                </div>
                 <div class="container mt-3">
                     <!-- Hàng đầu tiên với box search và nút thêm -->
                     <div class="row mb-3 header">
@@ -34,12 +36,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each categories}}
+                            {{#each subCategories}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-category" value="{{id}}">
                                 </td>
-                                <td class="list__cat"><a href="/category/{{id}}?name={{name}}"
-                                        class="text-decoration-none text-dark">{{name}}</a></td>
+                                <td class="list__cat">{{name}}</td>
                                 <td class="list__actions text-end">
                                     <a href="#" class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#edit-modal" onclick="openEditModal({{id}}, '{{name}}')"><i
@@ -73,12 +74,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="edit-modal-cat">Chỉnh sửa chuyên mục</h5>
+                    <h5 class="modal-title" id="edit-modal-cat">Chỉnh sửa chuyên mục con</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="edit-modal-name" class="form-catagory">Tên chuyên mục</label>
+                        <label for="edit-modal-name" class="form-catagory">Tên chuyên mục con</label>
                         <input type="text" id="edit-modal-name" class="form-control"
                             placeholder="Hãy nhập tên chuyên mục">
                     </div>
@@ -99,7 +100,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addCatModalcat">Thêm chuyên mục mới</h5>
+                    <h5 class="modal-title" id="addCatModalcat">Thêm chuyên mục con mới cho {{nameCategory}}
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
@@ -114,7 +116,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="addcatBtn" onclick="AddedTag()"
+                    <button type="button" class="btn btn-primary" id="addcatBtn" onclick="AddedTag({{catId}})"
                         data-bs-dismiss="modal">Thêm</button>
                 </div>
             </div>
@@ -144,7 +146,7 @@
 <script>
     async function deleteRow(id) {
         if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
-            let res = await fetch('/category', {
+            let res = await fetch('/category/subCategory', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -188,7 +190,7 @@
             if (confirm("Bạn có chắc chắn muốn xóa những tag này?")) {
                 // Xóa các dòng đã chọn
                 for (const row of selectedRows) {
-                    let res = await fetch('/category', {
+                    let res = await fetch('/category/subCategory', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -213,11 +215,11 @@
     // Lấy các phần tử HTML cần sử dụng
     const editModalNameInput = document.querySelector('#edit-modal-name');
 
-    let idCat;
+    let idSubCat;
 
     // Định nghĩa hàm để mở modal chỉnh sửa
     function openEditModal(id, name) {
-        idCat = id;
+        idSubCat = id;
         editModalNameInput.value = name;
     }
 
@@ -225,14 +227,14 @@
     async function saveEdit() {
         // Lấy thông tin dữ liệu mới từ modal chỉnh sửa
         const newName = editModalNameInput.value;
-        let res = await fetch('/category', {
+        let res = await fetch('/category/subCategory', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                id: idCat,
+                id: idSubCat,
                 name: newName
             })
         });
@@ -250,17 +252,18 @@
     const addModalNameInput = document.querySelector('#catName');
 
     // Lắng nghe sự kiện click của nút "Thêm" trên modal
-    async function AddedTag() {
+    async function AddedTag(catId) {
         // Lấy giá trị của các input
         let name = addModalNameInput.value;
-        let res = await fetch('/category', {
+        let res = await fetch('/category/subCategory', {
             method: "post",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                name
+                name,
+                categoryId: catId
             })
         });
         if (res.status == 201) {
