@@ -1,5 +1,6 @@
 "use strict";
 const moment = require("moment");
+const bcrypt = require('bcrypt');
 const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
 const { firebaseApp } = require('../../index');
 const models = require("../../models");
@@ -15,7 +16,7 @@ controller.middleware = async (request, response, next) => {
                 "fullName",
                 "email",
                 "birthdate",
-                'avatarPath'
+                'avatarPath',
             ],
             where: { id: request.user.id },
         });
@@ -103,6 +104,28 @@ controller.showChangePasswordPage = (request, response) => {
     response.locals.pageTitle = "Đổi mật khẩu";
     response.render("user-change-password");
 };
+
+controller.updateAccountPassword = async (request, response, next) => {
+    let { currentPassword, newPassword, newPasswordConfirm } = request.body;
+    currentPassword = currentPassword.trim();
+    newPassword = newPassword.trim();
+    newPasswordConfirm = newPasswordConfirm.trim();
+
+    // Check if user's entered password is correct
+    if (bcrypt.compareSync(currentPassword, request.user.password)) {
+
+        // Check if new password's confirmation matches
+        if (newPassword === newPasswordConfirm) {
+            const user = await models.User.findOne({ where: { id: request.user.id }});
+            await user.update({ password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(8)) });
+            response.locals.successMessage = 'Cập nhật mật khẩu thành công!';
+
+        } else response.locals.errorMessage = 'Xác nhận Mật khẩu mới không khớp!';
+        
+    } else response.locals.errorMessage = 'Sai mật khẩu hiện tại!';
+
+    next();
+}
 
 controller.showPremiumPage = (request, response) => {
     response.locals.premiumPage = true;

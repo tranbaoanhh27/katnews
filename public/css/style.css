@@ -1423,6 +1423,23 @@ body {
   background-color: #018d8e !important;
 }
 
+.user-account__change-password-form-input__error-message {
+  color: rgb(204, 103, 103);
+}
+
+.user-account__change-password-form-input__error-message--hidden {
+  display: none;
+}
+
+.user-account__change-password-form-input--error {
+  background-color: rgb(204, 103, 103);
+  border: 2px solid red;
+}
+
+.user-change-password .xmark-button:hover {
+  cursor: pointer;
+}
+
 .user-account__payment-card-select {
   display: flex;
 }

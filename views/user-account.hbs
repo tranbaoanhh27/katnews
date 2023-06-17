@@ -11,12 +11,12 @@
                 <div class="mb-3">
                     <label for="fullname" class="form-label">Họ và tên</label>
                     <input type="text" value="{{authenticatedUser.fullName}}" class="form-control" name="fullName"
-                        id="fullname" aria-describedby="helpId">
+                        id="fullname" aria-describedby="helpId" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" value="{{authenticatedUser.email}}" class="form-control" name="email"
-                        id="email" aria-describedby="emailHelpId">
+                        id="email" aria-describedby="emailHelpId" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                 </div>
                 <div class="mb-3">
                     <label for="birthdate" class="form-label">Ngày sinh</label>
