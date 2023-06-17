@@ -1,13 +1,25 @@
 <div class="user-account-navigation">
     <div class="user-account-navigation__info">
         <div class="user-account__profile-picture-container">
+            {{#if authenticatedUser.avatarPath}}
+            <img src="{{authenticatedUser.avatarPath}}" width="150px" alt="">
+            {{else}}
             <img src="/images/default-user-icon.jpg" width="150px" alt="">
-            <div class="user-account__change-picture">
+            {{/if}}
+            {{#if accountPage}}
+            <form class="user-account__change-picture" action="/account/uploadAvatarImage" method="post" enctype="multipart/form-data" title="Cập nhật ảnh đại diện">
                 <i class="fa-solid fa-camera" style="width: 25px; height: 25px;"></i>
-            </div>
+                <input type="file" accept="image/*" name="avatar" onchange="avatarChangeHandler(this)" hidden>
+                <input type="submit" hidden>
+            </form>
+            {{/if}}
         </div>
+        {{#if authenticatedUser.isPremium}}
         <span>Premium</span>
-        <small>Còn lại {{authenticatedUser.premiumRemainingDays}} ngày</small>
+        {{else}}
+        <span class="user-account-premium-expired">Premium</span>
+        {{/if}}
+        <small>{{authenticatedUser.premiumExpiredTimeString}}</small>
     </div>
     <div class="user-account-navigation__function">
         <a href="/account">
@@ -59,3 +71,18 @@
         </a>
     </div>
 </div>
+<script>
+    document.querySelector('.user-account__change-picture').addEventListener('click', event => {
+        document.querySelector('.user-account__change-picture [type=file]').click();
+    })
+
+    const avatarChangeHandler = (input) => {
+        if (input.files && input.files[0]) {
+            let reader = new FileReader();
+
+            reader.onload = (event) => document.querySelector('.user-account__change-picture [type=submit]').click();
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

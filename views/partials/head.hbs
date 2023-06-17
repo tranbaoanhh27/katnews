@@ -60,7 +60,11 @@
             <div id="auth" style="height: 100%; display: flex; align-items: center;">
                 {{#if isAuthenticated}}
                 <div class="header-account-dropdown-toggle" onclick="toggleAccountMenu()">
+                    {{#if user.avatarPath}}
+                    <img src="{{user.avatarPath}}" height="80%" alt="">
+                    {{else}}
                     <img src="/images/default-user-icon.jpg" height="80%" alt="">
+                    {{/if}}
                     <i class="fa-solid fa-caret-down"></i>
                 </div>
                 <div class="header-account-dropdown-menu header-account-dropdown-menu--hidden">
@@ -68,10 +72,16 @@
                         <div>
                             <h5>{{user.fullName}}</h5>
                             {{#if user.isPremium}}
-                            <span class="premium-badge">Premium</span>
+                            <span>Premium</span>
+                            {{else}}
+                            <span class="user-account-premium-expired">Premium</span>
                             {{/if}}
                         </div>
+                        {{#if user.avatarPath}}
+                        <img src="{{user.avatarPath}}" height="75px" alt="">
+                        {{else}}
                         <img src="/images/default-user-icon.jpg" height="75px" alt="">
+                        {{/if}}
                     </div>
                     <div>
                         <a href="/account">Quản lý tài khoản</a>

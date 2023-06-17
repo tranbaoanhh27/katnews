@@ -31,7 +31,7 @@
 </head>
 
 <body>
-    {{>head isAuthenticated=isLoggedIn user=headerUser categories=categories}}
+    {{>head isAuthenticated=isLoggedIn user=authenticatedUser categories=categories}}
     {{{body}}}
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"

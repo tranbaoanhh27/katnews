@@ -115,7 +115,9 @@ body {
 .header-account-dropdown-toggle > img {
   margin-inline-end: 8px;
   height: 50px;
-  width: auto;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .header-account-dropdown-menu {
@@ -160,6 +162,13 @@ body {
   width: 100%;
 }
 
+.header-account-dropdown-menu__user-info > img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .header-account-dropdown-menu__user-info > div {
   display: flex;
   flex-direction: column;
@@ -187,6 +196,12 @@ body {
 
 .header-account-dropdown-menu > div > p {
   cursor: pointer;
+}
+
+.user-account-premium-expired {
+  background-color: #777777 !important;
+  color: white !important;
+  text-decoration: line-through !important;
 }
 
 /********************************************/
@@ -1254,6 +1269,10 @@ body {
 /**** SUBSCRIBER ACCOUNT PAGE CSS ****/
 /*************************************/
 
+.user-account .fa-xmark:hover {
+  cursor: pointer;
+}
+
 .user-account-navigation {
   background-color: #01adae;
   margin: 20px 0px;
@@ -1284,6 +1303,13 @@ body {
   position: relative;
 }
 
+.user-account__profile-picture-container > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .user-account__change-picture {
   background-color: #eeeeee;
   position: absolute;
@@ -1296,6 +1322,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.user-account__change-picture:hover {
+  cursor: pointer;
 }
 
 .user-account-navigation__info > span {
