@@ -50,6 +50,9 @@ app.engine(
         },
         helpers: {
             createPagination,
+            statusEqualsApproved: function(status) {
+                return status === "approved";
+            }
         },
     })
 );
