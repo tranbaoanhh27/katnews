@@ -9,5 +9,7 @@ router.post('/login', passport.authenticate('local', {
     failureRedirect: '/'
 }))
 
+router.post('/signup', controllers.signup);
+
 router.get('/logout', controllers.logout);
 module.exports = router;

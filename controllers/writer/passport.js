@@ -22,18 +22,18 @@ passport.use(new LocalStrategy(
         const user = await models.Writer.findOne({ where: { email } });
         console.log('user', user)
         if (!user) {
-            return cb(null, false, req.flash('messageWriterAuth', "Tên đăng nhập không tồn tại"));
+            return cb(null, false, req.flash('messageWriterLogin', "Tên đăng nhập không tồn tại"));
         }
         bcrypt.compare(password, user.password, (err, result) => {
             console.log("result", result)
             if (err) {
-                return cb(null, false, req.flash('messageWriterAuth', "Mật khẩu không chính xác"));
+                return cb(null, false, req.flash('messageWriterLogin', "Mật khẩu không chính xác"));
             }
             if (result) {
                 console.log("sucess")
                 return cb(null, user);
             } else {
-                return cb(null, false, req.flash('messageWriterAuth', "Mật khẩu không chính xác"));
+                return cb(null, false, req.flash('messageWriterLogin', "Mật khẩu không chính xác"));
             }
         })
     }

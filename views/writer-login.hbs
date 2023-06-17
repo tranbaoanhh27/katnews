@@ -42,6 +42,8 @@
                 </div>
                 {{#if messageWriterAuth}}
                 <div class="alert alert-warning mt-3">{{{messageWriterAuth}}}</div>
+                {{else if messageWriterSignupSuccess}}
+                <div class="alert alert-success mt-3">{{{messageWriterSignupSuccess}}}</div>
                 {{/if}}
                 <!-- Register buttons -->
                 <div class="text-center">
