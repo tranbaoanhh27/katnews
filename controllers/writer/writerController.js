@@ -1,7 +1,12 @@
 const controllers = {}
 
 controllers.showLoginPage = (req, res) => {
-    res.render('writer-login', {layout: 'writer-login-layout'})
+    const writerId = req.user;
+    if (writerId) {
+        res.redirect("/listNews")
+    }else{
+        res.render('writer-login', {layout: 'writer-login-layout', messageWriterAuth: req.flash('messageWriterAuth')});
+    }
 }
 controllers.showRegisterPage = (req, res) => {
     res.render('writer-register', {layout: 'writer-login-layout'})

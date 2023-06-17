@@ -24,7 +24,8 @@ passport.deserializeUser(async (request, id, done) => {
 
         } else if (request.session.subdomains.includes('writer')) {
             // TODO: query logged-in writer and return
-            done(error, null);
+            const user = request.session.passport.user;
+            done(null, user);
 
         } else {
             const user = await models.User.findOne({

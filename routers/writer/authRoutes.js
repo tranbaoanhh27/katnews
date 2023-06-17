@@ -3,13 +3,11 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('../../controllers/writer/passport')
-
+const controllers = require('../../controllers/writer/authController');
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/listNews',
     failureRedirect: '/'
 }))
 
-router.get('/hello', (req, res)=> {
-    res.send('hello')
-})
+router.get('/logout', controllers.logout);
 module.exports = router;
