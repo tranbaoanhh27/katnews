@@ -78,6 +78,9 @@ passport.use('user-local-login', new passportLocal({
     }
 }));
 
+
+
+
 passport.use('user-local-register', new passportLocal({
     usernameField: 'email',
     passwordField: 'password',

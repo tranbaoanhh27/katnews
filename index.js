@@ -83,7 +83,8 @@ app.use(passport.session());
 app.use(connectFlash());
 
 // Subdomains routes
-app.use(subdomain("writer", require("./routers/writer/writerRoutes")));
+app.use("/auth", subdomain("writer", require("./routers/writer/authRoutes")));
+app.use("/", subdomain("writer", require("./routers/writer/writerRoutes")));
 app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
 app.use("/auth", subdomain("admin", require("./routers/admin/authRouter")));
 app.use(subdomain("admin", require("./routers/admin/adminRouter")));

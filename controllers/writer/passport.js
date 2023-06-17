@@ -1,6 +1,17 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const models = require('../../models');
+
+// hàm này được gọi nếu xác thực thành công, và lưu thông tin user vào session
+passport.serializeUser((user, done) => {
+    done(null, user);
+})
+
+// hàm này được gọi bởi passport.session() giúp ta lấy giữ liệu user trong session và gắn vào req.user
+passport.deserializeUser((user, done)=> {
+    done(null, user);
+})
+
 passport.use(new LocalStrategy(
     {
         usernameField: "email",
