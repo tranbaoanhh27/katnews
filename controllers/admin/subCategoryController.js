@@ -10,7 +10,7 @@ controllers.show = async (req, res) => {
         let nameCategory = req.query.name;
         const limit = 10;
         let options = {
-            attribute: ['id', 'name'],
+            attributes: ['id', 'name'],
             order: [['id']],
             where: { categoryId: id },
             limit: limit,

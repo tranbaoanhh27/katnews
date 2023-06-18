@@ -27,8 +27,8 @@ router.put('/tag', tagController.update);
 router.delete('/tag', tagController.delete);
 
 router.get('/post', controllers.showPost);
-router.get('/user', controllers.showUser);
-router.get('/renew-account', controllers.showRenewAccount);
-router.get('/assign-work', controllers.showAssignWork);
+
+//user
+router.use('/user', require('./userRouter'));
 
 module.exports = router;

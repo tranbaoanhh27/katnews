@@ -12,4 +12,5 @@ router.get('/:id', subCategoryControllers.show);
 router.post('/subCategory', subCategoryControllers.add);
 router.put('/subCategory', subCategoryControllers.update);
 router.delete('/subCategory', subCategoryControllers.delete);
+router.put('/updateEditorId', controllers.updateEditor);
 module.exports = router;

@@ -2,10 +2,9 @@
     <div class="container">
         <div class="row">
             {{> admin-left-sidebar}}
-
             <!-- Sidebar bên phải -->
             <div class="col-md-9" id="sidebar-right">
-                <a href="/tag" class="nav-link fw-bold px-0"> Quản lý nhãn</a>
+                <a href="/user/editor-admin" class="nav-link fw-bold px-0"> Danh sách biên tập viên</a>
 
                 <div class="container mt-3">
                     <!-- Hàng đầu tiên với box search và nút thêm -->
@@ -18,34 +17,43 @@
                             </button>
                         </div>
                         <div class="col-md-4 header__add-button">
-                            <button class="btn btn-primary float-end mx-2 add-btn" data-bs-toggle="modal"
-                                data-bs-target="#addLabelModal">Thêm mới</button>
+                            <!-- <button class="btn btn-primary float-end mx-2 add-btn" data-bs-toggle="modal" data-bs-target="#adduserModal">Thêm mới</button> -->
                             <button class="btn btn-primary float-end" onclick="deleteSelectedRows()">Xoá</button>
                         </div>
                     </div>
 
                     <!-- Bảng danh sách -->
-                    <table class="table list">
+                    <table class="table list align-middle">
                         <thead>
                             <tr>
-                                <th class="list__header">Chọn</th>
-                                <th class="list__header">Tên nhãn</th>
-                                <th class="list__header">Số lượng bài viết</th>
-                                <th class="list__header"></th>
+                                <th class="list__header" style="width: auto;">Chọn</th>
+                                <th class="list__header" style="width: 8%;"></th>
+                                <th class="list__header" style="width: auto;">Tên</th>
+                                <th class="list__header" style="width: auto;">Email</th>
+                                <th class="list__header" style="width: auto;">Chuyên mục</th>
+                                <th class="list__header" style="width: 14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each tags}}
+                            {{#each editors}}
                             <tr class="list__item">
-                                <td class="list__check"><input type="checkbox" name="select-tag" value={{id}}></td>
-                                <td class="list__name">{{name}}</td>
-                                <td class="list__count">{{postCount}}</td>
+                                <td class="list__check"><input type="checkbox" name="select-category" value="{{id}}">
+                                </td>
+                                <td class="list_image"><img src="{{avatarPath}}" width="100%" height="100%"
+                                        class="d-block" alt="Avatar"></td>
+                                <td class="list__name">{{fullName}}</td>
+
+                                <td class="list_email">{{email}}</td>
+                                <td class="list_cat"> {{#each Categories}}
+                                    <p class="border d-inline p-1">{{name}}</p> {{/each}}
+                                </td>
                                 <td class="list__actions text-end">
                                     <div class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal"
-                                        onclick="openEditModal({{id}}, '{{name}}')"><i class="fa-solid fa-pen"></i>
-                                    </div>
+                                        onclick="openEditModal({{id}}, '{{fullName}}','{{email}}', event)"><i
+                                            class="fa-solid fa-pen"></i></div>
                                     <div class="btn btn-danger" onclick="deleteRow({{id}})"><i
                                             class="fa-solid fa-trash"></i> </div>
+
                                 </td>
                             </tr>
                             {{/each}}
@@ -68,23 +76,33 @@
             </div>
         </div>
     </div>
+
     <!-- Modal chỉnh sửa -->
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-user" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="edit-modal-label">Chỉnh sửa tag</h5>
+                    <h5 class="modal-title" id="edit-modal-user">Chỉnh sửa người dùng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="edit-modal-name" class="form-label">Tên</label>
-                        <input type="text" id="edit-modal-name" class="form-control" placeholder="Nhập tên">
+                        <label for="edit-modal-name" class="form-user">Tên</label>
+                        <input type="text" id="edit-modal-name" class="form-control" readonly placeholder="...">
                     </div>
-                    {{!-- <div class="mb-3">
-                        <label for="edit-modal-count" class="form-label">Số lượng bài viết</label>
-                        <input type="number" id="edit-modal-count" class="form-control" placeholder="Nhập số lượng">
-                    </div> --}}
+                    <div class="mb-3">
+                        <label for="edit-modal-email" class="form-user">Email</label>
+                        <input type="email" id="edit-modal-email" class="form-control" readonly placeholder="Nhập emai">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-modal-email" class="form-user">Chuyên mục được giao</label>
+                        {{#each categories}}
+                        <div class="form-control" id="select-category">
+                            <input type="checkbox" name="select-category" value="{{id}}" class="d-inline">
+                            <p class="d-inline">{{name}}</p>
+                        </div>
+                        {{/each}}
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
@@ -95,43 +113,12 @@
         </div>
     </div>
 
-
-    <!-- Modal thêm nhãn mới-->
-    <div class="modal fade" id="addLabelModal" tabindex="-1" aria-labelledby="addLabelModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addLabelModalLabel">Thêm nhãn mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="labelName" class="form-label">Tên</label>
-                            <input type="text" class="form-control" id="labelName" name="labelName">
-                        </div>
-                        {{!-- <div class="mb-3">
-                            <label for="labelCount" class="form-label">Số lượng bài viết</label>
-                            <input type="number" class="form-control" id="labelCount" name="Nhập số lượng bài viết"
-                                readonly>
-                        </div> --}}
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="addLabelBtn" onclick="AddedTag()"
-                        data-bs-dismiss="modal">Thêm</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 <footer>
     <!-- place footer here -->
 </footer>
 
-
-<!-- Tim kiem tag -->
+<!-- Tim kiem  -->
 <script>
     function filter(keyword) {
         keyword = keyword.toLowerCase();
@@ -146,11 +133,12 @@
 
 </script>
 
-<!-- xoa tag -->
+
+<!-- xoa editor -->
 <script>
     async function deleteRow(id) {
-        if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
-            let res = await fetch('/tag', {
+        if (confirm("Bạn có chắc chắn muốn xóa biên tập viên này?")) {
+            let res = await fetch('/user/editor-admin', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -167,7 +155,6 @@
 
     }
 </script>
-
 <!-- Xoa cac tag duoc chon -->
 <script>
     // Khai báo biến lưu danh sách các dòng đã chọn
@@ -189,13 +176,13 @@
 
         // Kiểm tra xem có dòng nào được chọn không
         if (selectedRows.length === 0) {
-            alert("Vui lòng chọn tag trước khi xóa.");
+            alert("Vui lòng chọn biên tập viên muốn xóa.");
         } else {
             // Hiển thị hộp thoại xác nhận xóa
-            if (confirm("Bạn có chắc chắn muốn xóa những tag này?")) {
+            if (confirm("Bạn có chắc chắn muốn xóa những biên tập viên này?")) {
                 // Xóa các dòng đã chọn
                 for (const row of selectedRows) {
-                    await fetch('/tag', {
+                    let res = await fetch('/user/editor-admin', {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -206,8 +193,8 @@
                         })
                     });
                 }
-                window.location.reload();
             }
+            window.location.reload();
         }
 
         // Xóa danh sách các dòng đã chọn
@@ -215,70 +202,83 @@
     }
 </script>
 
-
-<!-- Chinh sua bai tag -->
+<!-- Chinh sua bai editor    -->
 <script>
     // Lấy các phần tử HTML cần sử dụng
     const editModalNameInput = document.querySelector('#edit-modal-name');
+    const editModalFuncInput = document.querySelector('#edit-modal-select-user');
+    const editModalEmailInput = document.querySelector('#edit-modal-email');
+    const editModalCatInput = document.querySelectorAll('#select-category');
     // Khai báo biến chứa dữ liệu đang được chỉnh sửa
-    let tagId;
-
+    let editorId;
+    let idCat = [];
     // Định nghĩa hàm để mở modal chỉnh sửa
-    function openEditModal(id, name) {
-        tagId = id;
+    function openEditModal(id, fullName, email, event) {
+        editorId = id;
         // Hiển thị thông tin hàng dữ liệu trong modal chỉnh sửa
-        editModalNameInput.value = name;
+        const categories = event.currentTarget.closest('.list__item').querySelector('.list_cat').textContent;
+        editModalCatInput.forEach(row => {
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            const nameCat = row.querySelector('p').textContent;
+
+            if (categories.indexOf(nameCat) !== -1) {
+                checkbox.checked = true;
+                idCat.push(checkbox.value);
+            }
+            else {
+                checkbox.checked = false;
+            }
+        });
+
+        editModalNameInput.value = fullName;
+        editModalEmailInput.value = email;
+
     }
 
     // Định nghĩa hàm để lưu dữ liệu đã chỉnh sửa
     async function saveEdit() {
-        // Lấy thông tin dữ liệu mới từ modal chỉnh sửa
-        const newName = editModalNameInput.value;
-        let res = await fetch('/tag', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                id: tagId,
-                name: newName
-            })
-        });
-        if (res.status == 200) {
-            if (confirm("Đã sửa nhãn thành công.")) {
-                window.location.reload();
+        for (const row of editModalCatInput) {
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            if (checkbox.checked) {
+                let index = idCat.indexOf(checkbox.value);
+                if (index !== -1) {
+                    idCat.splice(index, 1);
+                }
+                else {
+                    let res = await fetch('/category/updateEditorId', {
+                        method: "PUT",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: checkbox.value,
+                            editorId
+                        })
+                    })
+                }
+
             }
+        };
+
+        for (const idCategroy of idCat) {
+            let res2 = await fetch('/category/updateEditorId', {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: idCategroy,
+                    editorId: null
+                })
+            })
+        }
+
+        if (confirm("Đã phân công công việc thành công.")) {
+            window.location.reload();
         }
     }
-
-</script>
-
-<!-- Xử lý thêm mới nhãn -->
-<script>
-    const addModalNameInput = document.querySelector('#labelName');
-
-    // Lắng nghe sự kiện click của nút "Thêm" trên modal
-    async function AddedTag() {
-        // Lấy giá trị của các input
-        let name = addModalNameInput.value;
-        let res = await fetch('/tag', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                name
-            })
-        });
-        if (res.status == 201) {
-            if (confirm("Đã thêm nhãn mới thành công.")) {
-                window.location.reload();
-            }
-        }
-
-    };
 
 </script>
 
