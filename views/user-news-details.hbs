@@ -3,7 +3,27 @@
         <img class="user-news-details__main-image" src="{{news.largeImagePath}}" alt="{{news.title}}">
         <div class="user-news-details-article-info__black-cover"></div>
         <div class="user-news-details-article-info__overlay-content">
-            <span><a href="/news?subCategoryId={{news.categoryId}}">{{news.SubCategory.name}}</a></span>
+            <div style="display: flex; width: 100%; justify-content: space-between">
+                <div style="display: flex; gap: 10px">
+                    {{#if news.isPremium}}
+                    <span class="user-news__premium-badge">Premium</span>
+                    {{/if}}
+                    <span><a href="/news?subCategoryId={{news.categoryId}}">{{news.SubCategory.name}}</a></span>
+                </div>
+                {{#if news.isPremium}}
+                    {{#if authenticatedUser.isPremium}}
+                    <div class="dropdown open user-news-details__premium-feature">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                    Premium
+                                </button>
+                        <div class="dropdown-menu" aria-labelledby="triggerId">
+                            <button class="dropdown-item"><a href="/news/{{news.id}}?export=true">Tải xuống PDF</a></button>
+                        </div>
+                    </div>
+                    {{/if}}
+                {{/if}}
+            </div>
             <h1>{{news.title}}</h1>
             <h5>{{news.briefContent}}</h5>
             <p>{{news.Writer.pseudonym}} - {{news.updatedAtString}}</p>
