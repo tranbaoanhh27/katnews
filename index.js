@@ -52,6 +52,9 @@ app.engine(
             createPagination,
             statusEqualsApproved: function(status) {
                 return status === "approved";
+            },
+            statusEquelsUnconfirm: function (status) {
+                return status == "unconfirm";
             }
         },
     })
