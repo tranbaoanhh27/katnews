@@ -87,7 +87,7 @@ controller.showNewsList = async (request, response) => {
 
     // If user is not premium, sort to bring premium news on top
     if (userHelper.isPremium(request.user))
-        newsQueryConfigs.order.push(["isPremium", "DESC"]);
+        newsQueryConfigs.order = [["isPremium", "DESC"], ['updatedAt', 'DESC']];
 
     const news = await models.News.findAll(newsQueryConfigs);
 
