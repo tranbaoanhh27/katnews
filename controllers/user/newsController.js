@@ -50,6 +50,7 @@ controller.showNewsList = async (request, response) => {
             "updatedAt",
             "tinyImagePath",
             "isPremium",
+            "isDraft"
         ],
         include: [
             {
@@ -61,6 +62,7 @@ controller.showNewsList = async (request, response) => {
                 attributes: ["id", "name"],
             },
         ],
+        where: { isDraft: false },
         order: [["updatedAt", "DESC"]],
         limit: NEWS_LIMIT,
         offset: newsOffset,
@@ -70,7 +72,7 @@ controller.showNewsList = async (request, response) => {
     else if (categoryId !== -1)
         newsQueryConfigs.include[0].where = { categoryId };
     else if (subCategoryId !== -1) {
-        newsQueryConfigs.where = { categoryId: subCategoryId };
+        newsQueryConfigs.where.categoryId = subCategoryId;
 
         // Query current category
         const currentCategory = await models.Category.findOne({
@@ -165,7 +167,7 @@ controller.showNewsDetails = async (request, response) => {
             { model: models.Tag },
             { model: models.Comment },
         ],
-        where: { id: newsId },
+        where: { id: newsId, isDraft: false },
     });
 
     if (news) {
