@@ -30,7 +30,7 @@ controller.showNewsList = async (request, response) => {
     const newsOffset = NEWS_LIMIT * (page - 1);
 
     let newsQueryConfigs = {
-        attributes: ['id', 'title', 'briefContent', 'updatedAt', 'tinyImagePath', 'isPremium'],
+        attributes: [ 'id', 'title', 'briefContent', 'updatedAt', 'tinyImagePath', 'isPremium'],
         include: [{
             model: models.SubCategory,
             attributes: ['id', 'name'],
@@ -64,20 +64,28 @@ controller.showNewsList = async (request, response) => {
     if (userHelper.isPremium(request.user))
         newsQueryConfigs.order.push(['isPremium', 'DESC']);
 
-    const { rows, count } = await models.News.findAndCountAll(newsQueryConfigs);
+    const news = await models.News.findAll(newsQueryConfigs);
+
+    // Manually get count (because sequelize findAndCountAll works wrong on many-to-many association...)
+    newsQueryConfigs.limit = null;
+    newsQueryConfigs.offset = null;
+    const tempNews = await models.News.findAll(newsQueryConfigs);
+    let newIds = new Set();
+    for (let item of tempNews) newIds.add(item.id);
+    const count = newIds.size;
 
     const colors = ["#E98733", "#CA335C", "#70AFBE", "#7D618F", "#0CA9A8"];
     let colorIndex = 0;
     
-    rows.forEach(news => {
-        news.updatedAtString = (new Date(news.updatedAt)).toLocaleString('vi-VN');
-        news.Tags = news.Tags.slice(0, 3);
-        let shortBriefContent = news.briefContent.slice(0, 100);
-        if (news.briefContent.length > 100) shortBriefContent += '...';
-        news.shortBriefContent = shortBriefContent;
-        news.categoryColor = colors[colorIndex++ % colors.length];
+    news.forEach(item => {
+        item.updatedAtString = (new Date(item.updatedAt)).toLocaleString('vi-VN');
+        item.Tags = item.Tags.slice(0, 3);
+        let shortBriefContent = item.briefContent.slice(0, 100);
+        if (item.briefContent.length > 100) shortBriefContent += '...';
+        item.shortBriefContent = shortBriefContent;
+        item.categoryColor = colors[colorIndex++ % colors.length];
     });
-    response.locals.news = rows;
+    response.locals.news = news;
 
     // Comments pagination
     response.locals.pagination = {
