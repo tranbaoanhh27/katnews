@@ -78,6 +78,7 @@ const queryLatestNewsOfSubCategory = async (categoryId) => {
             attributes: [],
             where: { 'id': categoryId }
         }],
+        where: { isDraft: false },
         order: [['updatedAt', 'DESC']],
         limit: 1
     });

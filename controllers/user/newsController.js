@@ -254,7 +254,7 @@ controller.showNewsDetails = async (request, response) => {
                         where: { categoryId: category.id },
                     },
                 ],
-                where: { id: { [Sequelize.Op.ne]: news.id } },
+                where: { id: { [Sequelize.Op.ne]: news.id }, isDraft: false },
                 limit: 5,
             });
 
