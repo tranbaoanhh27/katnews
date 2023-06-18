@@ -1,5 +1,5 @@
 const controllers = {}
-
+const models = require('../../models');
 controllers.showLoginPage = (req, res) => {
     const writerId = req.user;
     if (writerId) {
@@ -17,8 +17,23 @@ controllers.showOtpPage = (req, res) => {
 controllers.showForgotPasswordPage = (req, res) => {
     res.render('writer-forgotPassword', { layout: 'writer-login-layout' })
 }
-controllers.showListNews = (req, res) => {
-    res.render('writer-list-news', { layout: 'writer-news-layout' })
+controllers.showListNews = async (req, res) => {
+    const writerId = req.user;
+    console.log("writerId", writerId)
+
+    const listNews = await models.NewsStatus.findAll({
+        attributes:['id','status', 'updatedAt'],
+        include: [{
+            model: models.News,
+            require: true,
+            attributes: ['id', 'title', 'briefContent', 'tinyImagePath', 'writerId', 'createdAt'],
+            where: {writerId: writerId}
+        }
+        ],
+        order: [['id', "DESC"]]
+    })
+    console.log(listNews)
+    res.render('writer-list-news', { layout: 'writer-news-layout', listNews });
 }
 controllers.showEditPage = (req, res) => {
     res.render('writer-edit', { layout: 'writer-news-layout' })
