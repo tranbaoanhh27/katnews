@@ -29,11 +29,11 @@ controller.showNewsList = async (request, response) => {
         categoryId !== -1 && subCategoryId === -1;
 
     if (tagId !== -1 && (categoryId !== -1 || subCategoryId !== -1))
-        response.redirect(`/news?tagId=${tagId}`);
+        return response.redirect(`/news?tagId=${tagId}`);
 
     // If both category and subcategory is passed, use only subcategory
     if (categoryId !== -1 && subCategoryId !== -1)
-        response.redirect(`/news?subCategoryId=${subCategoryId}`);
+        return response.redirect(`/news?subCategoryId=${subCategoryId}`);
 
     // Pagination configs
     const page = isNaN(request.query.page)
