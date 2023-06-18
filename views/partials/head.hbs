@@ -11,13 +11,26 @@
             </a>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav me-auto mt-2 mt-lg-0 header__nav-ul">
+                    {{#if isHomePage }}
                     <li class="nav-item header__nav-li--active">
                         <a class="nav-link" href="/" aria-current="page">Trang chủ <span
                                 class="visually-hidden">(current)</span></a>
                     </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" aria-current="page">Trang chủ <span
+                                class="visually-hidden">(current)</span></a>
+                    </li>
+                    {{/if}}
+                    {{#if isNewsPage }}
+                    <li class="nav-item header__nav-li--active">
+                        <a class="nav-link" href="/news">Tin tức</a>
+                    </li>
+                    {{else}}
                     <li class="nav-item">
                         <a class="nav-link" href="/news">Tin tức</a>
                     </li>
+                    {{/if}}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="/news" id="dropdownId" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">Chuyên mục</a>
@@ -47,7 +60,11 @@
             <div id="auth" style="height: 100%; display: flex; align-items: center;">
                 {{#if isAuthenticated}}
                 <div class="header-account-dropdown-toggle" onclick="toggleAccountMenu()">
+                    {{#if user.avatarPath}}
+                    <img src="{{user.avatarPath}}" height="80%" alt="">
+                    {{else}}
                     <img src="/images/default-user-icon.jpg" height="80%" alt="">
+                    {{/if}}
                     <i class="fa-solid fa-caret-down"></i>
                 </div>
                 <div class="header-account-dropdown-menu header-account-dropdown-menu--hidden">
@@ -55,10 +72,16 @@
                         <div>
                             <h5>{{user.fullName}}</h5>
                             {{#if user.isPremium}}
-                            <span class="premium-badge">Premium</span>
+                            <span>Premium</span>
+                            {{else}}
+                            <span class="user-account-premium-expired">Premium</span>
                             {{/if}}
                         </div>
+                        {{#if user.avatarPath}}
+                        <img src="{{user.avatarPath}}" height="75px" alt="">
+                        {{else}}
                         <img src="/images/default-user-icon.jpg" height="75px" alt="">
+                        {{/if}}
                     </div>
                     <div>
                         <a href="/account">Quản lý tài khoản</a>

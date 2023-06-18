@@ -1,4 +1,4 @@
-<main class="container">
+<main class="container user-account">
     <div class="row">
         <div class="col-5">
             {{> user-account-nav-pane }}
@@ -7,26 +7,43 @@
             <div class="user-account__function-title">
                 <h4>Thông tin người dùng</h4>
             </div>
-            <form class="user-account__information-form" action="#" method="post" onsubmit="submitHandler(event)">
+            <form class="user-account__information-form" action="/account" method="post">
                 <div class="mb-3">
                     <label for="fullname" class="form-label">Họ và tên</label>
-                    <input type="text" value="{{authenticatedUser.fullName}}" class="form-control" name="fullname"
-                        id="fullname" aria-describedby="helpId" placeholder="">
+                    <input type="text" value="{{authenticatedUser.fullName}}" class="form-control" name="fullName"
+                        id="fullname" aria-describedby="helpId" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" value="{{authenticatedUser.email}}" class="form-control" name="email"
-                        id="email" aria-describedby="emailHelpId" placeholder="">
+                        id="email" aria-describedby="emailHelpId" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                 </div>
                 <div class="mb-3">
                     <label for="birthdate" class="form-label">Ngày sinh</label>
                     <input type="date" value="{{authenticatedUser.birthdate}}" class="form-control" name="birthdate"
-                        id="birthdate" aria-describedby="helpId" placeholder="">
+                        id="birthdate" aria-describedby="helpId">
                 </div>
                 <div style="display: flex; justify-content: flex-end; width: 100%;">
                     <button class="btn btn-primary" type="submit">Lưu</button>
                 </div>
             </form>
+            {{#if errorMessage}}
+            <div class="alert alert-danger mt-3" style="display: flex; justify-content: space-between; align-content: center">
+                {{{errorMessage}}}
+                <div class="xmark-button"><i class="fa-solid fa-xmark" style="color: rgb(220, 66, 66); font-size: large"></i></div>
+            </div>
+            {{/if}}
+            {{#if successMessage}}
+            <div class="alert alert-success mt-3" style="display: flex; justify-content: space-between; align-content: center">
+                {{{successMessage}}} 
+                <div class="xmark-button"><i class="fa-solid fa-xmark" style="color: rgb(32, 104, 32); font-size: large"></i></div>
+            </div>
+            {{/if}}
         </div>
     </div>
 </main>
+<script>
+    document.querySelectorAll('.user-account .xmark-button').forEach(xmark => xmark.addEventListener('click', event => {
+        document.querySelectorAll('.alert').forEach(item => item.style.display = 'none');
+    }))
+</script>

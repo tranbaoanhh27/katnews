@@ -6,7 +6,8 @@ const controller = {};
 controller.showLoginPage = (request, response) => {
     response.render('user-sign-in', {
         loginMessage: request.flash('loginMessage'),
-        reqUrl: request.query.reqUrl
+        reqUrl: request.query.reqUrl,
+        pageTitle: 'Đăng nhập'
     });
 }
 
@@ -30,7 +31,8 @@ controller.login = (request, response, next) => {
 
 controller.showSignUpPage = (request, response) => {
     response.render('user-sign-up', {
-        registerMessage: request.flash('registerMessage')
+        registerMessage: request.flash('registerMessage'),
+        pageTitle: "Đăng kí"
     });
 }
 
@@ -49,17 +51,20 @@ controller.register = (request, response, next) => {
 }
 
 controller.showForgotPasswordPage = (request, response) => {
+    response.locals.pageTitle = 'Quên mật khẩu';
     response.render('user-forgot-password');
 }
 
 controller.showEnterOTPPage = (request, response) => {
     const email = request.body.email;
     response.locals.email = email;
+    response.locals.pageTitle = 'Nhập mã OTP';
     response.render('user-enter-otp');
 }
 
 controller.showEnterNewPasswordPage = (request, response) => {
     const otp = request.body.otp;
+    response.locals.pageTitle = 'Đặt lại mật khẩu';
     response.render('user-enter-new-password');
 }
 

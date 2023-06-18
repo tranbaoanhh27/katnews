@@ -1,55 +1,44 @@
-
 <main>
     <div class='container ' style='width: 80%;'>
         <h2 class="mx-5">Danh sách bài viết<h2>
+                {{#each listNews}}
                 <div class='card rounded-4 shadow-lg m-2 border-success border-top-0'
                     style='width: 100%;background-color: lightgrey;'>
                     <div class='row g-2'>
                         <div class='col-2'>
-                            <img src='/images/writer-logo.jpeg' class='card-img mw-100 rounded-circle'>
+                            <img src={{News.tinyImagePath}} class='card-img mw-100 rounded-circle'>
                         </div>
                         <div class='col-8'>
                             <div class='card-body'>
-                                <div class='card-title'>Heading 1</div>
-                                <p style='font-size: 13px;'> Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-                                    provident, ut architecto omnis a nemo quam quo. Iste, odit. Est veniam debitis dicta
-                                    explicabo vero eaque similique corrupti aut aliquid.</p>
+                                <h3 class='card-title'>{{News.title}}</h3>
+                                <p style='font-size: 13px;'>{{News.briefContent}}</p>
                             </div>
                         </div>
+
+                        {{#if (statusEqualsApproved status)}}
                         <div class='col-2 d-flex flex-column justify-content-center'>
-                            <button type="button" class="btn rounded-5 m-auto" style="background-color: lightgreen;"><i
+                            <div  class=" rounded-5 m-auto p-2" style="background-color: lightgreen; font-size: 15px"><i
                                     class="bi bi-check2-circle rounded-circle"
-                                    style="background-color: greenyellow;"></i>Thành công</button>
+                                    style="background-color: greenyellow;"></i>Thành công</div>
                         </div>
-
-                    </div>
-                </div>
-
-                <div class='card rounded-4 shadow-lg m-2 border-danger border-top-0'
-                    style='width: 100%;background-color: lightgrey;'>
-                    <div class='row g-2'>
-                        <div class='col-2'>
-                            <img src='/images/writer-logo.jpeg' class='card-img mw-100 rounded-circle'>
-                        </div>
-                        <div class='col-8'>
-                            <div class='card-body'>
-                                <div class='card-title'>Heading 1</div>
-                                <p style='font-size: 13px;'> Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-                                    provident, ut architecto omnis a nemo quam quo. Iste, odit. Est veniam debitis dicta
-                                    explicabo vero eaque similique corrupti aut aliquid.</p>
-                            </div>
-                        </div>
+                        {{else if (statusEquelsUnconfirm status)}}
                         <div class='col-2 d-flex flex-column justify-content-center'>
-                            <button type="button" class="btn rounded-5 m-auto" style="background-color: lightcoral;"><i
-                                    class="bi bi-file-earmark-medical"></i></i>Từ chối</button>
-                            <button type="button" class="btn rounded-5 m-auto" style="background-color: lightsalmon;"><i
-                                    class="bi bi-pencil-fill rounded-circle"></i><a href="editor.html"
-                                    class='text-black text-decoration-none'>Sửa lại</a></button>
+                            <div  class=" rounded-5 m-auto  p-2" style="background-color: orange; font-size: 15px"><i
+                                    class="bi bi bi-arrow-repeat rounded-circle"
+                                    style="background-color: greenyellow;"></i>Chờ xác nhận</div>
                         </div>
-
+                        {{else}}
+                        <div class='col-2 d-flex flex-column justify-content-center'>
+                            <div class=" rounded-5 m-auto p-2" style="background-color: lightcoral; font-size: 15px"><i
+                                    class="bi bi-file-earmark-medical"></i>Từ chối</div>
+                            <div type="button" class="btn rounded-5 m-auto p-2" style="background-color: lightsalmon;"><i
+                                    class="bi bi-pencil-fill rounded-circle"></i><a href="editor.html"
+                                    class='text-black text-decoration-none'>Sửa lại</a></div>
+                        </div> 
+                        {{/if}}
                     </div>
                 </div>
-
+                {{/each}}
     </div>
 
 

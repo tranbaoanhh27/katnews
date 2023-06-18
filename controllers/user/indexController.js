@@ -78,11 +78,15 @@ const queryLatestNewsOfSubCategory = async (categoryId) => {
             attributes: [],
             where: { 'id': categoryId }
         }],
+        where: { isDraft: false },
         order: [['updatedAt', 'DESC']],
         limit: 1
     });
     result = result[0];
-    result.updatedAtString = (new Date(result.updatedAt)).toLocaleString('vi-VN');
+    if (result) result.updatedAtString = (new Date(result.updatedAt)).toLocaleString('vi-VN');
+    else result = {
+        title: 'NO DATA'
+    }
     return result;
 }
 
@@ -101,18 +105,22 @@ const queryTopTenCategories = async () => {
             [sequelize.literal('"views"'), 'DESC']
         ],
     });
-    result = result.slice(0, 10);
     
-    let colorIndex = 0;
-    result.forEach((element, index) => {
-        element.badgeColor = articleColors[colorIndex % articleColors.length];
-        element.rank = index + 1;
-        colorIndex++;
-    });
+    if (result) {
+        result = result.filter(item => item.dataValues.views != null);
+        result = result.slice(0, 10);
+        
+        let colorIndex = 0;
+        result.forEach((element, index) => {
+            element.badgeColor = articleColors[colorIndex % articleColors.length];
+            element.rank = index + 1;
+            colorIndex++;
+        });
 
-    for (let i = 0; i < result.length; i++) {
-        const latestPost = await queryLatestNewsOfSubCategory(result[i].id);
-        result[i].latestPost = latestPost;
+        for (let i = 0; i < result.length; i++) {
+            const latestPost = await queryLatestNewsOfSubCategory(result[i].id);
+            result[i].latestPost = latestPost;
+        }
     }
 
     return result;
@@ -121,6 +129,8 @@ const queryTopTenCategories = async () => {
 const controller = {};
 
 controller.showHomePage = async (request, response) => {
+    response.locals.isHomePage = true;
+
     const weeklyTopThree = await queryWeeklyTopNews();
     response.locals.weeklyTopThree = weeklyTopThree;
 
@@ -136,6 +146,8 @@ controller.showHomePage = async (request, response) => {
 
     const topTenCategories = await queryTopTenCategories();
     response.locals.topCategories = topTenCategories;
+
+    response.locals.pageTitle = 'Trang chủ';
 
     response.render('home');
 };

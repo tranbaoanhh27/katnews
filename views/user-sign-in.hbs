@@ -1,6 +1,7 @@
 <main>
     <div class="user-login-card">
         <form action="/auth/login" method="post">
+            <input type="text" value="{{reqUrl}}" name="reqUrl" hidden>
             <h2>Đăng nhập</h2>
             <div class="mb-4 mt-5">
                 <label for="login-email" class="form-label">Email</label>

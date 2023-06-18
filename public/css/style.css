@@ -115,7 +115,9 @@ body {
 .header-account-dropdown-toggle > img {
   margin-inline-end: 8px;
   height: 50px;
-  width: auto;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .header-account-dropdown-menu {
@@ -160,6 +162,13 @@ body {
   width: 100%;
 }
 
+.header-account-dropdown-menu__user-info > img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .header-account-dropdown-menu__user-info > div {
   display: flex;
   flex-direction: column;
@@ -187,6 +196,12 @@ body {
 
 .header-account-dropdown-menu > div > p {
   cursor: pointer;
+}
+
+.user-account-premium-expired {
+  background-color: #777777 !important;
+  color: white !important;
+  text-decoration: line-through !important;
 }
 
 /********************************************/
@@ -440,23 +455,35 @@ body {
 /**********************************************************/
 /*********** READERS, SUBSCRIBERS NEWS LIST CSS ***********/
 /**********************************************************/
-.user-news__category-select {
-  display: flex;
-  justify-content: flex-start;
+.user-news__categories {
   width: 100%;
-  margin-top: 20px;
-  align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 15px;
 }
 
-.user-news__category-select button {
+.user-news__categories span {
+  display: inline-block;
   background-color: #aaaaaa;
   color: white !important;
   border: none !important;
   margin-inline-end: 20px !important;
   border-radius: 30px !important;
+  min-width: 125px !important;
+  padding-inline: 10px;
+  width: fit-content;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.user-news__category-select button:not(.user-news__active-category):hover {
+.user-news__categories span > a {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.user-news__categories span:not(.user-news__active-category):hover {
   background-color: #888888 !important;
 }
 
@@ -493,6 +520,34 @@ body {
   border-radius: 5px;
   width: fit-content;
   font-size: 80%;
+}
+
+.user-news-item__tag {
+  padding: 1px 10px;
+  margin-inline-end: 5px;
+  background-color: var(--bs-secondary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: fit-content;
+  font-size: 80%;
+}
+
+.user-news__premium-badge {
+  background: linear-gradient(90deg, #ffb316 0%, rgb(255, 235, 0) 100%);
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 10px;
+  width: fit-content;
+  animation: fade-up 0.75s linear;
+}
+
+.user-news__tag > a {
+  text-decoration: none !important;
+  color: white !important;
 }
 
 .user-news__tag:hover {
@@ -588,14 +643,14 @@ body {
   width: 100%;
   height: 100%;
   z-index: 2;
-  padding: 50px 200px;
+  padding: 50px 10%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: white !important;
 }
 
-.user-news-details-article-info__overlay-content > span {
+.user-news-details-article-info__overlay-content span:not(.user-news__premium-badge) {
   background-color: #58bd88;
   border-radius: 10px;
   display: flex;
@@ -604,6 +659,12 @@ body {
   padding: 4px 10px;
   width: fit-content;
   animation: fade-up 0.75s linear;
+}
+
+.user-news-details__premium-feature button, .user-news-details__premium-feature div,
+.user-news-details__premium-feature button:hover, .user-news-details__premium-feature button:active {
+  background-color: #ffb316 !important;
+  color: white !important;
 }
 
 .user-news-details-article-info__overlay-content a {
@@ -648,12 +709,24 @@ body {
   margin-inline-start: 30px;
 }
 
+.user-news-details-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .user-news-details__content-image {
   width: 70%;
   height: auto;
-  margin: 0px auto 20px auto;
   border-radius: 8px;
+  margin: 20px 0px;
   align-self: center;
+}
+
+.user-news-details__content-youtube-iframe {
+  align-self: center;
+  border-radius: 8px;
+  margin: 10px 0px;
 }
 
 .user-news-details__comment-form-container {
@@ -668,6 +741,7 @@ body {
   width: 100%;
   margin: 0px !important;
   padding: 10px !important;
+  min-height: 125px;
   border-radius: 15px;
   border: 1px solid black;
 }
@@ -714,11 +788,16 @@ body {
   margin-inline-start: 30px;
 }
 
+.user-news-details__comment > img {
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
 .user-news-details__comment-content > p {
   margin: 0px;
 }
 
-.user-news-details__comment-content > p > a {
+.user-news-details__comment-content > p:first-child {
   text-decoration: none;
   color: black;
   font-weight: 600;
@@ -735,9 +814,30 @@ body {
   justify-content: center;
 }
 
-.user-news-details__page-item + .active > a {
-  background-color: #7c618e !important;
-  border: none !important;
+.user-news-details__comment-pagination-container li {
+  border: 1px solid #333333;
+  border-right: none;
+  padding: 5px 10px;
+}
+
+.user-news-details__comment-pagination-container li > a {
+  color: #444444 !important;
+}
+
+.user-news-details__comment-pagination-container li:last-child {
+  border-right: 1px solid #333333;
+}
+
+.user-news-details__comment-pagination-container li + .active {
+  background-color: #7d6090;
+}
+
+.user-news-details__comment-pagination-container li + .active > a {
+  color: white !important;
+}
+
+.user-news-details__comment-pagination-container li > a {
+  text-decoration: none !important;
 }
 
 .user-news-details__carousel-overlay-content {
@@ -1215,6 +1315,10 @@ body {
 /**** SUBSCRIBER ACCOUNT PAGE CSS ****/
 /*************************************/
 
+.user-account .fa-xmark:hover {
+  cursor: pointer;
+}
+
 .user-account-navigation {
   background-color: #01adae;
   margin: 20px 0px;
@@ -1245,6 +1349,13 @@ body {
   position: relative;
 }
 
+.user-account__profile-picture-container > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .user-account__change-picture {
   background-color: #eeeeee;
   position: absolute;
@@ -1257,6 +1368,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.user-account__change-picture:hover {
+  cursor: pointer;
 }
 
 .user-account-navigation__info > span {
@@ -1352,6 +1467,23 @@ body {
 
 .user-account__change-password-form button:hover {
   background-color: #018d8e !important;
+}
+
+.user-account__change-password-form-input__error-message {
+  color: rgb(204, 103, 103);
+}
+
+.user-account__change-password-form-input__error-message--hidden {
+  display: none;
+}
+
+.user-account__change-password-form-input--error {
+  background-color: rgb(204, 103, 103);
+  border: 2px solid red;
+}
+
+.user-change-password .xmark-button:hover {
+  cursor: pointer;
 }
 
 .user-account__payment-card-select {

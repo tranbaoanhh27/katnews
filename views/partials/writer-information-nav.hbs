@@ -1,5 +1,17 @@
 <div class="container mx-auto">
-    <img src="/images/avatar.svg" class="rounded-circle mx-auto d-block" style="width: 100px; height: 100px;">
+
+    <form id="form" action="/writer/editAvatar" method="post" enctype="multipart/form-data">
+        <div class="align-items-center">
+            <label for="avatar">
+
+            <img src={{writer.avatarPath}} class="rounded-circle mx-auto d-block" style="width: 100px; height: 100px">
+            </label>
+            <input id="avatar" type="file" style="display: none" name="avatar">
+            <button type="submit" style="display: none;"></button>
+        </div>
+    </form>
+    
+
     <hr>
     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start " id="menu">
         <li class="nav-item">
@@ -24,7 +36,7 @@
         </li>
         <hr>
         <li class="nav-item">
-            <a href="/login" class="nav-link align-middle px-0 text-dark">
+            <a href="/auth/logout" class="nav-link align-middle px-0 text-dark">
                 <i class="bi bi-box-arrow-right"></i> <span class="ms-1 d-none d-sm-inline text-decoration-none">Đăng
                     xuất</span>
             </a>
@@ -33,3 +45,8 @@
 
     </ul>
 </div>
+<script>
+    document.getElementById("avatar").onchange = function() {
+    document.getElementById("form").submit();
+};
+</script>

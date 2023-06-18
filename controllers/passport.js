@@ -24,11 +24,14 @@ passport.deserializeUser(async (request, id, done) => {
 
         } else if (request.session.subdomains.includes('writer')) {
             // TODO: query logged-in writer and return
-            done(error, null);
+            // const writer = await models.Writer.findOne({
+            //     where: { id }
+            // });
+            done(null, id);
 
         } else {
             const user = await models.User.findOne({
-                attributes: ['id', 'fullName', 'birthdate', 'email', 'avatarPath', 'premiumExpiredTime'],
+                attributes: ['id', 'password', 'premiumExpiredTime'],
                 where: { id }
             });
             done(null, user);
@@ -77,6 +80,9 @@ passport.use('user-local-login', new passportLocal({
         done(error);
     }
 }));
+
+
+
 
 passport.use('user-local-register', new passportLocal({
     usernameField: 'email',
