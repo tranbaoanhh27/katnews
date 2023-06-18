@@ -27,118 +27,46 @@
                     <table class="table list">
                         <thead>
                             <tr>
-                                <th class="list__header" style="width: 4%;">Chọn</th>
-                                <th class="list__header" style="width: 15%"></th>
-                                <th class="list__header" style="width: 26%;">Tiêu đề</th>
-                                <th class="list__header" style="width: 14%;">Chuyên mục</th>
-                                <th class="list__header" style="width: 14%;">Nhãn gián</th>
-                                <th class="list__header" style="width: 14%;">Trạng thái</th>
-                                <th class="list__header" style="width: 15%;"></th>
+                                <th class="list__header" style="width: 3%;">Chọn</th>
+                                <th class="list__header p-0" style="width: 12%"></th>
+                                <th class="list__header" style="width: 30%;">Tiêu đề</th>
+                                <th class="list__header" style="width: auto;">Chuyên mục</th>
+                                <th class="list__header" style="width: auto;">Tác giả</th>
+                                <th class="list__header" style="width: 12%;">Trạng thái</th>
+                                <th class="list__header" style="width:15%"></th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{#each posts}}
                             <tr class="list__item">
-                                <td class="list__check"><input type="checkbox" name="select-post"></td>
-                                <td class="list__img"> <img src="/assets/dummy-data/images/article3.jpg" width="100%"
+                                <td class="list__check"><input type="checkbox" name="select-post" value="{{id}}"></td>
+                                <td class="list__img text-center p-1"> <img src="{{tinyImagePath}}" width="100%"
                                         height="100%" class="d-block" alt="First slide"></td>
-                                <td class="list__title">Halla Marid! Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. </td>
-                                <td class="list__cat">Bóng đá</td>
-                                <td class="list__tag">Bóng đá quốc tế, thể thao</td>
-                                <td class="list__status">Bản nháp</td>
+                                <td class="list__title">{{title}}</td>
+                                <td class="list__cat">{{SubCategory.name}}</td>
+                                <td class="list__writer">{{Writer.fullName}}</td>
+                                <td class="list__status">{{#if isDraft}}Bản nháp{{else}}Xuất bản{{/if}}</td>
                                 <td class="list__actions text-end">
-                                    <a href="#" class="btn btn-info" onclick="ConvertStatus(this)"><i
-                                            class="fa-solid fa-repeat"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
-                                            class="fa-solid fa-trash"></i></a>
+                                    {{#if isDraft}}
+                                    <div class="btn btn-info" onclick="ConvertStatus(this, {{id}})"><i
+                                            class="fa-solid fa-repeat"></i></div>
+                                    {{/if}}
+
+                                    <div class="btn btn-danger" onclick="deleteRow({{id}})"><i
+                                            class="fa-solid fa-trash"></i></div>
                                 </td>
                             </tr>
-                            <tr class="list__item">
-                                <td class="list__check"><input type="checkbox" name="select-post"></td>
-                                <td class="list__img"> <img src="/assets/dummy-data/images/article2.jpg" width="100%"
-                                        height="100%" class="d-block" alt="First slide"></td>
-                                <td class="list__title">Cua hoàng đế tụt giá xuống đáy xã hội </td>
-                                <td class="list__cat">Kinh tế</td>
-                                <td class="list__tag">hạ giá, cua hoàng đế</td>
-                                <td class="list__status">Xuất bản</td>
-                                <td class="list__actions text-end">
-                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
-                                            class="fa-solid fa-pen"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
-                                            class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr class="list__item">
-                                <td class="list__check"><input type="checkbox" name="select-post"></td>
-                                <td class="list__img"> <img src="/assets/dummy-data/images/article1.jpeg" width="100%"
-                                        height="100%" class="d-block" alt="First slide"></td>
-                                <td class="list__title">Tiêu đề 3 </td>
-                                <td class="list__cat">Chính trị</td>
-                                <td class="list__tag">hội nghị</td>
-                                <td class="list__status">Bản nháp</td>
-                                <td class="list__actions text-end">
-                                    <a href="#" class="btn btn-info" onclick="ConvertStatus(this)"><i
-                                            class="fa-solid fa-repeat"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
-                                            class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr class="list__item">
-                                <td class="list__check"><input type="checkbox" name="select-post"></td>
-                                <td class="list__img"> <img src="/assets/dummy-data/images/article3.jpg" width="100%"
-                                        height="100%" class="d-block" alt="First slide"></td>
-                                <td class="list__title">tieu de 4. </td>
-                                <td class="list__cat">Bóng đá</td>
-                                <td class="list__tag">thể thao</td>
-                                <td class="list__status">Xuất bản</td>
-                                <td class="list__actions text-end">
-                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
-                                            class="fa-solid fa-pen"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
-                                            class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
-                            <tr class="list__item">
-                                <td class="list__check"><input type="checkbox" name="select-post"></td>
-                                <td class="list__img"> <img src="/assets/dummy-data/images/article5.jpg" width="100%"
-                                        height="100%" class="d-block" alt="First slide"></td>
-                                <td class="list__title">tieu de tieu de </td>
-                                <td class="list__cat">Thể thao</td>
-                                <td class="list__tag">chung kết</td>
-                                <td class="list__status">Xuất bản</td>
-                                <td class="list__actions text-end">
-                                    <a href="#" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#edit-modal" onclick="openEditModal(event)"><i
-                                            class="fa-solid fa-pen"></i></a>
-                                    <a href="#" class="btn btn-danger" onclick="deleteRow(this)"><i
-                                            class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
 
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
-                            <nav>
+                            <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
+                                    {{{createPagination pagination paginationClass="pagination justify-content-center"
+                                    leftText="Previous" rightText="Next"}}}
                                 </ul>
                             </nav>
                         </div>
@@ -148,43 +76,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal chỉnh sửa -->
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-post" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="edit-modal-post">Chỉnh sửa bài viết</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="edit-modal-title" class="form-post">Tiêu đề bài viết</label>
-                        <input type="text" id="edit-modal-title" class="form-control" readonly
-                            placeholder="vui long nhap...">
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit-modal-cat" class="form-post">Chuyên mục</label>
-                        <input type="text" id="edit-modal-cat" class="form-control" placeholder="vui long nhap...">
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit-modal-tag" class="form-post">Nhãn</label>
-                        <input type="text" id="edit-modal-tag" class="form-control" placeholder="vui long nhap...">
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit-modal-status" class="form-post">Trạng thái</label>
-                        <input type="text" id="edit-modal-status" class="form-control" readonly
-                            placeholder="vui long nhap...">
-                    </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" onclick="saveEdit()"
-                        data-bs-dismiss="modal">Lưu</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 <footer>
     <!-- place footer here -->
@@ -204,22 +96,34 @@
     }
 
 </script>
-
-<!-- xoa a post -->
+<!-- xoa bài viết -->
 <script>
-    function deleteRow(row) {
-        if (confirm("Bạn có chắc chắn muốn xóa bài viết này?"))
-            row.parentNode.parentNode.remove();
+    async function deleteRow(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
+            let res = await fetch('/post', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id
+                })
+            });
+            if (res.status == 200) {
+                window.location.reload();
+            }
+        }
+
     }
 </script>
-
-<!-- Xoa cac post duoc chon -->
+<!-- Xoa cac bài viết duoc chon -->
 <script>
     // Khai báo biến lưu danh sách các dòng đã chọn
     let selectedRows = [];
 
     // Hàm xóa các dòng được chọn
-    function deleteSelectedRows() {
+    async function deleteSelectedRows() {
         // Lấy danh sách các hàng trong bảng
         const rows = document.querySelectorAll('table tbody tr');
 
@@ -234,15 +138,25 @@
 
         // Kiểm tra xem có dòng nào được chọn không
         if (selectedRows.length === 0) {
-            alert("Vui lòng chọn tag trước khi xóa.");
+            alert("Vui lòng chọn bài viết trước khi xóa.");
         } else {
             // Hiển thị hộp thoại xác nhận xóa
             if (confirm("Bạn có chắc chắn muốn xóa những bài viết này?")) {
                 // Xóa các dòng đã chọn
-                selectedRows.forEach(row => {
-                    row.remove();
-                });
+                for (const row of selectedRows) {
+                    let res = await fetch('/post', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: row.querySelector('input[type="checkbox"]').value
+                        })
+                    });
+                }
             }
+            window.location.reload();
         }
 
         // Xóa danh sách các dòng đã chọn
@@ -250,10 +164,11 @@
     }
 </script>
 
+
 <!-- CHuyển đổi các dòng duoc chon -->
 <script>
     selectedRows = [];
-    function convertSelectedRows() {
+    async function convertSelectedRows() {
         // Lấy danh sách các hàng trong bảng
         const rows = document.querySelectorAll('table tbody tr');
 
@@ -261,6 +176,7 @@
         rows.forEach(row => {
             const checkbox = row.querySelector('input[type="checkbox"]');
             if (checkbox.checked && row.querySelector('.list__status').textContent === 'Bản nháp') {
+                // console.log(row.querySelector('.list__status').textContent)
                 // Nếu hàng đó được chọn thì thêm vào danh sách các dòng đã chọn
                 selectedRows.push(row);
             }
@@ -270,22 +186,23 @@
         if (selectedRows.length === 0) {
             alert("Vui lòng chọn các bài viết có trạng thái nháp trước khi chuyển đổi");
         } else {
-            selectedRows.forEach(row => {
+            for (let row of selectedRows) {
+                let res = await fetch('/post', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: row.querySelector('input[type="checkbox"]').value,
+                        isDraft: false
+                    })
+                });
                 row.querySelector('.list__status').textContent = 'Xuất bản';
-
-                const newLink = document.createElement('a');
-                newLink.href = '#';
-                newLink.classList.add('btn', 'btn-warning');
-                newLink.dataset.bsToggle = 'modal';
-                newLink.dataset.bsTarget = '#edit-modal';
-                newLink.onclick = openEditModal;
-                const icon = document.createElement('i');
-                icon.classList.add('fa-solid', 'fa-pen');
-                newLink.appendChild(icon);
                 let curbtn = row.querySelector('.btn-info');
-                // Thay thế phần tử ban đầu bằng phần tử mới
-                curbtn.parentNode.replaceChild(newLink, curbtn);
-            });
+                curbtn.remove();
+            };
+            if (confirm("Đã xuất bản thành công!"));
         }
         rows.forEach(row => {
             row.querySelector('input[type="checkbox"]').checked = false;
@@ -295,76 +212,40 @@
     }
 </script>
 
-
-<!-- Chinh sua mot post -->
+<!-- // Chuyển đổi trạng thái -->
 <script>
-    // Lấy các phần tử HTML cần sử dụng
-    const editModalTitleInput = document.querySelector('#edit-modal-title');
-    const editModalCatInput = document.querySelector('#edit-modal-cat');
-    const editModalTagInput = document.querySelector('#edit-modal-tag');
-    const editModalStatusInput = document.querySelector('#edit-modal-status')
-    // Khai báo biến chứa dữ liệu đang được chỉnh sửa
-    let currentEditRow;
+    async function ConvertStatus(row, id) {
+        let res = await fetch('/post', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                id,
+                isDraft: false
+            })
+        });
 
-    // Định nghĩa hàm để mở modal chỉnh sửa
-    function openEditModal(event) {
+        if (res.status == 200) {
+            if (confirm("Xuất bản bài viết thành công!")) {
+                const statusCell = row.closest('.list__item').querySelector('.list__status');
+                statusCell.textContent = 'Xuất bản';
 
-        // Lấy thông tin hàng dữ liệu đang được chỉnh sửa
-        const row = event.currentTarget.closest('.list__item');
-        const title = row.querySelector('.list__title').textContent;
-        const cat = row.querySelector('.list__cat').textContent;
-        const tag = row.querySelector('.list__tag').textContent;
-        const status = row.querySelector('.list__status').textContent;
-        // console.log(pcat); 
-        // Lưu thông tin hàng dữ liệu đang được chỉnh sửa vào biến
-        currentEditRow = {
-            row,
-            title,
-            cat,
-            tag,
-            status
-        };
-
-        // Hiển thị thông tin hàng dữ liệu trong modal chỉnh sửa
-        editModalTitleInput.value = title;
-        editModalCatInput.value = cat;
-        editModalTagInput.value = tag;
-        editModalStatusInput.value = status;
-    }
-
-    // Định nghĩa hàm để lưu dữ liệu đã chỉnh sửa
-    function saveEdit() {
-        // Lấy thông tin dữ liệu mới từ modal chỉnh sửa
-        const newCat = editModalCatInput.value;
-        const newTag = editModalTagInput.value;
-
-        // Cập nhật thông tin vào hàng dữ liệu đang chỉnh sửa
-        currentEditRow.row.querySelector('.list__cat').textContent = newCat;
-        currentEditRow.row.querySelector('.list__tag').textContent = newTag;
+                row.remove();
+            }
+        }
     }
 
 </script>
 
-<!-- // Chuyển đổi trạng thái -->
+{{!-- Xử lý hiện thanh phân trang --}}
 <script>
-    function ConvertStatus(row) {
-        const statusCell = row.closest('.list__item').querySelector('.list__status');
-        statusCell.textContent = 'Xuất bản';
+    document.querySelectorAll('.pagination li').forEach(li => {
+        li.classList.add('page-item');
+    });
 
-        const newLink = document.createElement('a');
-        newLink.href = '#';
-        newLink.classList.add('btn', 'btn-warning');
-        newLink.dataset.bsToggle = 'modal';
-        newLink.dataset.bsTarget = '#edit-modal';
-        newLink.onclick = openEditModal;
-
-        const icon = document.createElement('i');
-        icon.classList.add('fa-solid', 'fa-pen');
-
-        newLink.appendChild(icon);
-
-        // Thay thế phần tử ban đầu bằng phần tử mới
-        row.parentNode.replaceChild(newLink, row);
-    }
-
+    document.querySelectorAll('.pagination a').forEach(a => {
+        a.classList.add('page-link');
+    });
 </script>

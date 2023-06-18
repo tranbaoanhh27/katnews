@@ -11,7 +11,7 @@ controller.showSubscriber = async (req, res) => {
         let options = {
             attribute: ['id', 'fullName', 'email', 'premiumExpiredTime', 'avatarPath'],
             order: [['id']],
-            limmit: limit,
+            limit: limit,
             offset: limit * (page - 1)
         }
 
@@ -92,7 +92,7 @@ controller.showWriter = async (req, res) => {
         let options = {
             attribute: ['id', 'fullName', 'email', 'pseudonym', 'avatarPath'],
             order: [['id']],
-            limmit: limit,
+            limit: limit,
             offset: limit * (page - 1)
         }
 
@@ -138,7 +138,7 @@ controller.showEditor = async (req, res) => {
                 model: models.Category,
                 attributes: ['id', 'name'],
             },
-            limmit: limit,
+            limit: limit,
             offset: limit * (page - 1)
         }
 

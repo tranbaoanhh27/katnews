@@ -10,7 +10,7 @@ controllers.show = async (req, res) => {
         let options = {
             attributes: ['id', 'name'],
             order: [['id']],
-            limmit: limit,
+            limit: limit,
             offset: limit * (page - 1)
         }
 

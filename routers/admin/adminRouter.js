@@ -1,7 +1,6 @@
 'use strict';
 
 let router = require('express').Router();
-const controllers = require('../../controllers/admin/adminController');
 const authController = require('../../controllers/admin/authContrller');
 const tagController = require('../../controllers/admin/tagController');
 const categoryController = require('../../controllers/admin/categoryController');
@@ -26,7 +25,8 @@ router.post('/tag', tagController.add);
 router.put('/tag', tagController.update);
 router.delete('/tag', tagController.delete);
 
-router.get('/post', controllers.showPost);
+// post 
+router.use('/post', require('./postRouter'));
 
 //user
 router.use('/user', require('./userRouter'));
