@@ -1,26 +1,36 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
 <main>
-
+    {{#if createSuccess}}
+    <div class="alert alert-success">{{createSuccess}}</div>
+    {{else if createFail}}
+    <div class="alert alert-danger">{{createFail}}</div>
+    {{/if}}
     <div class='container mt-3 rounded-3 shadow-lg' style="width: 80%; background-color: lightgray;">
         <h2 class='mx-4'>Biên soạn</h2>
-        <form>
+        <form action="/edit/news" enctype="multipart/form-data" method="post">
             <div class="mb-3">
-                <!-- <label for="title" class="form-label">Tiêu đề</label> -->
-                <input type="text" class="form-control" id="title" required placeholder='Tiêu đề'>
+                <input type="text" class="form-control" id="title" name="title"  placeholder='Tiêu đề'> 
             </div>
             <div class="mb-3">
-                <!-- <label for="tag" class="form-label">Tag</label> -->
-                <input type="text" class="form-control" id="tag" required placeholder='Tag'>
+                <input type="text" class="form-control" id="tag" name="tag"  placeholder='Tag'>
+            </div>
+            <div class="mb-3 form-control">
+                <input type="file" name="image" >
+                <lable class="">Ảnh đại diện bài báo</lable>
+            </div>
+            <div class="mb-3 form-control">
+                <input type="file" name="image" >
+                <label>Ảnh bìa bài báo</label>
             </div>
             <div class="mb-3">
-                <input type="link" class="form-control" id="linkImage" required placeholder='Link hình ảnh'>
+                <input type="text" class="form-control" id="youtubePath" name="youtubePath"  placeholder='Link youtube'>
             </div>
             <div class='mb-3'>
-                <textarea class="form-control" placeholder="Tóm tắt nôị dung"></textarea>
+                <textarea class="form-control" name="briefContent" placeholder="Tóm tắt nôị dung"></textarea>
             </div>
 
             <div class='mb-3'>
-                <div id="editor">This is some sample content.</div>
+                <textarea id="editor" class="ckeditor" name="content">This is some sample content.</textarea>
             </div>
             <button type="submit" class="btn btn-primary " required>Nộp</button>
         </form>

@@ -35,9 +35,7 @@ controllers.showListNews = async (req, res) => {
     console.log(listNews)
     res.render('writer-list-news', { layout: 'writer-news-layout', listNews });
 }
-controllers.showEditPage = (req, res) => {
-    res.render('writer-edit', { layout: 'writer-news-layout' })
-}
+
 controllers.showInformationPage = (req, res) => {
     res.render('writer-information', { layout: 'writer-news-layout' })
 }
