@@ -115,7 +115,7 @@ app.use(async (request, response, next) => {
             },
         ],
     });
-    response.locals.categories = categories;
+    response.locals.headerCategories = categories;
     next();
 });
 

@@ -29,7 +29,7 @@ passport.deserializeUser(async (request, id, done) => {
 
         } else {
             const user = await models.User.findOne({
-                attributes: ['id', 'password'],
+                attributes: ['id', 'password', 'premiumExpiredTime'],
                 where: { id }
             });
             done(null, user);

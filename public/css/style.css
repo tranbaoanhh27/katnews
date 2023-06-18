@@ -455,23 +455,35 @@ body {
 /**********************************************************/
 /*********** READERS, SUBSCRIBERS NEWS LIST CSS ***********/
 /**********************************************************/
-.user-news__category-select {
-  display: flex;
-  justify-content: flex-start;
+.user-news__categories {
   width: 100%;
-  margin-top: 20px;
-  align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 15px;
 }
 
-.user-news__category-select button {
+.user-news__categories span {
+  display: inline-block;
   background-color: #aaaaaa;
   color: white !important;
   border: none !important;
   margin-inline-end: 20px !important;
   border-radius: 30px !important;
+  min-width: 125px !important;
+  padding-inline: 10px;
+  width: fit-content;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
-.user-news__category-select button:not(.user-news__active-category):hover {
+.user-news__categories span > a {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.user-news__categories span:not(.user-news__active-category):hover {
   background-color: #888888 !important;
 }
 
@@ -508,6 +520,27 @@ body {
   border-radius: 5px;
   width: fit-content;
   font-size: 80%;
+}
+
+.user-news-item__tag {
+  padding: 1px 10px;
+  margin-inline-end: 5px;
+  background-color: var(--bs-secondary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: fit-content;
+  font-size: 80%;
+}
+
+.user-news__premium-badge {
+  background: linear-gradient(90deg, #ffb316 0%, rgb(255, 235, 0) 100%);
+  color: white;
+}
+
+.user-news__tag > a {
+  text-decoration: none !important;
+  color: white !important;
 }
 
 .user-news__tag:hover {

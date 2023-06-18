@@ -1,222 +1,110 @@
 <main class="container">
     <div class="row" style="display: flex; justify-content: space-between;">
         <div class="col-8">
-            <div id="user-news__category-select" class="row user-news__category-select">
-                <div class="col-4">
-                    <h5>Chuyên mục:</h5>
+            <div class="row mt-3 flex-row align-items-center">
+                <div class="col-4 align-self-start">
+                    <h5 class="mb-0 mt-1">Chuyên mục:</h5>
                 </div>
-                <div class="col-8 btn-toolbar" role="toolbar" aria-label="Toolbar">
-                    <div class="btn-group" role="group" aria-label="Button Group">
-                        <button id="all" type="button" class="btn btn-primary user-news__active-category">Tất cả</button>
-                        <button id="business" type="button" class="btn btn-primary">Kinh doanh</button>
-                        <button id="sports" type="button" class="btn btn-primary">Thể thao</button>
+                <div class="col-8">
+                    <div class="user-news__categories">
+                        {{#if showAllCategories}}
+                        <span class="btn btn-primary user-news__active-category"><a href="/news">Tất cả</a></span>
+                        {{else}}
+                        <span class="btn btn-primary"><a href="/news">Tất cả</a></span>
+                        {{/if}}
+                        {{#each categories}}
+                        {{#if isActive}}
+                        <span class="btn btn-primary user-news__active-category"><a
+                                href="/news?categoryId={{id}}">{{name}}</a></span>
+                        {{else}}
+                        <span class="btn btn-primary"><a href="/news?categoryId={{id}}">{{name}}</a></span>
+                        {{/if}}
+                        {{/each}}
                     </div>
                 </div>
             </div>
-            <div id="subcategory-select" class="row user-news__category-select">
-                <div class="col-4">
-                    <h5>Chuyên mục con:</h5>
+            <div class="row mt-3 flex-row align-items-center">
+                <div class="col-4 align-self-start">
+                    <h5 class="mb-0 mt-1">Chuyên mục con:</h5>
                 </div>
-                <div class="col-8 btn-toolbar" role="toolbar" aria-label="Toolbar">
-                    <div class="btn-group" role="group" aria-label="Button Group">
-                        <button id="all" type="button" class="btn btn-primary user-news__active-category">Tất cả</button>
+                <div class="col-8">
+                    <div class="user-news__categories">
+                        {{#if showAllSubCategories}}
+                        <span class="btn btn-primary user-news__active-category"><a
+                                href="/news?categoryId={{activeCategory}}">Tất cả</a></span>
+                        {{else}}
+                        <span class="btn btn-primary"><a href="/news?categoryId={{activeCategory}}">Tất cả</a></span>
+                        {{/if}}
+                        {{#each subCategories}}
+                        {{#if isActive}}
+                        <span class="btn btn-primary user-news__active-category"><a
+                                href="/news?subCategoryId={{id}}">{{name}}</a></span>
+                        {{else}}
+                        <span class="btn btn-primary"><a href="/news?subCategoryId={{id}}">{{name}}</a></span>
+                        {{/if}}
+                        {{/each}}
                     </div>
                 </div>
             </div>
             <div class="user-news__article-list">
-                <!-- <div class="user-news__article">
-                            <img src="/assets/dummy-data/images/article3.jpg" width="250px" height="100%" alt="">
-                            <div class="user-news__article-info">
-                                <div class="user-news__article-category"><a href="#">Category</a></div>
-                                <h5 class="user-news__article-title"><a href="#">Title</a></h5>
-                                <p class="user-news__article-intro">Introduction</p>
-                                <small class="article-date">Published Date</small>
-                                <div class="user-news__article-tags row">
-                                    <div class="user-news__tag">Tag</div>
-                                </div>
+                {{#each news}}
+                {{#if isPremium}}
+                <div class="user-news__article user-news__article--premium">
+                    <img src="{{tinyImagePath}}" width="250px" height="100%" alt="{{title}}">
+                    <div class="user-news__article-info">
+                        <div style="display: flex; gap: 10px">
+                            <div class="user-news__article-category user-news__premium-badge">
+                                Premium
                             </div>
-                        </div> -->
+                            <div class="user-news__article-category" style="background-color: {{categoryColor}};">
+                                <a href="/news?subCategoryId={{SubCategory.id}}">{{SubCategory.name}}</a>
+                            </div>
+                        </div>
+                        <h5 class="user-news__article-title"><a href="/news/{{id}}">{{title}}</a></h5>
+                        <p class="user-news__article-intro">{{shortBriefContent}}</p>
+                        <small class="article-date">{{updatedAtString}}</small>
+                        <div class="user-news__article-tags row">
+                            {{#each Tags}}
+                            <div class="user-news-item__tag">{{name}}</div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="user-news__article">
+                    <img src="{{tinyImagePath}}" width="250px" height="100%" alt="{{title}}">
+                    <div class="user-news__article-info">
+                        <div class="user-news__article-category" style="background-color: {{categoryColor}};">
+                            <a href="/news?subCategoryId={{SubCategory.id}}">{{SubCategory.name}}</a>
+                        </div>
+                        <h5 class="user-news__article-title"><a href="/news/{{id}}">{{title}}</a></h5>
+                        <p class="user-news__article-intro">{{shortBriefContent}}</p>
+                        <small class="article-date">{{updatedAtString}}</small>
+                        <div class="user-news__article-tags row">
+                            {{#each Tags}}
+                            <div class="user-news-item__tag">{{name}}</div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
             </div>
+            <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
+                {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
+            </nav>
         </div>
         <div class="col-3 user-news__col-select-tag">
             <h5>Danh sách nhãn</h5>
-            <div class="user-news__active-tags row">
-                <!-- <div id="tag-value" class="user-news__tag user-news__active-tag">Example <i class="fa-solid fa-xmark" style="color: #ffffff;"></i></div> -->
-            </div>
             <div class="user-news__tag-select row">
-                <!-- <div class="user-news__tag">Example Tag</div> -->
+                {{#each tags}}
+                {{#if isActive}}
+                <div class="user-news__tag user-news__active-tag">{{name}}</div>
+                {{else}}
+                <div class="user-news__tag"><a href="/news?tagId={{id}}">{{name}}</a></div>
+                {{/if}}
+                {{/each}}
             </div>
         </div>
     </div>
 </main>
-
-<script>
-    let selectedCategory = 'all';
-    let selectedSubcategory = 'all';
-    let selectedTags = [];
-    let tags = [];
-
-    function checkSubset(parentArray, subsetArray) {
-        let set = new Set(parentArray);
-        return subsetArray.every(x => set.has(x));
-    }
-
-    function updateArticles(allArticles) {
-        let filteredArticles = allArticles.filter(
-            article =>
-                (selectedCategory === 'all' || article.engCategory === selectedCategory) &&
-                (selectedSubcategory === 'all' || article.engSubcategory === selectedSubcategory) &&
-                checkSubset(article.tag, selectedTags)
-        )
-
-        let articleElements = document.querySelector('.user-news__article-list');
-        articleElements.innerHTML = ''; // Clear all old child elements
-        for (const article of filteredArticles) {
-            let articleElement = document.createElement('div');
-            articleElement.classList.add('user-news__article');
-            let introToDisplay = article.intro.slice(0, 100);
-            if (article.intro.length > 100) introToDisplay += '...';
-            articleElement.innerHTML = `
-                        <img src="${article.imageURL}" width="250px" height="100%" alt="">
-                        <div class="user-news__article-info">
-                            <div class="user-news__article-category" style="background-color: ${article.categoryColor}"><a href="#">${article.subcategory}</a></div>
-                            <h5 class="user-news__article-title"><a href="${article.htmlURL}">${article.title}</a></h5>
-                            <p class="user-news__article-intro">${introToDisplay}</p>
-                            <small class="article-date">${article.publishedDate}</small>
-                            <div class="user-news__article-tags row"></div>
-                        </div>
-                    `;
-            for (let tag of article.tag.slice(0, 4)) {
-                let tagElement = document.createElement('div');
-                tagElement.classList.add('user-news__tag');
-                tagElement.innerHTML = tag;
-                articleElement.querySelector('.user-news__article-tags').appendChild(tagElement);
-            }
-            articleElements.appendChild(articleElement);
-        }
-    }
-
-    function updateSubCategories(articles) {
-        const categories = {
-            all: { all: 'Tất cả' },
-            business: {
-                all: "Tất cả",
-                agriculture: "Nông sản",
-                seafood: "Hải sản",
-            },
-            sports: {
-                all: "Tất cả",
-                soccer: "Bóng đá",
-                basketball: "Bóng rổ",
-                tennis: "Quần vợt",
-            }
-        }
-
-        let subcategorySelectButtonGroup = document.querySelector('#subcategory-select .btn-group');
-
-        // Reset sub category selection
-        subcategorySelectButtonGroup.innerHTML = '';
-
-        // Add new subcategory select buttons
-        for (const subcategory in categories[selectedCategory]) {
-            let button = document.createElement('button');
-            button.classList.add('btn');
-            button.classList.add('btn-primary');
-            if (subcategory === selectedSubcategory) button.classList.add('user-news__active-category');
-            button.setAttribute('id', subcategory);
-            button.innerHTML = categories[selectedCategory][subcategory];
-            subcategorySelectButtonGroup.appendChild(button);
-        }
-
-        // Add click listeners for new subcategory buttons
-        let subcategorySelectButtons = document.querySelectorAll('#subcategory-select button');
-        subcategorySelectButtons.forEach(subButton => {
-            subButton.addEventListener('click', event => {
-                subcategorySelectButtons.forEach(button => button.classList.remove('user-news__active-category'));
-                subButton.classList.add('user-news__active-category');
-                selectedSubcategory = subButton.id;
-                updateArticles(articles);
-                updateTags(articles);
-            })
-        })
-    }
-
-    function updateTags(allArticles) {
-        const filteredArticles = allArticles.filter(
-            article =>
-                (selectedCategory === 'all' || article.engCategory === selectedCategory) &&
-                (selectedSubcategory === 'all' || article.engSubcategory === selectedSubcategory)
-        );
-
-        tags = [];
-        filteredArticles.forEach(article => {
-            tags = tags.concat(article.tag);
-        });
-        tags = tags.filter(tag => !selectedTags.includes(tag));
-
-        let tagElements = document.querySelector('.user-news__tag-select');
-        tagElements.innerHTML = '';
-        tags.forEach(tag => {
-            let tagElement = document.createElement('div');
-            tagElement.classList.add('user-news__tag');
-            tagElement.innerHTML = tag;
-            tagElements.appendChild(tagElement);
-        });
-
-        let selectedTagElements = document.querySelector('.user-news__active-tags');
-        selectedTagElements.innerHTML = '';
-        selectedTags.forEach(tag => {
-            // <div class="tag user-news__active-tag">Example <i class="fa-solid fa-xmark" style="color: #ffffff;"></i></div>
-            let tagElement = document.createElement('div');
-            tagElement.classList.add('user-news__tag');
-            tagElement.classList.add('user-news__active-tag');
-            tagElement.innerHTML = `${tag} <i class="fa-solid fa-xmark" style="color: #ffffff;"></i>`;
-            tagElement.setAttribute('id', tag);
-            selectedTagElements.appendChild(tagElement);
-        });
-
-        // Add event listeners for tag buttons
-        let tagButtons = document.querySelectorAll('.user-news__tag-select .user-news__tag');
-        tagButtons.forEach(button => {
-            button.addEventListener('click', event => {
-                selectedTags.push(button.innerHTML);
-                tags = tags.filter(tag => tag !== button.innerHTML);
-                updateTags(allArticles);
-                updateArticles(allArticles);
-            })
-        });
-
-        // Add event listeners for selected tags button
-        let selectedTagButtons = document.querySelectorAll('.user-news__active-tags .user-news__tag');
-        selectedTagButtons.forEach(button => {
-            button.addEventListener('click', event => {
-                tags.push(button.id);
-                selectedTags = selectedTags.filter(tag => tag !== button.id);
-                updateTags(allArticles);
-                updateArticles(allArticles);
-            })
-        })
-    }
-
-    fetch('/assets/dummy-data/articles.json')
-        .then(response => response.json())
-        .then(json => {
-            const articles = [...json];
-
-            updateArticles(articles);
-            updateTags(articles);
-
-            let categorySelectButtons = document.querySelectorAll('#user-news__category-select button');
-            categorySelectButtons.forEach(button => {
-                button.addEventListener('click', event => {
-                    categorySelectButtons.forEach(button => button.classList.remove('user-news__active-category'));
-                    button.classList.add('user-news__active-category');
-                    selectedCategory = button.id;
-                    selectedSubcategory = 'all';
-                    updateArticles(articles);
-                    updateSubCategories(articles);
-                    updateTags(articles);
-                })
-            })
-        })
-</script>
