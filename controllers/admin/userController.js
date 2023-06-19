@@ -136,7 +136,7 @@ controller.showEditor = async (req, res) => {
             order: [['id']],
             include: {
                 model: models.Category,
-                attributes: ['id', 'name'],
+                attributes: ['id', 'name', 'editorId'],
             },
             limit: limit,
             offset: limit * (page - 1)

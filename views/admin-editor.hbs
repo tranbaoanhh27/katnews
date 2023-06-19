@@ -97,9 +97,10 @@
                     <div class="mb-3">
                         <label for="edit-modal-email" class="form-user">Chuyên mục được giao</label>
                         {{#each categories}}
-                        <div class="form-control" id="select-category">
+                        <div class="form-control my-1" id="select-category">
                             <input type="checkbox" name="select-category" value="{{id}}" class="d-inline">
                             <p class="d-inline">{{name}}</p>
+                            {{#if editorId}}<i class="fa-solid fa-check d-inline text-success float-end"></i>{{/if}}
                         </div>
                         {{/each}}
                     </div>
