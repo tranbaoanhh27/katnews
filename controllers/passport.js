@@ -148,4 +148,33 @@ passport.use('admin-local-login', new passportLocal({
     }
 }));
 
+
+passport.use('writer-local-login', new passportLocal(
+    {
+        usernameField: "email",
+        passwordField: 'password',
+        passReqToCallback: true,
+    },
+    async function verify(req, email, password, cb) {
+        const user = await models.Writer.findOne({ where: { email } });
+        console.log('user', user)
+        if (!user) {
+            return cb(null, false, req.flash('messageWriterLogin', "Tên đăng nhập không tồn tại"));
+        }
+        bcrypt.compare(password, user.password, (err, result) => {
+            console.log("result", result)
+            if (err) {
+                return cb(null, false, req.flash('messageWriterLogin', "Mật khẩu không chính xác"));
+            }
+            if (result) {
+                console.log("sucess")
+                return cb(null, user);
+            } else {
+                return cb(null, false, req.flash('messageWriterLogin', "Mật khẩu không chính xác"));
+            }
+        })
+    }
+))
+
+
 module.exports = passport;

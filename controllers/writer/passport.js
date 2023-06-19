@@ -8,9 +8,9 @@ passport.serializeUser((user, done) => {
 })
 
 // hàm này được gọi bởi passport.session() giúp ta lấy giữ liệu user trong session và gắn vào req.user
-// passport.deserializeUser((user, done)=> {
-//     done(null, user);
-// })
+passport.deserializeUser((user, done)=> {
+    done(null, user);
+})
 
 passport.use(new LocalStrategy(
     {
