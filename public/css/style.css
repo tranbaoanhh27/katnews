@@ -1002,6 +1002,11 @@ body {
   animation: user-login-fade-up 1.25s linear;
 }
 
+.user-login-quick-login > a {
+  width: calc(50% - 10px);
+  text-decoration: none !important;
+}
+
 .user-login-quick-login__method {
   background-color: #333333;
   color: white;
@@ -1009,7 +1014,7 @@ body {
   justify-content: space-between;
   padding: 20px 40px 20px 30px;
   border-radius: 15px;
-  width: calc(50% - 10px);
+  width: 100%;
   align-items: center;
 }
 
