@@ -82,7 +82,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="edit-modal-user">Chỉnh sửa người dùng</h5>
+                    <h5 class="modal-title" id="edit-modal-user">Chỉnh sửa biên tập viên</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
                 </div>
                 <div class="modal-body">
@@ -95,12 +95,13 @@
                         <input type="email" id="edit-modal-email" class="form-control" readonly placeholder="Nhập emai">
                     </div>
                     <div class="mb-3">
-                        <label for="edit-modal-email" class="form-user">Chuyên mục được giao</label>
+                        <label for="edit-modal-email" class="form-user">Phân công chuyên mục</label>
                         {{#each categories}}
                         <div class="form-control my-1" id="select-category">
                             <input type="checkbox" name="select-category" value="{{id}}" class="d-inline">
                             <p class="d-inline">{{name}}</p>
-                            {{#if editorId}}<i class="fa-solid fa-check d-inline text-success float-end"></i>{{/if}}
+                            {{#if editorId}}<p class="d-inline text-muted float-end text-sm">Đã được phân công</p>
+                            {{/if}}
                         </div>
                         {{/each}}
                     </div>
