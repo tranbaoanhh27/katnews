@@ -38,9 +38,9 @@ controllers.createNews = async (req, res) => {
         for (let image of images) {
             const name = image.originalname.split('.')[0];
             const ext = image.originalname.split('.')[1];
-            const filename = `${name}_${Date.now()}.${ext}`;
+            const filename = `news-image/${name}_${Date.now()}.${ext}`;
 
-            await uploadBytes(ref(firebaseStorage, filename), image.buffer).then(
+            await uploadBytes(ref(firebaseStorage, filename), image.buffer, { contentType: image.mimetype }).then(
                 async(snapshot) => {
                     await getDownloadURL(snapshot.ref).then(
                         (downloadURL) => {

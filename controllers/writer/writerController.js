@@ -99,8 +99,8 @@ controllers.editAvatar = async (req, res) => {
         console.log('file', file)
         const name = file.originalname.split('.')[0]; 
         const type = file.originalname.split('.')[1];
-        const filename = `${name}_${Date.now()}.${type}`;
-        await uploadBytes(ref(firebaseStorage, filename), file.buffer).then(
+        const filename = `writer-avatar-images/${name}_${Date.now()}.${type}`;
+        await uploadBytes(ref(firebaseStorage, filename), file.buffer, {contentType: file.mimetype}).then(
             async (snapshot)=> {
                 await getDownloadURL(snapshot.ref).then(
                     async (downloadUrl)=> {

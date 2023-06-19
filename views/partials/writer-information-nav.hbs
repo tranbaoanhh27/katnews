@@ -3,8 +3,11 @@
     <form id="form" action="/writer/editAvatar" method="post" enctype="multipart/form-data">
         <div class="align-items-center">
             <label for="avatar">
-
+            {{#if writer.avatarPath}}
             <img src={{writer.avatarPath}} class="rounded-circle mx-auto d-block" style="width: 100px; height: 100px">
+            {{else}}
+            <img src="/images/default-user-icon.jpg" class="rounded-circle mx-auto d-block" style="width: 100px; height: 100px">
+            {{/if}}
             </label>
             <input id="avatar" type="file" style="display: none" name="avatar">
             <button type="submit" style="display: none;"></button>
