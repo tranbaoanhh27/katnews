@@ -105,9 +105,6 @@ app.use(connectFlash());
 app.use("/auth", subdomain("writer", require("./routers/writer/authRoutes")));
 app.use("/edit", subdomain("writer", require('./routers/writer/editRoutes')));
 app.use("/", subdomain("writer", require("./routers/writer/writerRoutes")));
-app.use( subdomain('writer', (req, res, next) => {
-    res.send('file not found')
-}))
 
 app.use(subdomain("editor", require("./routers/editor/editorRoutes")));
 app.use("/auth", subdomain("admin", require("./routers/admin/authRouter")));
