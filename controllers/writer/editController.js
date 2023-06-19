@@ -4,6 +4,7 @@ const { initializeApp } = require('firebase/app');
 const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
 const { link } = require('../../routers/writer/editRoutes');
 const models = require('../../models');
+const bcrypt = require('bcrypt');
 const controllers = {};
 
 const firebaseConfig = {
@@ -101,9 +102,31 @@ controllers.createNews = async (req, res) => {
         req.flash('createFail', err)
         res.redirect('/edit');
     }
+}
 
+controllers.changePassword = async (req, res) => {
+    try{
+        const writerId = req.user;
+        if (!writerId) throw "Bạn chưa đăng nhập"
+        const writer = await models.Writer.findOne({where: {id: writerId}});
+        if (!writer) throw "Writer không tồn tại"
+        await bcrypt.compare(req.body.oldPassword, writer.password, (err, result) => {
+            if (err) throw "Mật khẩu cũ không chính xác"
+        })
+        if (req.body.newPassword !== req.body.confirmPassword) throw "Mật khẩu mới và xác nhận mật khẩu phải giống nhau"
 
-
+        const newHashPassword = await bcrypt.hashSync(req.body.newPassword, 8);
+        const newWriter = await models.Writer.update({password: newHashPassword}, {where: {id: writerId}});
+        if (newWriter){
+            req.flash('writerSuccessChangePassword', "Đổi mật khẩu thành công");
+            res.redirect('/changePassword');
+        } else{
+            throw "Không thể đổi mật khẩu"
+        }
+    }catch(err){
+        req.flash('writerErrorChangePassword', err);
+        res.redirect('/changePassword');
+    }
 
 }
 
