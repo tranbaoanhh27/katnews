@@ -132,12 +132,14 @@ app.use("/auth", require("./routers/user/authRouter"));
 app.use("/account", require("./routers/user/accountRouter"));
 
 app.use((req, res, next) => {
+    res.locals.pageTitle = 'Không tìm thấy trang!';
     res.status(404).render("error", { message: "404 - File not Found!" });
 });
 
 app.use((error, req, res, next) => {
     console.error(error);
-    res.status(500).render("error", { message: "500 - Internal Sever Error!" });
+    res.locals.pageTitle = 'Lỗi Server';
+    res.status(500).render("error", { message: "500 - Internal Server Error!" });
 });
 
 app.set("port", process.env.PORT || 5000);

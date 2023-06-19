@@ -35,10 +35,36 @@ router.post('/register',
     controller.register
 )
 
+router.get('/forgot-password/enter-otp', (request, response) => {
+    return response.render('user-enter-otp', {
+        pageTitle: 'Nhập mã OTP',
+        email: request.query.email,
+        successMessage: request.query.successMessage
+    });
+});
+
 router.get('/forgot-password', controller.showForgotPasswordPage);
 router.post('/forgot-password', controller.showEnterOTPPage);
 router.post('/new-password', controller.showEnterNewPasswordPage);
-router.post('/reset-password', controller.resetPassword);
+
+router.post('/reset-password',
+    body('newPassword').matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/).withMessage('Mật khẩu phải có ít nhất 8 kí tự, trong đó phải có ít nhất một kí tự số, một kí tự in hoa, và một kí tự in thường!'),
+    body('newPasswordConfirm').custom((confirmPassword, { req }) => {
+        if (confirmPassword != req.body.newPassword) throw new Error('Mật khẩu không khớp!');
+        return true;
+    }),
+    (request, response, next) => {
+        const message = getErrorMessage(request);
+        if (message) {
+            response.locals.pageTitle = 'Đặt lại mật khẩu';
+            response.locals.userId = request.body.userId;
+            response.locals.errorMessage = message;
+            response.render('user-enter-new-password');
+        }
+        next();
+    },
+    controller.resetPassword
+);
 
 router.use(controller.isLoggedIn);
 

@@ -9,4 +9,9 @@ helper.isPremium = (user) => {
     return today < expiredDay;
 }
 
+helper.generateOTP = () => {
+    const otp = `${Math.floor(100000 + Math.random() * 900000)}`;
+    return otp;
+}
+
 module.exports = helper;
