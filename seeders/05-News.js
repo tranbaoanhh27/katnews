@@ -690,6 +690,7 @@ module.exports = {
             item.totalViewsCount = Math.floor(Math.random() * 10);  // Fake views count for testing
             // item.totalViewsCount = 0;
             item.weeklyViewsCount = 0;
+            item.isDeleted = false;
         });
 
         await queryInterface.bulkInsert("News", news, {});

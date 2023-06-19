@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Comment.init({
-    content: DataTypes.TEXT
+    content: { type: DataTypes.TEXT, allowNull: false },
+    isDeleted: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Comment',

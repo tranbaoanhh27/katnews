@@ -18,16 +18,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   News.init({
-    title: DataTypes.TEXT,
-    content: DataTypes.TEXT,
-    briefContent: DataTypes.TEXT,
+    title: { type: DataTypes.TEXT, allowNull: false },
+    content: { type: DataTypes.TEXT, allowNull: false },
+    briefContent: { type: DataTypes.TEXT, allowNull: false },
     tinyImagePath: DataTypes.STRING,
-    largeImagePath: DataTypes.STRING,
+    largeImagePath: { type: DataTypes.STRING, allowNull: false },
     youtubePath: DataTypes.STRING,
     isDraft: DataTypes.BOOLEAN,
     isPremium: DataTypes.BOOLEAN,
-    totalViewsCount: DataTypes.BIGINT,
-    weeklyViewsCount: DataTypes.INTEGER,
+    totalViewsCount: { type: DataTypes.BIGINT, allowNull: false },
+    weeklyViewsCount: { type: DataTypes.INTEGER, allowNull: false },
+    isDeleted: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'News',

@@ -34,6 +34,7 @@ module.exports = {
         editors.forEach((item) => {
             item.createdAt = Sequelize.literal("NOW()");
             item.updatedAt = Sequelize.literal("NOW()");
+            item.isDeleted = false;
         });
 
         await queryInterface.bulkInsert("Editors", editors, {});

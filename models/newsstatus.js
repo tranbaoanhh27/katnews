@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   NewsStatus.init({
-    status: DataTypes.STRING, // "pending", "rejected", or "approved"
+    status: { type: DataTypes.STRING, allowNull: false }, // "pending", "rejected", or "approved"
     reasonReject: DataTypes.TEXT,
     publishDate: DataTypes.DATE
   }, {

@@ -12,14 +12,15 @@ module.exports = {
                 birthdate: new Date("2002-01-01"),
                 premiumExpiredTime: null,
                 avatarPath: "/images/default-writer-avatar.jpeg",
-                tokenFacebook: null,
-                tokenGmail: null,
+                facebookUid: null,
+                googleUid: null,
             }
         ];
 
         users.forEach(item => {
             item.createdAt = Sequelize.literal("NOW()");
             item.updatedAt = Sequelize.literal("NOW()");
+            item.isDeleted = false;
         });
 
         await queryInterface.bulkInsert("Users", users, {});

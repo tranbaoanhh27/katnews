@@ -32,6 +32,7 @@ module.exports = {
         subCategories.forEach((item) => {
             item.createdAt = Sequelize.literal("NOW()");
             item.updatedAt = Sequelize.literal("NOW()");
+            item.isDeleted = false;
         });
 
         await queryInterface.bulkInsert("SubCategories", subCategories, {});

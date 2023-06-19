@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Card.init({
-    fullName: DataTypes.STRING,
-    cardNumber: DataTypes.STRING,
-    timeExpiration: DataTypes.DATE
+    fullName: { type: DataTypes.STRING, allowNull: false },
+    cardNumber: { type: DataTypes.STRING, allowNull: false },
+    timeExpiration: { type: DataTypes.DATE, allowNull: false },
+    isDeleted: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Card',
