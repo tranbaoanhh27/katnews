@@ -17,6 +17,7 @@ const firebase = initializeApp(firebaseConfig);
 const firebaseStorage = getStorage(firebase);
 
 controllers.showLoginPage = (req, res) => {
+    console.log("show loggin page");
     const writerId = req.user;
     if (writerId) {
         res.redirect("/listNews")
@@ -59,8 +60,14 @@ controllers.showInformationPage = async(req, res) => {
     console.log(writer);
     res.render('writer-information', { layout: 'writer-news-layout' , writer: writer })
 }
-controllers.showChangePasswordPage = (req, res) => {
-    res.render('writer-changePassword', { layout: 'writer-news-layout' })
+controllers.showChangePasswordPage =async (req, res) => {
+    const writerId = req.user;
+    const writer = await models.Writer.findOne({where: {id: writerId}});
+
+    res.render('writer-changePassword', { layout: 'writer-news-layout' ,
+        writer: writer,
+        writerErrorChangePassword: req.flash('writerErrorChangePassword'),
+        writerSuccessChangePassword: req.flash('writerSuccessChangePassword')})
 }
 controllers.showSavedNews = (req, res) => {
     res.render('writer-savedNews', { layout: 'writer-news-layout' })
@@ -92,8 +99,8 @@ controllers.editAvatar = async (req, res) => {
         console.log('file', file)
         const name = file.originalname.split('.')[0]; 
         const type = file.originalname.split('.')[1];
-        const filename = `${name}_${Date.now()}.${type}`;
-        await uploadBytes(ref(firebaseStorage, filename), file.buffer).then(
+        const filename = `writer-avatar-images/${name}_${Date.now()}.${type}`;
+        await uploadBytes(ref(firebaseStorage, filename), file.buffer, {contentType: file.mimetype}).then(
             async (snapshot)=> {
                 await getDownloadURL(snapshot.ref).then(
                     async (downloadUrl)=> {

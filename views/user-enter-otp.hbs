@@ -1,26 +1,43 @@
 <main>
     <div class="user-enter-otp-card">
-        <form action="/auth/new-password" method="post">
+        <form id="user-enter-otp-form" action="/auth/new-password" method="post">
+            <input type="text" value="{{email}}" name="email" hidden>
             <h2>Nhập mã OTP</h2>
+            {{#if errorMessage}}
+            <div class="alert alert-danger"
+                style="display: flex; justify-content: space-between; align-content: center">
+                {{{errorMessage}}}
+                <div class="xmark-button" style="align-self: center;"><i class="fa-solid fa-xmark"
+                        style="color: rgb(220, 66, 66); font-size: large"></i></div>
+            </div>
+            {{/if}}
+            {{#if successMessage}}
+            <div class="alert alert-success" style="display: flex; justify-content: space-between; align-content: center">
+                {{{successMessage}}} 
+                <div class="xmark-button"><i class="fa-solid fa-xmark" style="color: rgb(32, 104, 32); font-size: large"></i></div>
+            </div>
+            {{/if}}
             <p class="mt-4">Chúng tôi đã gửi một email chứa mã OTP đến địa chỉ {{email}}, vui lòng kiểm tra
                 email để lấy mã OTP</p>
             <div class="mb-4">
                 <label for="otp" class="form-label">Mã OTP</label>
-                <input type="text" class="form-control" name="otp" id="otp" placeholder="_ _ _ _ _ _">
-            </div>
-            <div class="user-enter-otp-card__footer">
-                <button type="submit" class="btn btn-primary mb-5">Xác nhận</button>
-                <div>
-                    <p>Không nhận được mã?</p>
-                    <h5 id="resend-otp" class="user-enter-otp__resend-link user-enter-otp__resend-link--disabled">Gửi
-                        lại OTP (30s)</h5>
-                </div>
+                <input type="text" class="form-control" name="otp" id="otp" placeholder="_ _ _ _ _ _" required>
             </div>
         </form>
+        <div class="user-enter-otp-card__footer">
+            <button type="submit" class="btn btn-primary mb-5" form="user-enter-otp-form">Xác nhận</button>
+            <form id="user-resend-otp-form" action="/auth/forgot-password" method="post">
+                <p>Không nhận được mã?</p>
+                <input type="text" name="email" value="{{email}}" hidden>
+                <input type="text" name="resend" value="true" hidden>
+                <input type="submit" form="user-resend-otp-form" hidden>
+                <h5 id="resend-otp" class="user-enter-otp__resend-link user-enter-otp__resend-link--disabled">Gửi lại OTP (60s)</h5>
+            </form>
+        </div>
     </div>
 </main>
 <script>
-    let remainingSeconds = 30;
+    let remainingSeconds = 60;
     let countdown = setInterval(() => {
         let resendOTP = document.getElementById('resend-otp');
         if (remainingSeconds !== 0)
@@ -30,10 +47,13 @@
             clearInterval(countdown);
             resendOTP.classList.remove('user-enter-otp__resend-link--disabled');
             resendOTP.onclick = (event) => {
-                alert("Đã gửi lại mã OTP!");
-                window.location.reload();
+                document.querySelector('#user-resend-otp-form [type=submit]').click();
             }
         }
         remainingSeconds--;
     }, 1000);
+
+    document.querySelectorAll('.user-enter-otp-card .xmark-button').forEach(xmark => xmark.addEventListener('click', event => {
+        document.querySelectorAll('.user-enter-otp-card .alert').forEach(item => item.style.display = 'none');
+    }));
 </script>
