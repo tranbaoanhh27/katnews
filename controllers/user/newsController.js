@@ -5,7 +5,6 @@ const Sequelize = require("sequelize");
 const puppeteer = require("puppeteer");
 const userHelper = require("../../public/javascript/userHelper");
 const DEFAULT_USER_AVATAR_PATH = "/images/default-user-icon.jpg";
-const { Op } = require('sequelize');
 
 const controller = {};
 
@@ -344,34 +343,6 @@ const generatePdf = async (news) => {
     await browser.close();
 
     return pdf;
-}
-
-controller.search = async (req, res) => {
-    let { keyword } = req.body;
-    let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-    const limit = 10;
-
-    const keywordQuery = keyword.split(' ').join('&');
-    const options = {
-        where: {
-            ts: {
-                [Op.match]: Sequelize.literal(`ts_rank(ts, to_tsquery('english', '${keywordQuery}')) > 0`)
-            }
-        },
-        order: [[literal(ts_rank(ts, to_tsquery('english', `${keywordQuery}`))), "DESC"]],
-        limit: limit,
-        offset: limit * (page - 1)
-    }
-    let { rows, count } = await models.New.findAndCountAll(options);
-
-    res.locals.pagination = {
-        page: page,
-        limit: limit,
-        totalRows: count,
-        queryParams: req.query
-    };
-
-    res.locals.news = rows;
 }
 
 module.exports = controller;
