@@ -3,6 +3,7 @@
 // Import libraries
 const passport = require('passport');
 const passportLocal = require('passport-local');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcrypt');
 const models = require('../models');
 
@@ -81,9 +82,6 @@ passport.use('user-local-login', new passportLocal({
     }
 }));
 
-
-
-
 passport.use('user-local-register', new passportLocal({
     usernameField: 'email',
     passwordField: 'password',
@@ -100,6 +98,43 @@ passport.use('user-local-register', new passportLocal({
             password: bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
         });
         done(null, false, request.flash('registerMessage', 'Đăng ký tài khoản thành công!<br/>Hãy chuyển đến trang <a href="/auth/login">Đăng nhập</a>!'));
+    } catch (error) {
+        done(error);
+    }
+}));
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/auth/google/redirect",
+    passReqToCallback: true
+}, async (request, accessToken, refreshToken, profile, done) => {
+    try {
+        // If already logged in, return authenticated user
+        if (request.user) return done(null, request.user);
+
+        // Try querying user with the same email address
+        const user = await models.User.findOne({ where: { email: profile.emails[0].value }});
+
+        // If exists user with the same email, update user's googleUid, then return
+        if (user) {
+            await user.update({
+                googleUid: profile.id
+            });
+            return done(null, user);
+        }
+
+        // If doesn't exists any user with that email address
+        // create new user
+        const createdUser = await models.User.create({
+            email: profile.emails[0].value,
+            password: bcrypt.hashSync(accessToken, bcrypt.genSaltSync(8)),
+            fullName: profile.displayName,
+            avatarPath: profile.photos[0].value,
+            googleUid: profile.id
+        });
+
+        return done(null, createdUser);
     } catch (error) {
         done(error);
     }
