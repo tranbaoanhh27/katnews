@@ -1,6 +1,9 @@
 {
     "development": {
-        "use_env_variable": "POSTGRESQL_URL",
+        "username": "katnews",
+        "password": "iskO7GVFn3LvFC9krjzL0yS2vdL7fwdk",
+        "database": "katnews",
+        "host": "dpg-ci08b4r3cv20nhsiocbg-a.oregon-postgres.render.com",
         "dialect": "postgres",
         "dialectOptions": {
             "ssl": {

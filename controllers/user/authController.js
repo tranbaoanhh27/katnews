@@ -206,4 +206,15 @@ controller.googleOAuthRedirect = (request, response, next) => {
     })(request, response, next);
 }
 
+controller.facebookOAuthRedirect = (request, response, next) => {
+    passport.authenticate("facebook", (error, user) => {
+        if (error) return next(error);
+        if (!user) return response.redirect(`/auth/login`);
+        request.logIn(user, (error) => {
+            if (error) return next(error);
+            return response.redirect("/");
+        });
+    })(request, response, next);
+}
+
 module.exports = controller;

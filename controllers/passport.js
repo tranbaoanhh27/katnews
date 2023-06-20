@@ -4,6 +4,7 @@
 const passport = require('passport');
 const passportLocal = require('passport-local');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const bcrypt = require('bcrypt');
 const models = require('../models');
 
@@ -113,6 +114,9 @@ passport.use(new GoogleStrategy({
         // If already logged in, return authenticated user
         if (request.user) return done(null, request.user);
 
+        // Check if Google user has email
+        if (!profile.emails || !profile.emails[0]) throw "GOOGLE_USER_NO_EMAIL";
+
         // Try querying user with the same email address
         const user = await models.User.findOne({ where: { email: profile.emails[0].value }});
 
@@ -126,12 +130,54 @@ passport.use(new GoogleStrategy({
 
         // If doesn't exists any user with that email address
         // create new user
+        const avatarPath = (profile.photos && profile.photos[0]) ? profile.photos[0].value : null;
         const createdUser = await models.User.create({
             email: profile.emails[0].value,
             password: bcrypt.hashSync(accessToken, bcrypt.genSaltSync(8)),
             fullName: profile.displayName,
-            avatarPath: profile.photos[0].value,
+            avatarPath: avatarPath,
             googleUid: profile.id
+        });
+
+        return done(null, createdUser);
+    } catch (error) {
+        done(error);
+    }
+}));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "/auth/facebook/redirect",
+    profileFields: ['id', 'displayName', 'photos', 'email'],
+}, async (request, accessToken, refreshToken, profile, done) => {
+    try {
+        // If already logged in, return authenticated user
+        if (request.user) return done(null, request.user);
+
+        // Check if Facebook user has email
+        if (!profile.emails || !profile.emails[0]) throw "FACEBOOK_USER_NO_EMAIL";
+
+        // Try querying user with the same email address
+        const user = await models.User.findOne({ where: { email: profile.emails[0].value }});
+
+        // If exists user with the same email, update user's facebookUid, then return
+        if (user) {
+            await user.update({
+                facebookUid: profile.id
+            });
+            return done(null, user);
+        }
+
+        // If doesn't exists any user with that email address
+        // create new user
+        const avatarPath = (profile.photos && profile.photos[0]) ? profile.photos[0].value : null;
+        const createdUser = await models.User.create({
+            email: profile.emails[0].value,
+            password: bcrypt.hashSync(accessToken || refreshToken.access_token || profile.emails[0].value, bcrypt.genSaltSync(8)),
+            fullName: profile.displayName,
+            avatarPath: avatarPath,
+            facebookUid: profile.id
         });
 
         return done(null, createdUser);

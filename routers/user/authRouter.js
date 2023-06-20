@@ -21,6 +21,9 @@ router.post(
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 router.get("/google/redirect", controller.googleOAuthRedirect);
 
+router.get('/facebook', passport.authenticate("facebook", { scope: ['email', 'public_profile'] }));
+router.get('/facebook/redirect', controller.facebookOAuthRedirect);
+
 router.get("/logout", controller.logout);
 
 router.get("/register", controller.showSignUpPage);
