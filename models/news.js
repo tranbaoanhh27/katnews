@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      News.belongsTo(models.Writer, {foreignKey: "writerId"})
-      News.belongsTo(models.SubCategory, {foreignKey: "categoryId"})
-      News.belongsToMany(models.Tag, {through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId'})
+      News.belongsTo(models.Writer, { foreignKey: "writerId" })
+      News.belongsTo(models.SubCategory, { foreignKey: "categoryId" })
+      News.belongsToMany(models.Tag, { through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId' })
       News.hasMany(models.Comment, { foreignKey: 'newsId' });
     }
   }
@@ -28,7 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     isPremium: DataTypes.BOOLEAN,
     totalViewsCount: { type: DataTypes.BIGINT, allowNull: false },
     weeklyViewsCount: { type: DataTypes.INTEGER, allowNull: false },
-    isDeleted: DataTypes.BOOLEAN
+    isDeleted: DataTypes.BOOLEAN,
+    ts: {
+      type: `TSVECTOR GENERATED ALWAYS AS(setweight(to_tsvector('english', coalesce(title, '')), 'A') || setweight(to_tsvector('english', coalesce(briefContent, '')), 'B') || setweight(to_tsvector('english', coalesce(content, '')), 'C')) STORED`
+    }
   }, {
     sequelize,
     modelName: 'News',
