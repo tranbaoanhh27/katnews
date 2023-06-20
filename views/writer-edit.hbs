@@ -5,11 +5,14 @@
     {{else if createFail}}
     <div class="alert alert-danger">{{createFail}}</div>
     {{/if}}
+    {{!-- {{#if news}} --}}
+    {{!-- {{#with news}} --}}
     <div class='container mt-3 rounded-3 shadow-lg' style="width: 80%; background-color: lightgray;">
         <h2 class='mx-4'>Biên soạn</h2>
         <form action="/edit/news" enctype="multipart/form-data" method="post">
             <div class="mb-3">
-                <input type="text" class="form-control" id="title" name="title" placeholder='Tiêu đề'>
+                <input type="text" class="form-control" id="title" name="title" placeholder='Tiêu đề'
+                    value={{news.title}}>
             </div>
             <div class="mb-3">
                 <input type="text" class="form-control" id="tag" name="tag" placeholder='Tag'>
@@ -23,19 +26,23 @@
                 <label>Ảnh bìa bài báo</label>
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" id="youtubePath" name="youtubePath" placeholder='Link youtube'>
+                <input type="text" class="form-control" id="youtubePath" name="youtubePath" placeholder='Link youtube'
+                    value={{news.youtubePath}}>
             </div>
             <div class='mb-3'>
                 <textarea class="form-control" name="abstract" placeholder="Tóm tắt nôị dung"></textarea>
             </div>
 
             <div class='mb-3'>
-                <textarea id="editor" class="ckeditor" name="content">This is some sample content.</textarea>
+                <textarea id="editor" class="ckeditor" name="content"
+                    value={{news.content}}>This is some sample content.</textarea>
             </div>
             <button type="submit" class="btn btn-primary " required>Nộp</button>
         </form>
 
     </div>
+    {{!-- {{/with}} --}}
+    {{!-- {{/if}} --}}
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'))
