@@ -17,7 +17,6 @@ controller.showLoginPage = (request, response) => {
 
 controller.login = (request, response, next) => {
     const saveAccount = request.body.keepSignedIn;
-    console.log('saveAccount', saveAccount);
     const requestUrl = request.body.reqUrl
         ? request.body.reqUrl
         : "/account";
@@ -195,5 +194,16 @@ controller.isLoggedIn = (request, response, next) => {
     if (request.isAuthenticated()) return next();
     response.redirect(`/auth/login?reqUrl=${request.originalUrl}`);
 };
+
+controller.googleOAuthRedirect = (request, response, next) => {
+    passport.authenticate("google", (error, user) => {
+        if (error) return next(error);
+        if (!user) return response.redirect(`/auth/login`);
+        request.logIn(user, (error) => {
+            if (error) return next(error);
+            return response.redirect("/");
+        });
+    })(request, response, next);
+}
 
 module.exports = controller;
