@@ -46,7 +46,7 @@ controller.showNewsList = async (request, response) => {
         attributes: [
             "id",
             "title",
-            "briefContent",
+            "abstract",
             "updatedAt",
             "tinyImagePath",
             "isPremium",
@@ -107,9 +107,9 @@ controller.showNewsList = async (request, response) => {
     news.forEach((item) => {
         item.updatedAtString = new Date(item.updatedAt).toLocaleString("vi-VN");
         item.Tags = item.Tags.slice(0, 3);
-        let shortBriefContent = item.briefContent.slice(0, 100);
-        if (item.briefContent.length > 100) shortBriefContent += "...";
-        item.shortBriefContent = shortBriefContent;
+        let shortAbstract = item.abstract.slice(0, 100);
+        if (item.abstract.length > 100) shortAbstract += "...";
+        item.shortAbstract = shortAbstract;
         item.categoryColor = colors[colorIndex++ % colors.length];
     });
     response.locals.news = news;
@@ -318,7 +318,7 @@ const generatePdf = async (news) => {
                                 </div>
                             </div>
                             <h1 style="animation: none !important;">${news.title}</h1>
-                            <h5 style="animation: none !important;">${news.briefContent}</h5>
+                            <h5 style="animation: none !important;">${news.abstract}</h5>
                             <p style="animation: none !important;">${news.Writer.pseudonym} - ${news.updatedAtString}</p>
                         </div>
                     </div>
@@ -343,6 +343,33 @@ const generatePdf = async (news) => {
     await browser.close();
 
     return pdf;
+}
+
+controller.search = async (req, res) => {
+    const keyword = String(req.query.keyword).split(' ').join(' & ');
+
+    let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    const limit = 10;
+    const options = {
+        where: Sequelize.literal(
+            `ts_rank("ts", to_tsquery('english', '${keyword}')) > 0.1`
+        ),
+        order: [
+            [Sequelize.literal(`ts_rank("ts", to_tsquery('english', '${keyword}'))`), "DESC"]
+        ],
+        limit: limit,
+        offset: limit * (page - 1),
+    };
+    let { rows, count } = await models.News.findAndCountAll(options);
+    res.locals.pagination = {
+        page: page,
+        limit: limit,
+        totalRows: count,
+        queryParams: req.query
+    };
+
+    res.locals.news = rows;
+    res.render("user-news-list");
 }
 
 module.exports = controller;

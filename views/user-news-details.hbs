@@ -11,21 +11,21 @@
                     <span><a href="/news?subCategoryId={{news.categoryId}}">{{news.SubCategory.name}}</a></span>
                 </div>
                 {{#if news.isPremium}}
-                    {{#if authenticatedUser.isPremium}}
-                    <div class="dropdown open user-news-details__premium-feature">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                    Premium
-                                </button>
-                        <div class="dropdown-menu" aria-labelledby="triggerId">
-                            <button class="dropdown-item"><a href="/news/{{news.id}}?export=true">Tải xuống PDF</a></button>
-                        </div>
+                {{#if authenticatedUser.isPremium}}
+                <div class="dropdown open user-news-details__premium-feature">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Premium
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="triggerId">
+                        <button class="dropdown-item"><a href="/news/{{news.id}}?export=true">Tải xuống PDF</a></button>
                     </div>
-                    {{/if}}
+                </div>
+                {{/if}}
                 {{/if}}
             </div>
             <h1>{{news.title}}</h1>
-            <h5>{{news.briefContent}}</h5>
+            <h5>{{news.abstract}}</h5>
             <p>{{news.Writer.pseudonym}} - {{news.updatedAtString}}</p>
         </div>
     </div>
@@ -49,16 +49,18 @@
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen></iframe>
                 </div>
-                <form id="comment-form" class="user-news-details__comment-form-container" action="/news/{{news.id}}" method="post">
-                    <textarea name="content" id="comment-input" cols="30" rows="5"
-                        placeholder="Bình luận của bạn" form="comment-form" required></textarea>
+                <form id="comment-form" class="user-news-details__comment-form-container" action="/news/{{news.id}}"
+                    method="post">
+                    <textarea name="content" id="comment-input" cols="30" rows="5" placeholder="Bình luận của bạn"
+                        form="comment-form" required></textarea>
                     {{#if isLoggedIn }}
                     <button class="user-news-details__comment-submit-button">
                         Bình luận
                     </button>
                     {{else}}
                     <button
-                        class="user-news-details__comment-submit-button user-news-details__comment-submit-button--disabled" disabled>
+                        class="user-news-details__comment-submit-button user-news-details__comment-submit-button--disabled"
+                        disabled>
                         Cần đăng nhập để bình luận
                     </button>
                     {{/if}}
@@ -98,7 +100,8 @@
                         <div class="carousel-item user-news-details__carousel-item">
                             <div class="user-news-details__carousel-overlay-content">
                                 <a href="/news?subCategoryId={{SubCategory.id}}">
-                                    <div class="category-badge" style="background-color: {{categoryColor}};">{{SubCategory.name}}</div>
+                                    <div class="category-badge" style="background-color: {{categoryColor}};">
+                                        {{SubCategory.name}}</div>
                                 </a>
                                 <a href="/news/{{id}}">
                                     <p>{{title}}</p>
@@ -106,8 +109,7 @@
                                 <small>{{updatedAtString}}</small>
                             </div>
                             <div class="user-news-details__carousel-blackcover"></div>
-                            <img src="{{tinyImagePath}}" width="100%" height="100%" class="d-block"
-                                alt="{{title}}">
+                            <img src="{{tinyImagePath}}" width="100%" height="100%" class="d-block" alt="{{title}}">
                         </div>
                         {{/each}}
                     </div>

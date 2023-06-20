@@ -41,7 +41,7 @@ controllers.createNews = async (req, res) => {
             const filename = `news-image/${name}_${Date.now()}.${ext}`;
 
             await uploadBytes(ref(firebaseStorage, filename), image.buffer, { contentType: image.mimetype }).then(
-                async(snapshot) => {
+                async (snapshot) => {
                     await getDownloadURL(snapshot.ref).then(
                         (downloadURL) => {
                             linkimages.push(downloadURL);
@@ -56,7 +56,7 @@ controllers.createNews = async (req, res) => {
         const newData = {
             title: news.title,
             content: news.content,
-            briefContent: news.briefContent,
+            abstract: news.abstract,
             tinyImagePath: linkimages[0],
             largeImagePath: linkimages[1],
             youtubePath: news.youtubePath,
@@ -105,10 +105,10 @@ controllers.createNews = async (req, res) => {
 }
 
 controllers.changePassword = async (req, res) => {
-    try{
+    try {
         const writerId = req.user;
         if (!writerId) throw "Bạn chưa đăng nhập"
-        const writer = await models.Writer.findOne({where: {id: writerId}});
+        const writer = await models.Writer.findOne({ where: { id: writerId } });
         if (!writer) throw "Writer không tồn tại"
         await bcrypt.compare(req.body.oldPassword, writer.password, (err, result) => {
             if (err) throw "Mật khẩu cũ không chính xác"
@@ -116,14 +116,14 @@ controllers.changePassword = async (req, res) => {
         if (req.body.newPassword !== req.body.confirmPassword) throw "Mật khẩu mới và xác nhận mật khẩu phải giống nhau"
 
         const newHashPassword = await bcrypt.hashSync(req.body.newPassword, 8);
-        const newWriter = await models.Writer.update({password: newHashPassword}, {where: {id: writerId}});
-        if (newWriter){
+        const newWriter = await models.Writer.update({ password: newHashPassword }, { where: { id: writerId } });
+        if (newWriter) {
             req.flash('writerSuccessChangePassword', "Đổi mật khẩu thành công");
             res.redirect('/changePassword');
-        } else{
+        } else {
             throw "Không thể đổi mật khẩu"
         }
-    }catch(err){
+    } catch (err) {
         req.flash('writerErrorChangePassword', err);
         res.redirect('/changePassword');
     }

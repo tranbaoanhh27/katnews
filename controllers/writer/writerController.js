@@ -1,7 +1,7 @@
 const controllers = {}
 const models = require('../../models');
-const {initializeApp} =require('firebase/app');
-const {getStorage, ref, getDownloadURL, uploadBytes} = require('firebase/storage')
+const { initializeApp } = require('firebase/app');
+const { getStorage, ref, getDownloadURL, uploadBytes } = require('firebase/storage')
 
 
 const firebaseConfig = {
@@ -39,12 +39,12 @@ controllers.showListNews = async (req, res) => {
     console.log("writerId", writerId)
 
     const listNews = await models.NewsStatus.findAll({
-        attributes:['id','status', 'updatedAt'],
+        attributes: ['id', 'status', 'updatedAt'],
         include: [{
             model: models.News,
             require: true,
-            attributes: ['id', 'title', 'briefContent', 'tinyImagePath', 'writerId', 'createdAt'],
-            where: {writerId: writerId}
+            attributes: ['id', 'title', 'abstract', 'tinyImagePath', 'writerId', 'createdAt'],
+            where: { writerId: writerId }
         }
         ],
         order: [['id', "DESC"]]
@@ -53,21 +53,23 @@ controllers.showListNews = async (req, res) => {
 
 }
 
-controllers.showInformationPage = async(req, res) => {
+controllers.showInformationPage = async (req, res) => {
     const writerId = req.user;
     console.log(writerId)
-    const writer = await models.Writer.findOne({where: {id: writerId}});
+    const writer = await models.Writer.findOne({ where: { id: writerId } });
     console.log(writer);
-    res.render('writer-information', { layout: 'writer-news-layout' , writer: writer })
+    res.render('writer-information', { layout: 'writer-news-layout', writer: writer })
 }
-controllers.showChangePasswordPage =async (req, res) => {
+controllers.showChangePasswordPage = async (req, res) => {
     const writerId = req.user;
-    const writer = await models.Writer.findOne({where: {id: writerId}});
+    const writer = await models.Writer.findOne({ where: { id: writerId } });
 
-    res.render('writer-changePassword', { layout: 'writer-news-layout' ,
+    res.render('writer-changePassword', {
+        layout: 'writer-news-layout',
         writer: writer,
         writerErrorChangePassword: req.flash('writerErrorChangePassword'),
-        writerSuccessChangePassword: req.flash('writerSuccessChangePassword')})
+        writerSuccessChangePassword: req.flash('writerSuccessChangePassword')
+    })
 }
 controllers.showSavedNews = (req, res) => {
     res.render('writer-savedNews', { layout: 'writer-news-layout' })
@@ -76,16 +78,16 @@ controllers.showSavedNews = (req, res) => {
 controllers.editInformation = async (req, res) => {
     const writerId = req.user;
     console.log(req.body)
-    try{
+    try {
         await models.Writer.update({
             fullName: req.body.fullName,
             pseudonym: req.body.pseudonym
         },
-        {
-            where: {id: writerId}
-        })
+            {
+                where: { id: writerId }
+            })
         res.redirect('/information');
-    }catch(err){
+    } catch (err) {
         res.redirect('/information');
     }
 
@@ -97,28 +99,28 @@ controllers.editAvatar = async (req, res) => {
     try {
         const file = req.file;
         console.log('file', file)
-        const name = file.originalname.split('.')[0]; 
+        const name = file.originalname.split('.')[0];
         const type = file.originalname.split('.')[1];
         const filename = `writer-avatar-images/${name}_${Date.now()}.${type}`;
-        await uploadBytes(ref(firebaseStorage, filename), file.buffer, {contentType: file.mimetype}).then(
-            async (snapshot)=> {
+        await uploadBytes(ref(firebaseStorage, filename), file.buffer, { contentType: file.mimetype }).then(
+            async (snapshot) => {
                 await getDownloadURL(snapshot.ref).then(
-                    async (downloadUrl)=> {
+                    async (downloadUrl) => {
                         console.log(downloadUrl)
                         await models.Writer.update({
                             avatarPath: downloadUrl
                         },
-                        {
-                            where: {id: writerId}
-                        })
-                        
+                            {
+                                where: { id: writerId }
+                            })
+
                     }
                 )
             }
         )
         res.redirect('/information');
     }
-    catch(err){  
+    catch (err) {
         console.log(err)
         res.redirect('/information');
     }
