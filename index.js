@@ -12,6 +12,8 @@ const passport = require("./controllers/passport");
 const connectFlash = require("connect-flash");
 const { createPagination } = require("express-handlebars-paginate");
 const { initializeApp } = require("firebase/app");
+const logger = require('morgan');
+
 
 // Firebase configuration
 const firebaseConfig = {
@@ -33,7 +35,7 @@ redisClient.connect().catch(console.error);
 
 // Initialize ExpressJS application
 const app = express();
-
+app.use(logger('dev'));
 //set static folder
 app.use(express.static(__dirname + "/public"));
 

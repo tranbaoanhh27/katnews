@@ -26,7 +26,8 @@ controllers.signup = async (req, res, next) => {
         console.log("hash password", await bcrypt.hash(req.body.password, 8))
         const writer = await models.Writer.create({
             email: req.body.email,
-            password: await bcrypt.hash(req.body.password, 8)
+            password: await bcrypt.hash(req.body.password, 8),
+            fullName: req.body.fullName
         });
     
         if (writer){

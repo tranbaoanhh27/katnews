@@ -69,9 +69,7 @@ controllers.showChangePasswordPage =async (req, res) => {
         writerErrorChangePassword: req.flash('writerErrorChangePassword'),
         writerSuccessChangePassword: req.flash('writerSuccessChangePassword')})
 }
-controllers.showSavedNews = (req, res) => {
-    res.render('writer-savedNews', { layout: 'writer-news-layout' })
-}
+
 
 controllers.editInformation = async (req, res) => {
     const writerId = req.user;

@@ -26,13 +26,16 @@
                             <div  class=" rounded-5 m-auto  p-2" style="background-color: orange; font-size: 15px"><i
                                     class="bi bi bi-arrow-repeat rounded-circle"
                                     style="background-color: greenyellow;"></i>Chờ xác nhận</div>
+                            <div type="button" class="btn rounded-5 m-auto p-2" style="background-color: lightsalmon;"><i
+                                    class="bi bi-pencil-fill rounded-circle"></i><a href="/edit/news/{{News.id}}"
+                                    class='text-black text-decoration-none'>Sửa lại</a></div>
                         </div>
                         {{else}}
                         <div class='col-2 d-flex flex-column justify-content-center'>
                             <div class=" rounded-5 m-auto p-2" style="background-color: lightcoral; font-size: 15px"><i
                                     class="bi bi-file-earmark-medical"></i>Từ chối</div>
                             <div type="button" class="btn rounded-5 m-auto p-2" style="background-color: lightsalmon;"><i
-                                    class="bi bi-pencil-fill rounded-circle"></i><a href="editor.html"
+                                    class="bi bi-pencil-fill rounded-circle"></i><a href="/edit/news/{{News.id}}"
                                     class='text-black text-decoration-none'>Sửa lại</a></div>
                         </div> 
                         {{/if}}

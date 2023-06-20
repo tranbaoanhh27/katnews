@@ -5,6 +5,7 @@ const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/stora
 const { link } = require('../../routers/writer/editRoutes');
 const models = require('../../models');
 const bcrypt = require('bcrypt');
+const controller = require('../admin/authContrller');
 const controllers = {};
 
 const firebaseConfig = {
@@ -130,5 +131,71 @@ controllers.changePassword = async (req, res) => {
 
 }
 
+controllers.editNews = async (req, res) => {
+    const newsId = req.params.id;
+    const writerId = req.user;
+    const news = await models.News.findOne({where: {id: newsId}});
+    if(!news) {
+        res.redirect('/listNews');
+    }
+    if (writerId !== news.WriterId){
+        res.redirect('/listNews');
+    }
+    res.render('writer-edit', {layout: 'writer-news-layout' ,news: news});
+}
+
+controllers.updateNews = async (req, res) => {
+    const newsId = req.params.id;
+    const writerId = req.user;
+    const news = await models.News.findOne({where: {id: newsId}});
+    
+    if(!news) {
+        res.redirect('/listNews');
+    }
+    if (writerId !== news.WriterId){
+        res.redirect('/listNews');
+    }
+
+    let linkimages = [];
+    
+    try{
+        const images = req.files;
+        if (images.length == 1){
+            res.redirect(`/edit/news/${newsId}`);
+        }
+        for (let image of images) {
+            const name = image.originalname.split('.')[0];
+            const ext = image.originalname.split('.')[1];
+            const filename = `news-image/${name}_${Date.now()}.${ext}`;
+
+            await uploadBytes(ref(firebaseStorage, filename), image.buffer, { contentType: image.mimetype }).then(
+                async(snapshot) => {
+                    await getDownloadURL(snapshot.ref).then(
+                        (downloadURL) => {
+                            linkimages.push(downloadURL);
+                            console.log(`File uploaded to Firebase Storage. Download URL: ${downloadURL}`);
+                        }
+                    )
+                }
+            )
+        }
+
+        const updateNews = {
+            ...req.body,
+        }
+        if (linkimages ==2){
+            Object.assign(updateNews, {tinyImagePath: linkimages[0], largeImagePath: linkimages[1]});
+        }
+
+        const newNews = await models.News.update(updateNews, {
+            where: {id: newsId}
+        })
+        req.flash('createSuccess', "Sửa bài viết thành công");
+        res.redirect('/edit/news');
+    }catch(err){
+        req.flash('createFail', "Không sửa được bài viết này");
+        res.redirect('/edit/news');
+    }
+}
 
 module.exports = controllers;
