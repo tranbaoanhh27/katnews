@@ -132,69 +132,134 @@ controllers.changePassword = async (req, res) => {
 }
 
 controllers.editNews = async (req, res) => {
-    const newsId = req.params.id;
-    const writerId = req.user;
-    const news = await models.News.findOne({where: {id: newsId}});
-    if(!news) {
+    try {
+        const newsId = req.params.id;
+        const writerId = req.user;
+        const news = await models.News.findOne({ where: { id: newsId } });
+        const status = await models.NewsStatus.findOne({ where: { newsId: newsId } });
+        if (!news) {
+            console.log('cannot find news');
+            res.redirect('/listNews');
+        }
+        else if (writerId !== news.writerId || !status || status.status == 'approved') {
+            res.redirect('/listNews');
+        }
+        else {
+            console.log(news);
+            const tag = await models.Tag.findAll({
+                attributes: ['name'],
+                include: [{
+                    model: models.News,
+                    where: { id: newsId }
+                }]
+            })
+
+            let tagName = tag.reduce((res, cur) => {
+                console.log('cur', cur.name);
+                return res + cur.name + ' ';
+            }, '');
+
+            news.tag = tagName.trim();
+            res.render('writer-edit', { layout: 'writer-news-layout', news: news });
+        }
+    } catch (err) {
         res.redirect('/listNews');
     }
-    if (writerId !== news.WriterId){
-        res.redirect('/listNews');
-    }
-    res.render('writer-edit', {layout: 'writer-news-layout' ,news: news});
 }
 
+
 controllers.updateNews = async (req, res) => {
+    console.log("update news")
     const newsId = req.params.id;
     const writerId = req.user;
-    const news = await models.News.findOne({where: {id: newsId}});
-    
-    if(!news) {
+    const news = await models.News.findOne({ where: { id: newsId }, include: [{model: models.Tag}] });
+    console.log('news', news)
+    const status = await models.NewsStatus.findOne({ where: { newsId: newsId } });
+    if (!news) {
+        console.log("news");
         res.redirect('/listNews');
     }
-    if (writerId !== news.WriterId){
+    else if (writerId !== news.writerId || !status || status.status == "approved") {
+        console.log("status", status)
         res.redirect('/listNews');
     }
+    else {
+        console.log('remove', await news.removeTags())
+        let linkimages = [];
 
-    let linkimages = [];
-    
-    try{
-        const images = req.files;
-        if (images.length == 1){
-            res.redirect(`/edit/news/${newsId}`);
-        }
-        for (let image of images) {
-            const name = image.originalname.split('.')[0];
-            const ext = image.originalname.split('.')[1];
-            const filename = `news-image/${name}_${Date.now()}.${ext}`;
+        try {
+            const images = req.files;
+            if (images.length == 1) {
+                res.redirect(`/edit/news/${newsId}`);
+            }
+            for (let image of images) {
+                const name = image.originalname.split('.')[0];
+                const ext = image.originalname.split('.')[1];
+                const filename = `news-image/${name}_${Date.now()}.${ext}`;
 
-            await uploadBytes(ref(firebaseStorage, filename), image.buffer, { contentType: image.mimetype }).then(
-                async(snapshot) => {
-                    await getDownloadURL(snapshot.ref).then(
-                        (downloadURL) => {
-                            linkimages.push(downloadURL);
-                            console.log(`File uploaded to Firebase Storage. Download URL: ${downloadURL}`);
-                        }
-                    )
+                await uploadBytes(ref(firebaseStorage, filename), image.buffer, { contentType: image.mimetype }).then(
+                    async (snapshot) => {
+                        await getDownloadURL(snapshot.ref).then(
+                            (downloadURL) => {
+                                linkimages.push(downloadURL);
+                                console.log(`File uploaded to Firebase Storage. Download URL: ${downloadURL}`);
+                            }
+                        )
+                    }
+                )
+            }
+            const tag = req.body.tag;
+            delete req.body.tag;
+
+            const updateNews = {
+                ...req.body,
+            }
+            console.log("updated news", updateNews)
+            if (linkimages.length == 2) {
+                Object.assign(updateNews, { tinyImagePath: linkimages[0], largeImagePath: linkimages[1] });
+            }
+            console.log("updated news", updateNews)
+            const newNews = await models.News.update(updateNews, {
+                where: { id: newsId }
+            })
+            console.log('updated news', newNews)
+            const tagsRemove = await models.Tag.findAll({
+                include: [{
+                    model: models.News,
+                    where: { id: newsId}
+                }]
+            })
+            console.log('removeTag', tagsRemove.length);
+            for (let tag of tagsRemove){
+                console.log('removetag', tag.name);
+                news.removeTag(tag);
+            }
+
+            
+            const newsStatus = await models.NewsStatus.update({
+                status: "unconfirm",
+                publishDate: Date.now()
+            }, { where: { newsId: newsId } });
+
+            const tags = tag.split(" ");
+            console.log('tags', tags)
+            for (let tagName of tags) {
+                tagName = tagName.trim();
+                console.log(tagName);
+                let newTag;
+                newTag = await models.Tag.findOne({ where: { name: tagName } });
+                console.log('tag', newTag);
+                if (!newTag) {
+                    newTag = await models.Tag.create({ name: tagName });
                 }
-            )
-        }
+                news.addTag(newTag);
+            }
 
-        const updateNews = {
-            ...req.body,
+            res.redirect('/listNews');
+        } catch (err) {
+            console.log(err);
+            res.redirect('/listNews');
         }
-        if (linkimages ==2){
-            Object.assign(updateNews, {tinyImagePath: linkimages[0], largeImagePath: linkimages[1]});
-        }
-
-        const newNews = await models.News.update(updateNews, {
-            where: {id: newsId}
-        })
-        req.flash('createSuccess', "Sửa bài viết thành công");
-        res.redirect('/edit/news');
-    }catch(err){
-        req.flash('createFail', "Không sửa được bài viết này");
-        res.redirect('/edit/news');
     }
 }
 

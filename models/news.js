@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       News.belongsTo(models.Writer, { foreignKey: "writerId" })
       News.belongsTo(models.SubCategory, { foreignKey: "categoryId" })
-      News.belongsToMany(models.Tag, { through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId' })
+      News.belongsToMany(models.Tag, { through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId' , onDelete: 'CASCADE'})
       News.hasMany(models.Comment, { foreignKey: 'newsId' });
     }
   }

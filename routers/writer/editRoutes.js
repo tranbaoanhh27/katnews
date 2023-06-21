@@ -11,5 +11,5 @@ router.post('/news',authController.isLoggedIn, upload.array('image', 2), control
 router.get('/',authController.isLoggedIn, controllers.showEditPage);
 router.post('/password',authController.isLoggedIn, controllers.changePassword);
 router.get('/news/:id', authController.isLoggedIn, controllers.editNews);
-router.post('/news/:id', authController.isLoggedIn,upload.array('image', 2), controllers.updateNews);
+router.post('/news/:id', authController.isLoggedIn, upload.array('image', 2), controllers.updateNews);
 module.exports = router;
