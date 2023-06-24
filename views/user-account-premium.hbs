@@ -1,3 +1,6 @@
+<script src="https://js.braintreegateway.com/web/dropin/1.38.1/js/dropin.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.87.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.87.0/js/data-collector.min.js"></script>
 <main class="container">
     <div class="row">
         <div class="col-5">
@@ -15,67 +18,152 @@
                     <li>Tiếp cận các bài viết Premium thông qua đề xuất</li>
                 </ul>
             </div>
-            <div class="user-account__payment-card-select">
-                <div id="visa" class="user-account__visa-card user-account__payment-card user-account__payment-card--active">
-                    <img src="/images/visa-logo.svg" alt="">
-                </div>
-                <div id="mastercard" class="user-account__master-card user-account__payment-card">
-                    <img src="/images/mastercard-logo.svg" alt="">
-                </div>
+            {{#if shouldExtends}}
+            <p style="font-weight: bold; font-style: italic;">Để gia hạn Premium đến {{newPremiumExpiredTimeString}}, bạn cần thanh toán số tiền {{amount}}{{currencyIsoCode}}</p>
+            {{/if}}
+            {{#if errorMessage}}
+            <div class="alert alert-danger mt-3" style="display: flex; justify-content: space-between; align-content: center">
+                {{{errorMessage}}}
+                <div class="xmark-button"><i class="fa-solid fa-xmark" style="color: rgb(220, 66, 66); font-size: large"></i></div>
             </div>
-            <form class="user-account__premium-form" action="#" method="post" onsubmit="submitHandler(event)">
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="owner-name" class="form-label">Tên chủ thẻ</label>
-                            <input type="text" class="form-control" name="ownerName" id="owner-name"
-                                aria-describedby="helpId" placeholder="">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="card-number" class="form-label">Số thẻ</label>
-                            <input type="text" class="form-control" name="cardNumber" id="card-number"
-                                aria-describedby="helpId" placeholder="">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="valid-through" class="form-label">Ngày hết hạn</label>
-                            <input type="text" class="form-control" name="validThrough" id="valid-through"
-                                aria-describedby="helpId" placeholder="">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="mb-3">
-                            <label id="cvvcvc-label" for="cvvcvc" class="form-label">CVV</label>
-                            <input type="text" class="form-control" name="cvvcvc" id="cvvcvc" aria-describedby="helpId"
-                                placeholder="">
-                        </div>
-                    </div>
-                </div>
-                <div class="user-account__premium-form-actions">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="save-payment-card-info">
-                        <label class="form-check-label" for="save-payment-card-info">
-                            Lưu thông tin thẻ
-                        </label>
-                    </div>
-                    <button class="btn btn-primary">Gia hạn</button>
-                </div>
+            {{/if}}
+            {{#if successMessage}}
+            <div class="alert alert-success mt-3" style="display: flex; justify-content: space-between; align-content: center">
+                {{{successMessage}}} 
+                <div class="xmark-button"><i class="fa-solid fa-xmark" style="color: rgb(32, 104, 32); font-size: large"></i></div>
+            </div>
+            {{/if}}
+            <form id="payment-form" class="d-flex flex-column" action="/account/premium" method="post">
+                <div id="braintree-dropin-container"></div>
+                {{#if shouldExtends}}
+                <button class="btn btn-primary align-self-end pe-5 ps-5 pt-2 pb-2" type="submit" style="background-color: #7d6090; color: white; border: none;">Gia hạn</button>
+                {{else}}
+                <button class="btn btn-primary align-self-end pe-5 ps-5 pt-2 pb-2" type="submit" style="background-color: #7d6090; color: white; border: none;" disabled>Không cần gia hạn</button>
+                {{/if}}
+                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                <input type="hidden" id="device_data" name="payment_device_data">
+                <input type="hidden" name="amount" value="{{amount}}">
+                <input type="hidden" name="newPremiumExpiredTime" value="{{newPremiumExpiredTime}}">
             </form>
         </div>
     </div>
 </main>
 <script>
-    let paymentCards = document.querySelectorAll('.user-account__payment-card');
-    paymentCards.forEach(card => {
-        card.addEventListener('click', event => {
-            paymentCards.forEach(card => card.classList.remove('user-account__payment-card--active'));
-            card.classList.add('user-account__payment-card--active');
-            document.querySelector('#cvvcvc-label').innerHTML = (card.id === 'visa' ? 'CVV' : 'CVC');
-        })
+    document.querySelectorAll('.xmark-button').forEach(xmark => xmark.addEventListener('click', event => {
+        document.querySelectorAll('.alert').forEach(item => item.style.display = 'none');
+    }))
+
+    const translations = {
+        // payingWith: "Paying with {{paymentSource}}",
+        chooseAnotherWayToPay: "Sử dụng phương thức thanh toán khác",
+        chooseAWayToPay: "Chọn phương thức thanh toán",
+        otherWaysToPay: "Các phương thức thanh toán khác",
+        edit: "Chỉnh sửa",
+        doneEditing: "Hoàn tất",
+        editPaymentMethods: "Chỉnh sửa các phương thức thanh toán",
+        CreditCardDeleteConfirmationMessage: "Delete {{secondaryIdentifier}} card ending in {{identifier}}?",
+        PayPalAccountDeleteConfirmationMessage: "Delete PayPal account {{identifier}}?",
+        VenmoAccountDeleteConfirmationMessage: "Are you sure you want to delete Venmo account with username {{identifier}}?",
+        genericDeleteConfirmationMessage: "Bạn chắc chắn muốn xóa phương thức thanh toán này?",
+        deleteCancelButton: "Hủy",
+        deleteConfirmationButton: "Xóa",
+        // Errors
+        fieldEmptyForCvv: "Vui lòng nhập CVV.",
+        fieldEmptyForExpirationDate: "Vui lòng nhập ngày hết hạn.",
+        fieldEmptyForCardholderName: "Vui lòng nhập tên chủ thẻ.",
+        fieldEmptyForNumber: "Vui lòng nhập số thẻ.",
+        fieldEmptyForPostalCode: "Vui lòng nhập mã bưu điện.",
+        fieldInvalidForCardholderName: "Tên chủ thẻ không hợp lệ.",
+        fieldInvalidForCvv: "This security code is not valid.",
+        fieldInvalidForExpirationDate: "This expiration date is not valid.",
+        fieldInvalidForNumber: "This card number is not valid.",
+        fieldInvalidForPostalCode: "This postal code is not valid.",
+        fieldTooLongForCardholderName: "Cardholder name must be less than 256 characters.",
+        genericError: "Something went wrong on our end.",
+        hostedFieldsTokenizationFailOnDuplicateError: "This credit card already exists as a saved payment method.",
+        hostedFieldsFailedTokenizationError: "Vui lòng kiểm tra thông tin và thử lại.",
+        hostedFieldsTokenizationCvvVerificationFailedError: "Credit card verification failed. Please check your information and try again.",
+        hostedFieldsTokenizationNetworkErrorError: "Network error. Please try again.",
+        hostedFieldsFieldsInvalidError: "Vui lòng kiểm tra thông tin và thử lại.",
+        paypalButtonMustBeUsed: "Use the PayPal button to continue with your payment.",
+        paypalAccountTokenizationFailedError: "Something went wrong adding the PayPal account. Please try again.",
+        paypalFlowFailedError: "Something went wrong connecting to PayPal. Please try again.",
+        paypalTokenizationRequestActiveError: "PayPal payment authorization is already in progress.",
+        applePayTokenizationError: "A network error occurred while processing the Apple Pay payment. Please try again.",
+        applePayActiveCardError: "Add a supported card to your Apple Pay wallet.",
+        vaultManagerPaymentMethodDeletionError: "Unable to delete payment method, try again.",
+        venmoCanceledError: "Something went wrong. Ensure you have the most recent version of the Venmo app installed on your device and your browser supports switching to Venmo.",
+        venmoAppFailedError: "The Venmo app could not be found on your device.",
+        unsupportedCardTypeError: "This card type is not supported. Please try another card.",
+        // Card form
+        cardholderNameLabel: "Tên chủ thẻ",
+        cardNumberLabel: "Số thẻ",
+        cvvLabel: "CVV",
+        cvvThreeDigitLabelSubheading: "(3 chữ số)",
+        cvvFourDigitLabelSubheading: "(4 chữ số)",
+        expirationDateLabel: "Ngày hết hạn",
+        expirationDateLabelSubheading: "(MM/YY)",
+        cardholderNamePlaceholder: "Tên chủ thẻ",
+        expirationDatePlaceholder: "MM/YY",
+        postalCodeLabel: "Mã bưu chính",
+        saveCardLabel: "Lưu thẻ",
+        payWithCard: "Thanh toán bằng thẻ",
+        // Payment Method descriptions
+        // endingIn: "Ending in {{lastFourCardDigits}}",
+        Card: "Card",
+        PayPal: "PayPal",
+        "PayPal Credit": "PayPal Credit",
+        "Apple Pay": "Apple Pay",
+        "Google Pay": "Google Pay",
+        Venmo: "Venmo",
+        "American Express": "American Express",
+        Discover: "Discover",
+        "Diners Club": "Diners Club",
+        Elo: "Elo",
+        Hiper: "Hiper",
+        Hipercard: "Hipercard",
+        MasterCard: "Mastercard",
+        Visa: "Visa",
+        JCB: "JCB",
+        Maestro: "Maestro",
+        UnionPay: "UnionPay",
+    };
+    
+    // Create Drop-in for payment
+    const form = document.getElementById('payment-form');
+    fetch('/braintree_client_token').then(response => response.json()).then(data => {
+
+        // Collect device information
+        braintree.client.create({
+            authorization: data.clientToken
+        }, function (err, clientInstance) {
+            braintree.dataCollector.create({
+                client: clientInstance
+            }, function (err, dataCollectorInstance) {
+                if (err) return;
+                var deviceData = dataCollectorInstance.deviceData;
+                document.getElementById('device_data').value = deviceData;
+            });
+        });
+
+        // Create Drop-in for payment
+        braintree.dropin.create({
+            authorization: data.clientToken,
+            container: "#braintree-dropin-container",
+            translations: translations,
+            vaultManager: true,
+        }, (error, dropinInstance) => {
+            if (error) console.error(error);
+
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+
+                dropinInstance.requestPaymentMethod((error, payload) => {
+                    if (error) console.error(error);
+                    document.getElementById('nonce').value = payload.nonce;
+                    form.submit();
+                });
+            })}
+        );
     });
 </script>

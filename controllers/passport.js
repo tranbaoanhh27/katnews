@@ -7,6 +7,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const bcrypt = require('bcrypt');
 const models = require('../models');
+const braintreeHelper = require('./braintree');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -33,7 +34,7 @@ passport.deserializeUser(async (request, id, done) => {
 
         } else {
             const user = await models.User.findOne({
-                attributes: ['id', 'password', 'premiumExpiredTime'],
+                attributes: ['id', 'password', 'premiumExpiredTime', 'braintreeCustomerId'],
                 where: { id }
             });
             done(null, user);
@@ -93,11 +94,20 @@ passport.use('user-local-register', new passportLocal({
     try {
         let user = await models.User.findOne({ where: { email } });
         if (user) return done(null, false, request.flash('registerMessage', 'Địa chỉ email này đã được sử dụng!'));
+        
+        // Create a customer on Braintree Vault
+        let customerId = null;
+        const result = await braintreeHelper.createBraintreeVaultCustomer(email);
+        customerId = result.customer.id;
+        
+        // Create an user in database
         user = await models.User.create({
             fullName: request.body.fullName,
             email: email,
             password: bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
+            braintreeCustomerId: customerId
         });
+
         done(null, false, request.flash('registerMessage', 'Đăng ký tài khoản thành công!<br/>Hãy chuyển đến trang <a href="/auth/login">Đăng nhập</a>!'));
     } catch (error) {
         done(error);
@@ -117,8 +127,10 @@ passport.use(new GoogleStrategy({
         // Check if Google user has email
         if (!profile.emails || !profile.emails[0]) throw "GOOGLE_USER_NO_EMAIL";
 
+        const email = profile.emails[0].value;
+
         // Try querying user with the same email address
-        const user = await models.User.findOne({ where: { email: profile.emails[0].value }});
+        const user = await models.User.findOne({ where: { email }});
 
         // If exists user with the same email, update user's googleUid, then return
         if (user) {
@@ -130,13 +142,20 @@ passport.use(new GoogleStrategy({
 
         // If doesn't exists any user with that email address
         // create new user
+
+        // Create a customer on Braintree Vault
+        let customerId = null;
+        const result = await braintreeHelper.createBraintreeVaultCustomer(email);
+        customerId = result.customer.id;
+
         const avatarPath = (profile.photos && profile.photos[0]) ? profile.photos[0].value : null;
         const createdUser = await models.User.create({
-            email: profile.emails[0].value,
+            email: email,
             password: bcrypt.hashSync(accessToken, bcrypt.genSaltSync(8)),
             fullName: profile.displayName,
             avatarPath: avatarPath,
-            googleUid: profile.id
+            googleUid: profile.id,
+            braintreeCustomerId: customerId
         });
 
         return done(null, createdUser);
@@ -158,8 +177,10 @@ passport.use(new FacebookStrategy({
         // Check if Facebook user has email
         if (!profile.emails || !profile.emails[0]) throw "FACEBOOK_USER_NO_EMAIL";
 
+        const email = profile.emails[0].value;
+
         // Try querying user with the same email address
-        const user = await models.User.findOne({ where: { email: profile.emails[0].value }});
+        const user = await models.User.findOne({ where: { email }});
 
         // If exists user with the same email, update user's facebookUid, then return
         if (user) {
@@ -171,13 +192,20 @@ passport.use(new FacebookStrategy({
 
         // If doesn't exists any user with that email address
         // create new user
+
+        // Create a customer on Braintree Vault
+        let customerId = null;
+        const result = await braintreeHelper.createBraintreeVaultCustomer(email);
+        customerId = result.customer.id;
+
         const avatarPath = (profile.photos && profile.photos[0]) ? profile.photos[0].value : null;
         const createdUser = await models.User.create({
-            email: profile.emails[0].value,
+            email: email,
             password: bcrypt.hashSync(accessToken || refreshToken.access_token || profile.emails[0].value, bcrypt.genSaltSync(8)),
             fullName: profile.displayName,
             avatarPath: avatarPath,
-            facebookUid: profile.id
+            facebookUid: profile.id,
+            braintreeCustomerId: customerId
         });
 
         return done(null, createdUser);
@@ -256,6 +284,5 @@ passport.use('writer-local-login', new passportLocal(
         })
     }
 ))
-
 
 module.exports = passport;

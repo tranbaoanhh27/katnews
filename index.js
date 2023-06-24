@@ -13,7 +13,15 @@ const connectFlash = require("connect-flash");
 const { createPagination } = require("express-handlebars-paginate");
 const { initializeApp } = require("firebase/app");
 const logger = require('morgan');
+const braintree = require('braintree');
 
+// Paypal Braintree Gateway configs
+const braintreeGateway = new braintree.BraintreeGateway({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_PRIVATE_KEY
+});
 
 // Firebase configuration
 const firebaseConfig = {
@@ -25,7 +33,7 @@ const firebaseConfig = {
     appId: process.env.FIREBASE_APP_ID
 };
 const firebaseApp = initializeApp(firebaseConfig);
-module.exports = firebaseApp;
+module.exports = { braintreeGateway, firebaseApp };
 
 // Configure redis connection
 const redisClient = createClient({
@@ -75,7 +83,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 20 * 60 * 1000,
+            maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
         },
     })
@@ -133,6 +141,14 @@ app.use("/", require("./routers/user/indexRouter"));
 app.use("/news", require("./routers/user/newsRouter"));
 app.use("/auth", require("./routers/user/authRouter"));
 app.use("/account", require("./routers/user/accountRouter"));
+
+// Handle request from client to generate braintree client token
+app.get('/braintree_client_token', (req, res) => {
+    const customerId = req.user ? req.user.braintreeCustomerId : null;
+    braintreeGateway.clientToken.generate({ customerId: customerId }, (error, response) => {
+        res.json({ clientToken: response.clientToken });
+    })
+});
 
 app.use((req, res, next) => {
     res.locals.pageTitle = 'Không tìm thấy trang!';

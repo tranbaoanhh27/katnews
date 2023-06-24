@@ -21,6 +21,7 @@ module.exports = {
             item.createdAt = Sequelize.literal("NOW()");
             item.updatedAt = Sequelize.literal("NOW()");
             item.isDeleted = false;
+            item.braintreeCustomerId = null;
         });
 
         await queryInterface.bulkInsert("Users", users, {});

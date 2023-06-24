@@ -50,4 +50,6 @@ router.post('/change-password',
 
 router.get('/premium', controller.showPremiumPage);
 
+router.post('/premium', controller.beginPaymentTransaction)
+
 module.exports = router;

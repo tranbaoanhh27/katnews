@@ -25,8 +25,8 @@ controller.login = (request, response, next) => {
         if (!user) return response.redirect(`/auth/login?reqUrl=${requestUrl}`);
         request.logIn(user, (error) => {
             if (error) return next(error);
-            const oneDayInMillis = 24 * 60 * 60 * 1000;
-            request.session.cookie.maxAge = saveAccount ? oneDayInMillis : null;
+            const threeDayInMillis = 3 * 24 * 60 * 60 * 1000;
+            request.session.cookie.maxAge = saveAccount ? threeDayInMillis : null;
             return response.redirect(requestUrl);
         });
     })(request, response, next);

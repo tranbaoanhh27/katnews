@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     avatarPath: DataTypes.STRING,
     facebookUid: DataTypes.STRING,
     googleUid: DataTypes.STRING,
-    isDeleted: DataTypes.BOOLEAN
+    isDeleted: DataTypes.BOOLEAN,
+    braintreeCustomerId: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

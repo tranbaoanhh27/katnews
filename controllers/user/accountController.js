@@ -130,7 +130,58 @@ controller.updateAccountPassword = async (request, response, next) => {
 controller.showPremiumPage = (request, response) => {
     response.locals.premiumPage = true;
     response.locals.pageTitle = "Gia hạn Premium";
+    response.locals.successMessage = request.query.successMessage;
+    response.locals.errorMessage = request.query.errorMessage;
+    response.locals.currencyIsoCode = 'USD';
+    
+    const SEVEN_DAYS_MILLIS = 7 * 24 * 60 * 60 * 1000;
+    let millisToExtends = SEVEN_DAYS_MILLIS;
+    let newExpiredTime = new Date(); newExpiredTime.setDate(newExpiredTime.getDate() + 7);
+    
+    if (request.user && request.user.premiumExpiredTime)
+        millisToExtends = newExpiredTime - new Date(request.user.premiumExpiredTime);
+    if (millisToExtends > SEVEN_DAYS_MILLIS) millisToExtends = SEVEN_DAYS_MILLIS;
+
+    const amount = (millisToExtends / SEVEN_DAYS_MILLIS).toFixed(2);
+    
+    response.locals.amount = amount;
+    response.locals.shouldExtends = amount > 0;
+    response.locals.newPremiumExpiredTime = newExpiredTime;
+    response.locals.newPremiumExpiredTimeString = newExpiredTime.toLocaleString('vi-VN');
     response.render("user-account-premium");
 };
+
+controller.beginPaymentTransaction = (request, response) => {
+
+    // Create transaction
+    const { braintreeGateway } = require('../../index');
+    braintreeGateway.transaction.sale({
+        amount: request.body.amount,
+        paymentMethodNonce: request.body.payment_method_nonce,
+        deviceData: request.body.payment_device_data,
+        options: {
+            submitForSettlement: true,
+            storeInVaultOnSuccess: true
+        }
+    }, async (err, result) => {
+        let successMessage = null, errorMessage = null;
+        if (result.success) {
+            successMessage = `Bạn đã thanh toán thành công số tiền ${result.transaction.amount}${result.transaction.currencyIsoCode} để gia hạn tài khoản Premium!`;
+
+            // Update new premium expired time for user
+            const user = await models.User.findOne({ where: { id: request.user.id }});
+            if (user) await user.update({ premiumExpiredTime: new Date(request.body.newPremiumExpiredTime) });
+        }
+        else errorMessage = result.message;
+        const url = require('url');
+        response.redirect(url.format({
+            pathname: '/account/premium',
+            query: {
+                "successMessage": successMessage,
+                "errorMessage": errorMessage
+            }
+        }));
+    });    
+}
 
 module.exports = controller;
