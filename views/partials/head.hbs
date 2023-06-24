@@ -52,8 +52,8 @@
             <div class="header__search-container">
                 <img class="header__search-toggle" src="/images/search-button.svg" alt="Search Toggle Button"
                     onclick="toggleSearchForm()" />
-                <form class="d-flex header__search-form header__search-form--hidden">
-                    <input class="form-control me-2" type="search" placeholder="Nhập từ khóa..." aria-label="Search">
+                <form class="d-flex header__search-form header__search-form--hidden" action="/news/search" method="get">
+                    <input class="form-control shadow-none me-2" type="text" name="keyword" placeholder="Nhập từ khóa..." aria-label="Search">
                     <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
                 </form>
             </div>

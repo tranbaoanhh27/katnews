@@ -76,6 +76,25 @@ body {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 10px 0px;
 }
 
+.search-result__search-form {
+  position: unset !important;
+  width: 100% !important;
+  left: unset !important;
+  top: unset !important;
+  margin: 20px 0px !important;
+  background-color: #f8f9fa !important;
+}
+
+.search-result__search-form > input {
+  background-color: #f8f9fa !important;
+}
+
+.search-result__search-form > p {
+  width: 100px;
+  margin-bottom: 0px !important;
+  align-self: center;
+}
+
 .header__search-form > button {
   background-color: #7d6090;
   color: white;

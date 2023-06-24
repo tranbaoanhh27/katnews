@@ -44,10 +44,13 @@
                 <div class="user-news-details-content">
                     <img class="user-news-details__content-image" src="{{news.largeImagePath}}" alt="{{news.title}}">
                     {{{news.content}}}
+                    {{#if news.youtubePath}}
                     <iframe class="user-news-details__content-youtube-iframe" width="560" height="315"
                         src="{{news.youtubePath}}" title="{{news.title}}" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
+                        allowfullscreen>
+                    </iframe>
+                    {{/if}}
                 </div>
                 <form id="comment-form" class="user-news-details__comment-form-container" action="/news/{{news.id}}"
                     method="post">

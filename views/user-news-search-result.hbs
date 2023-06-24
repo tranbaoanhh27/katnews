@@ -1,0 +1,54 @@
+<main class="container pt-4">
+    <form class="d-flex header__search-form search-result__search-form" action="/news/search" method="get">
+        <p>Tìm kiếm:</p>
+        <input class="form-control shadow-none me-2" type="text" name="keyword" value="{{keyword}}" placeholder="Nhập từ khóa..." aria-label="Search">
+        <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
+    </form>
+    <div class="user-news__article-list">
+        {{#each news}}
+        {{#if isPremium}}
+        <div class="user-news__article user-news__article--premium">
+            <img src="{{tinyImagePath}}" width="250px" height="100%" alt="{{title}}">
+            <div class="user-news__article-info">
+                <div style="display: flex; gap: 10px">
+                    <div class="user-news__article-category user-news__premium-badge">
+                        Premium
+                    </div>
+                    <div class="user-news__article-category" style="background-color: {{categoryColor}};">
+                        <a href="/news?subCategoryId={{SubCategory.id}}">{{SubCategory.name}}</a>
+                    </div>
+                </div>
+                <h5 class="user-news__article-title"><a href="/news/{{id}}">{{title}}</a></h5>
+                <p class="user-news__article-intro">{{shortAbstract}}</p>
+                <small class="article-date">{{updatedAtString}}</small>
+                <div class="user-news__article-tags row">
+                    {{#each Tags}}
+                    <div class="user-news-item__tag">{{name}}</div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{else}}
+        <div class="user-news__article">
+            <img src="{{tinyImagePath}}" width="250px" height="100%" alt="{{title}}">
+            <div class="user-news__article-info">
+                <div class="user-news__article-category" style="background-color: {{categoryColor}};">
+                    <a href="/news?subCategoryId={{SubCategory.id}}">{{SubCategory.name}}</a>
+                </div>
+                <h5 class="user-news__article-title"><a href="/news/{{id}}">{{title}}</a></h5>
+                <p class="user-news__article-intro">{{shortAbstract}}</p>
+                <small class="article-date">{{updatedAtString}}</small>
+                <div class="user-news__article-tags row">
+                    {{#each Tags}}
+                    <div class="user-news-item__tag">{{name}}</div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+    <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
+        {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
+    </nav>
+</main>

@@ -347,10 +347,17 @@ const generatePdf = async (news) => {
 
 controller.search = async (req, res) => {
     const keyword = String(req.query.keyword).split(' ').join(' & ');
-
     let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    
     const limit = 10;
     const options = {
+        include: [{
+            model: models.SubCategory,
+            attributes: ['id', 'name']
+        }, {
+            model: models.Tag,
+            attributes: ['id', 'name']
+        }],
         where: Sequelize.literal(
             `ts_rank("ts", to_tsquery('english', '${keyword}')) > 0.1`
         ),
@@ -360,7 +367,17 @@ controller.search = async (req, res) => {
         limit: limit,
         offset: limit * (page - 1),
     };
-    let { rows, count } = await models.News.findAndCountAll(options);
+    
+    let news = await models.News.findAll(options);
+
+    // Manually get count (because sequelize findAndCountAll works wrong on many-to-many association...)
+    options.limit = null;
+    options.offset = null;
+    const tempNews = await models.News.findAll(options);
+    let newIds = new Set();
+    for (let item of tempNews) newIds.add(item.id);
+    const count = newIds.size;
+
     res.locals.pagination = {
         page: page,
         limit: limit,
@@ -368,8 +385,20 @@ controller.search = async (req, res) => {
         queryParams: req.query
     };
 
-    res.locals.news = rows;
-    res.render("user-news-list");
+    const colors = ["#E98733", "#CA335C", "#70AFBE", "#7D618F", "#0CA9A8"];
+    let colorIndex = 0;
+    news.forEach(article => {
+        article.shortAbstract = article.abstract.slice(0, 200);
+        if (article.abstract.length > 200) article.shortAbstract += '...';
+        article.updatedAtString = (new Date(article.updatedAt)).toLocaleString('vi-VN');
+        article.categoryColor = colors[colorIndex++ % colors.length];
+    });
+
+    res.locals.pageTitle = `Tìm kiếm: ${String(req.query.keyword)}`;
+    res.locals.keyword = String(req.query.keyword);
+
+    res.locals.news = news;
+    res.render("user-news-search-result");
 }
 
 module.exports = controller;
