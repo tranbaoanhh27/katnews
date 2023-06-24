@@ -17,7 +17,13 @@ router.get('/listNews', authController.isLoggedIn, controllers.showListNews);
 router.get('/information',authController.isLoggedIn, controllers.showInformationPage);
 router.get('/changePassword',authController.isLoggedIn, controllers.showChangePasswordPage);
 
-router.post('/writer/editInformation',authController.isLoggedIn, controllers.editInformation);
-router.post('/writer/editAvatar',authController.isLoggedIn, upload.single('avatar') , controllers.editAvatar);
+router.post('/writer/editInformation',
+    authController.isLoggedIn,
+    controllers.editInformation);
+
+router.post('/writer/editAvatar',
+    authController.isLoggedIn,
+    upload.single('avatar') ,
+    controllers.editAvatar);
 
 module.exports = router;
