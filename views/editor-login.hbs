@@ -1,0 +1,43 @@
+<div style="width: 60%">
+    <form action="/auth/login" method="post">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1">Tên đăng nhập</label>
+            <input type="email" id="form2Example1" class="form-control" name="email" />
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example2">Mật khẩu</label>
+            <input type="password" id="form2Example2" class="form-control" name="password" />
+        </div>
+
+        <!-- 2 column grid layout for inline styling -->
+
+        <div class="form-check">
+            <input class="form-check-input" onclick="show()" type="checkbox" value="" id="showPassworld" />
+            <label class="form-check-label" for="showPassworld"> Hiển thị mật khẩu </label>
+        </div>
+        <!-- Submit button -->
+        <div class='text-center'>
+            <button type="submit" class="btn btn-primary btn-block mb-4"> Đăng nhập </button>
+        </div>
+
+        <!-- Register buttons -->
+
+        {{#if messageEditorLogin}}
+        <div class="alert alert-danger p-2">{{messageEditorLogin}}</div>
+        {{/if}}
+
+    </form>
+</div>
+<script>
+    function show() {
+        let checkbox = document.getElementById("showPassworld");
+        if (checkbox.checked == false) {
+            document.querySelectorAll("input[type=text]").forEach(item => item.type = 'password')
+        } else {
+            document.querySelectorAll("input[type=password]").forEach(item => item.type = 'text')
+        }
+    }
+</script>

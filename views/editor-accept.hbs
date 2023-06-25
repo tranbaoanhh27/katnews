@@ -1,0 +1,73 @@
+<main>
+    <div class='container' style='width: 80%;' onclick="handleOnclickBody()">
+        <h2 class='mx-3 mb-5'>Trái cây rớt thảm giá nào cũng có</h2>
+        {{#with news}}
+        <form action="/edit/accept/{{id}}" method="post"> 
+
+            <div class="row">
+                <label for="category" class="form-label col-2">Chuyên mục :</label>
+
+                <input class="col-9" readonly id="category" value="{{SubCategory.name}}" name="category"> 
+                <i class="col-1 btn bi bi-pencil-fill" id="categoryBtn"></i>
+            </div>
+            <hr>
+            <hr>
+            <div class="row shadow">
+                <label for="tag" class="form-label col-2">Tag :</label>
+                <input class="col-9" readonly id="tag" value="{{tag}}" name="tags">
+                <i class="btn bi bi-pencil-fill col-1" id="tagBtn"></i>
+            </div>
+
+            <hr>
+            <div class="row shadow">
+                <label for="time" class="form-label col-2"> Thời gian xuất bản :</label>
+                <input type='date' class="col-9" readonly id="time" value="{{publishDate}}" name="publishDate">
+                <i class="btn bi bi-pencil-fill col-1" id="timeBtn"></i>
+            </div>
+            <div class='m-auto text-center'>
+                <button type="submit" class=" text-center  btn btn-primary mt-3 px-3"> Duyệt</button>
+            </div>
+        </form>
+        {{/with}}
+        <div class="text-end mt-3">
+            <a href="/listNews">Trở về trang chính</a>
+
+        </div>
+    </div>
+
+    <script>
+        function handleOnclickBody() {
+            let category = document.getElementById('category');
+            let categoryBtn = document.getElementById('categoryBtn');
+            let tag = document.getElementById('tag');
+            let tagBtn = document.getElementById('tagBtn');
+            let time = document.getElementById('time');
+            let timeBtn = document.getElementById('timeBtn');
+            switch (event.target) {
+                case categoryBtn:
+
+                    category.readOnly = false;
+                    break;
+                case tagBtn:
+                    tag.readOnly = false;
+                    break;
+                case timeBtn:
+                    time.readOnly = false;
+                    break;
+                case category:
+                    break;
+                case tag:
+                    break;
+                case time:
+                    break;
+                default:
+                    category.readOnly = true;
+                    tag.readOnly = true;
+                    time.readOnly = true;
+
+            }
+
+        }
+
+    </script>
+</main>

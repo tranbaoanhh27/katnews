@@ -16,14 +16,6 @@ router.get('/',authController.isLoggedIn, controllers.showEditPage);
 router.post('/password',
     authController.isLoggedIn, 
     body('oldPassword').trim().notEmpty().withMessage("Cần phải nhập mật khẩu cũ"),
-    body('oldPassword').custom(async (oldPassword, {req}) => {
-        const writerId = req.user;
-        const writer = await models.Writer.findOne({where: {id: writerId}});
-        if (!bcrypt.compareSync(oldPassword, writer.password)){
-            throw new Error("Không khớp với mật khẩu cũ")
-        }
-        return true;
-    }),
     body('newPassword').trim().notEmpty().withMessage("Cần phải nhập mật khẩu mới"),
     body('newPassword').matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/).withMessage("Mật khẩu phải chứa ít nhất 1 chữ số, và 1 chữ hoa, và chữ thường, và có ít nhất 8 ký tự"),
     body('confirmPassword').custom((confirmPassword, {req}) => {

@@ -1,0 +1,26 @@
+<main>
+    {{#with editor}}
+    <div class='container mt-3 rounded-3 shadow-lg' style='width: 80%'>
+        <div class='row'>
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <img src="{{avatarPath}}" alt='avater-image' style="width: 100%;" class='rounded-circle '>
+            </div>
+            <div class='col-lg-9 col-ld-9 sol-sm-6'>
+                <div>
+                    <h5 class="mb-3 mb-sm-4 d-inline my-5"> Tên biên tập viên: </h5>
+                    <p class='mx-5 d-inline'>{{fullName}}</p>
+                </div>
+                <hr>
+                <div>
+                    <h5 class="mb-3 mb-sm-4 d-inline my-5"> Ngày đăng ký: </h5>
+                    <p class='mx-5 d-inline'>{{date}}</p>
+                </div>
+                <hr>
+              
+                <a href='/auth/logout'><button type="button" class="btn btn-primary mt-3">Đăng xuất</button></a>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+
+</main>

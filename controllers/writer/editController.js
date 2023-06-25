@@ -74,7 +74,7 @@ controllers.createNews = async (req, res) => {
             throw "Không thể thêm bài viết mới"
         }
 
-        const tags = news.tag.split(" ");
+        const tags = news.tag.split(",");
         for (let tagName of tags) {
             tagName = tagName.trim();
             console.log(tagName);
@@ -111,11 +111,10 @@ controllers.changePassword = async (req, res) => {
         if (!writerId) throw "Bạn chưa đăng nhập"
         const writer = await models.Writer.findOne({ where: { id: writerId } });
         if (!writer) throw "Writer không tồn tại"
-        await bcrypt.compare(req.body.oldPassword, writer.password, (err, result) => {
-            if (err) throw "Mật khẩu cũ không chính xác"
-        })
+        if (!bcrypt.compareSync(req.body.oldPassword, writer.password)){
+            throw "mật khẩu không khớp";    
+        }
         if (req.body.newPassword !== req.body.confirmPassword) throw "Mật khẩu mới và xác nhận mật khẩu phải giống nhau"
-
         const newHashPassword = await bcrypt.hashSync(req.body.newPassword, 8);
         const newWriter = await models.Writer.update({ password: newHashPassword }, { where: { id: writerId } });
         if (newWriter) {
@@ -156,7 +155,7 @@ controllers.editNews = async (req, res) => {
 
             let tagName = tag.reduce((res, cur) => {
                 console.log('cur', cur.name);
-                return res + cur.name + ' ';
+                return res + cur.name + ', ';
             }, '');
 
             news.tag = tagName.trim();
@@ -241,7 +240,7 @@ controllers.updateNews = async (req, res) => {
                 publishDate: Date.now()
             }, { where: { newsId: newsId } });
 
-            const tags = tag.split(" ");
+            const tags = tag.split(",");
             console.log('tags', tags)
             for (let tagName of tags) {
                 tagName = tagName.trim();

@@ -23,7 +23,7 @@ passport.deserializeUser(async (request, id, done) => {
 
         } else if (request.session.subdomains.includes('editor')) {
             // TODO: query logged-in editor and return
-            done(error, null);
+            done(null, id);
 
         } else if (request.session.subdomains.includes('writer')) {
             // TODO: query logged-in writer and return
@@ -280,6 +280,34 @@ passport.use('writer-local-login', new passportLocal(
                 return cb(null, user);
             } else {
                 return cb(null, false, req.flash('messageWriterLogin', "Mật khẩu không chính xác"));
+            }
+        })
+    }
+))
+
+passport.use('editor-local-login', new passportLocal(
+    {
+        usernameField: "email",
+        passwordField: 'password',
+        passReqToCallback: true,
+    },
+    async function verify(req, email, password, cb) {
+        console.log("editor authen")
+        const user = await models.Editor.findOne({ where: {email: email } });
+        console.log('user', user)
+        if (!user) {
+            return cb(null, false, req.flash('messageEditorLogin', "Tên đăng nhập không tồn tại"));
+        }
+        bcrypt.compare(password, user.password, (err, result) => {
+            console.log("result", result)
+            if (err) {
+                return cb(null, false, req.flash('messageEditorLogin', "Mật khẩu không chính xác"));
+            }
+            if (result) {
+                console.log("sucess")
+                return cb(null, user);
+            } else {
+                return cb(null, false, req.flash('messageEditorLogin', "Mật khẩu không chính xác"));
             }
         })
     }

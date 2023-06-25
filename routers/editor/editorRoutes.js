@@ -1,8 +1,13 @@
-var router = require('express').Router();
+'use strict'
 
-router.get('/', (req, res) => {
-    console.log('Editor subdomain...');
-    res.send("hello it is subdomain of editor");
-})
+const router = require('express').Router();
+const controllers = require('../../controllers/editor/editorController')
+const authControllers = require('../../controllers/editor/authController');
+const { authenticate } = require('passport');
 
+
+router.get('/', controllers.showLoginPage);
+router.get('/listNews', authControllers.isLoggedIn, controllers.showListNews);
+router.get('/detail/:id', authControllers.isLoggedIn, controllers.showDetail);
+router.get('/information', authControllers.isLoggedIn, controllers.showInformation);
 module.exports = router;

@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       News.belongsTo(models.SubCategory, { foreignKey: "categoryId" })
       News.belongsToMany(models.Tag, { through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId' , onDelete: 'CASCADE'})
       News.hasMany(models.Comment, { foreignKey: 'newsId' });
+      News.hasOne(models.NewsStatus, {foreignKey: 'newsId'});
+
     }
   }
   News.init({
