@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     password: { type: DataTypes.STRING, allowNull: false },
     fullName: { type: DataTypes.STRING, allowNull: false },
     avatarPath: DataTypes.STRING,
-    isDeleted: DataTypes.BOOLEAN
+    isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    isApproved: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, {
     sequelize,
     modelName: 'Editor',
