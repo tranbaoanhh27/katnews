@@ -13,45 +13,25 @@ controller.showNewsList = async (request, response) => {
     response.locals.pageTitle = "Tin tức";
 
     // Get category, subcategory, and tag from request's query
-    let categoryId = isNaN(request.query.categoryId)
-        ? -1
-        : parseInt(request.query.categoryId);
-    const subCategoryId = isNaN(request.query.subCategoryId)
-        ? -1
-        : parseInt(request.query.subCategoryId);
-    const tagId = isNaN(request.query.tagId)
-        ? -1
-        : parseInt(request.query.tagId);
+    let categoryId = isNaN(request.query.categoryId) ? -1 : parseInt(request.query.categoryId);
+    const subCategoryId = isNaN(request.query.subCategoryId) ? -1 : parseInt(request.query.subCategoryId);
+    const tagId = isNaN(request.query.tagId) ? -1 : parseInt(request.query.tagId);
 
-    response.locals.showAllCategories =
-        categoryId === -1 && subCategoryId === -1;
-    response.locals.showAllSubCategories =
-        categoryId !== -1 && subCategoryId === -1;
+    response.locals.showAllCategories = categoryId === -1 && subCategoryId === -1;
+    response.locals.showAllSubCategories = categoryId !== -1 && subCategoryId === -1;
 
-    if (tagId !== -1 && (categoryId !== -1 || subCategoryId !== -1))
-        return response.redirect(`/news?tagId=${tagId}`);
+    if (tagId !== -1 && (categoryId !== -1 || subCategoryId !== -1)) return response.redirect(`/news?tagId=${tagId}`);
 
     // If both category and subcategory is passed, use only subcategory
-    if (categoryId !== -1 && subCategoryId !== -1)
-        return response.redirect(`/news?subCategoryId=${subCategoryId}`);
+    if (categoryId !== -1 && subCategoryId !== -1) return response.redirect(`/news?subCategoryId=${subCategoryId}`);
 
     // Pagination configs
-    const page = isNaN(request.query.page)
-        ? 1
-        : Math.max(1, parseInt(request.query.page));
+    const page = isNaN(request.query.page) ? 1 : Math.max(1, parseInt(request.query.page));
     const NEWS_LIMIT = 10;
     const newsOffset = NEWS_LIMIT * (page - 1);
 
     let newsQueryConfigs = {
-        attributes: [
-            "id",
-            "title",
-            "abstract",
-            "updatedAt",
-            "tinyImagePath",
-            "isPremium",
-            "isDraft"
-        ],
+        attributes: ["id", "title", "abstract", "updatedAt", "tinyImagePath", "isPremium", "isDraft"],
         include: [
             {
                 model: models.SubCategory,
@@ -69,8 +49,7 @@ controller.showNewsList = async (request, response) => {
     };
 
     if (tagId !== -1) newsQueryConfigs.include[1].where = { id: tagId };
-    else if (categoryId !== -1)
-        newsQueryConfigs.include[0].where = { categoryId };
+    else if (categoryId !== -1) newsQueryConfigs.include[0].where = { categoryId };
     else if (subCategoryId !== -1) {
         newsQueryConfigs.where.categoryId = subCategoryId;
 
@@ -89,7 +68,10 @@ controller.showNewsList = async (request, response) => {
 
     // If user is not premium, sort to bring premium news on top
     if (userHelper.isPremium(request.user))
-        newsQueryConfigs.order = [["isPremium", "DESC"], ['updatedAt', 'DESC']];
+        newsQueryConfigs.order = [
+            ["isPremium", "DESC"],
+            ["updatedAt", "DESC"],
+        ];
 
     const news = await models.News.findAll(newsQueryConfigs);
 
@@ -126,9 +108,7 @@ controller.showNewsList = async (request, response) => {
     const categories = await models.Category.findAll({
         attributes: ["id", "name"],
     });
-    categories.forEach(
-        (category) => (category.isActive = category.id == categoryId)
-    );
+    categories.forEach((category) => (category.isActive = category.id == categoryId));
     response.locals.categories = categories;
 
     // Query sub categories if needed
@@ -137,9 +117,7 @@ controller.showNewsList = async (request, response) => {
             attributes: ["id", "name"],
             where: { categoryId },
         });
-        subCategories.forEach(
-            (category) => (category.isActive = category.id == subCategoryId)
-        );
+        subCategories.forEach((category) => (category.isActive = category.id == subCategoryId));
         response.locals.subCategories = subCategories;
         response.locals.activeCategory = categoryId;
     }
@@ -152,25 +130,24 @@ controller.showNewsList = async (request, response) => {
     response.render("user-news-list");
 };
 
-controller.showNewsDetails = async (request, response) => {
-    response.locals.isNewsPage = true;
+controller.showNewsDetails = async (request, response, next) => {
+    // Start a sequelize transaction
+    const t = await models.sequelize.transaction();
+    
+    try {
+        response.locals.isNewsPage = true;
 
-    const newsId = isNaN(request.params.newsId)
-        ? 1
-        : parseInt(request.params.newsId);
-    const exportPdf = request.query.export;
+        const newsId = isNaN(request.params.newsId) ? 1 : parseInt(request.params.newsId);
+        const exportPdf = request.query.export;
 
-    const news = await models.News.findOne({
-        include: [
-            { model: models.SubCategory },
-            { model: models.Writer },
-            { model: models.Tag },
-            { model: models.Comment },
-        ],
-        where: { id: newsId, isDraft: false },
-    });
+        const news = await models.News.findOne({
+            include: [{ model: models.SubCategory }, { model: models.Writer }, { model: models.Tag }, { model: models.Comment }],
+            where: { id: newsId, isDraft: false },
+            transaction: t,
+        });
 
-    if (news) {
+        if (!news) return response.render("error", { message: "404 - Page not found!" });
+
         news.updatedAtString = new Date(news.updatedAt).toLocaleString("vi-VN");
         response.locals.pageTitle = news.title;
         response.locals.news = news;
@@ -187,16 +164,14 @@ controller.showNewsDetails = async (request, response) => {
             const pdf = await generatePdf(news);
 
             // Set the content type so the browser knows how to handle the response.
-            response.setHeader('Content-Type', 'application/pdf');
-            response.setHeader('Content-Disposition', `attachment; filename=katnews-${news.id}.pdf`);
+            response.setHeader("Content-Type", "application/pdf");
+            response.setHeader("Content-Disposition", `attachment; filename=katnews-${news.id}.pdf`);
 
             // Serve this pdf to the browser directly.
             response.send(pdf);
         } else {
             // Query comments
-            const currentCommentPage = isNaN(request.query.page)
-                ? 1
-                : Math.max(1, parseInt(request.query.page));
+            const currentCommentPage = isNaN(request.query.page) ? 1 : Math.max(1, parseInt(request.query.page));
             const COMMENTS_LIMIT = 5;
             const commentsOffset = COMMENTS_LIMIT * (currentCommentPage - 1);
             const { rows, count } = await models.Comment.findAndCountAll({
@@ -216,11 +191,8 @@ controller.showNewsDetails = async (request, response) => {
             // Convert Comments updated Date object to string in expected format
             // and config default avatarPath if it's null
             rows.forEach((comment) => {
-                comment.updatedAtString = new Date(
-                    comment.updatedAt
-                ).toLocaleString("vi-VN");
-                if (!comment.User.avatarPath)
-                    comment.User.avatarPath = DEFAULT_USER_AVATAR_PATH;
+                comment.updatedAtString = new Date(comment.updatedAt).toLocaleString("vi-VN");
+                if (!comment.User.avatarPath) comment.User.avatarPath = DEFAULT_USER_AVATAR_PATH;
             });
             response.locals.comments = rows;
 
@@ -258,35 +230,36 @@ controller.showNewsDetails = async (request, response) => {
                 limit: 5,
             });
 
-            const colors = [
-                "#E98733",
-                "#CA335C",
-                "#70AFBE",
-                "#7D618F",
-                "#0CA9A8",
-            ];
+            const colors = ["#E98733", "#CA335C", "#70AFBE", "#7D618F", "#0CA9A8"];
             let colorIndex = 0;
 
             relatedNews.forEach((news) => {
-                news.updatedAtString = new Date(news.updatedAt).toLocaleString(
-                    "vi-VN"
-                );
+                news.updatedAtString = new Date(news.updatedAt).toLocaleString("vi-VN");
                 news.categoryColor = colors[colorIndex % colors.length];
                 colorIndex++;
             });
 
             response.locals.relatedNews = relatedNews;
-        }
 
-        response.render("user-news-details");
-    } else response.render("error", { message: "404 - Page not found!" });
+            // Increase total and weekly views count
+            news.totalViewsCount++;
+            news.weeklyViewsCount++;
+            await news.save({ transaction: t });
+
+            // Commit the transaction
+            await t.commit();
+
+            response.render("user-news-details");
+        }
+    } catch (error) {
+        await t.rollback();
+        return next(error);
+    }
 };
 
 controller.postComment = async (request, response) => {
     const content = request.body.content;
-    const newsId = isNaN(request.params.newsId)
-        ? -1
-        : parseInt(request.params.newsId);
+    const newsId = isNaN(request.params.newsId) ? -1 : parseInt(request.params.newsId);
     console.log("content", content);
     console.log("newsId", newsId);
     if (content && content.trim().length > 0 && newsId !== -1) {
@@ -331,43 +304,42 @@ const generatePdf = async (news) => {
             </body>
             </html>
     `);
-    await page.addStyleTag({ url: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css' });
-    await page.addStyleTag({ path: './public/css/style.css' });
-    await page.addStyleTag({ url: 'https://fonts.googleapis.com/css?family=Lexend' });
+    await page.addStyleTag({ url: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" });
+    await page.addStyleTag({ path: "./public/css/style.css" });
+    await page.addStyleTag({ url: "https://fonts.googleapis.com/css?family=Lexend" });
     await page.addStyleTag({ content: `body { font-family: 'Lexend' }` });
-    await page.addScriptTag({ url: 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js' });
-    await page.addScriptTag({ url: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js' });
-    await page.addScriptTag({ url: 'https://kit.fontawesome.com/ea0c74c9ad.js' });
+    await page.addScriptTag({ url: "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" });
+    await page.addScriptTag({ url: "https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" });
+    await page.addScriptTag({ url: "https://kit.fontawesome.com/ea0c74c9ad.js" });
 
     const pdf = await page.pdf({ format: "A4", printBackground: true });
     await browser.close();
 
     return pdf;
-}
+};
 
 controller.search = async (req, res) => {
-    const keyword = String(req.query.keyword).split(' ').join(' & ');
+    const keyword = String(req.query.keyword).split(" ").join(" & ");
     let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-    
+
     const limit = 10;
     const options = {
-        include: [{
-            model: models.SubCategory,
-            attributes: ['id', 'name']
-        }, {
-            model: models.Tag,
-            attributes: ['id', 'name']
-        }],
-        where: Sequelize.literal(
-            `ts_rank("ts", to_tsquery('english', '${keyword}')) > 0.1`
-        ),
-        order: [
-            [Sequelize.literal(`ts_rank("ts", to_tsquery('english', '${keyword}'))`), "DESC"]
+        include: [
+            {
+                model: models.SubCategory,
+                attributes: ["id", "name"],
+            },
+            {
+                model: models.Tag,
+                attributes: ["id", "name"],
+            },
         ],
+        where: Sequelize.literal(`ts_rank("ts", to_tsquery('english', '${keyword}')) > 0.1`),
+        order: [[Sequelize.literal(`ts_rank("ts", to_tsquery('english', '${keyword}'))`), "DESC"]],
         limit: limit,
         offset: limit * (page - 1),
     };
-    
+
     let news = await models.News.findAll(options);
 
     // Manually get count (because sequelize findAndCountAll works wrong on many-to-many association...)
@@ -382,15 +354,15 @@ controller.search = async (req, res) => {
         page: page,
         limit: limit,
         totalRows: count,
-        queryParams: req.query
+        queryParams: req.query,
     };
 
     const colors = ["#E98733", "#CA335C", "#70AFBE", "#7D618F", "#0CA9A8"];
     let colorIndex = 0;
-    news.forEach(article => {
+    news.forEach((article) => {
         article.shortAbstract = article.abstract.slice(0, 200);
-        if (article.abstract.length > 200) article.shortAbstract += '...';
-        article.updatedAtString = (new Date(article.updatedAt)).toLocaleString('vi-VN');
+        if (article.abstract.length > 200) article.shortAbstract += "...";
+        article.updatedAtString = new Date(article.updatedAt).toLocaleString("vi-VN");
         article.categoryColor = colors[colorIndex++ % colors.length];
     });
 
@@ -399,6 +371,6 @@ controller.search = async (req, res) => {
 
     res.locals.news = news;
     res.render("user-news-search-result");
-}
+};
 
 module.exports = controller;

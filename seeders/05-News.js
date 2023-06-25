@@ -687,8 +687,8 @@ module.exports = {
         news.forEach((item) => {
             item.createdAt = Sequelize.literal("NOW()");
             item.updatedAt = Sequelize.literal("NOW()");
-            item.totalViewsCount = Math.floor(Math.random() * 10);  // Fake views count for testing
-            // item.totalViewsCount = 0;
+            // item.totalViewsCount = Math.floor(Math.random() * 10);  // Fake views count for testing
+            item.totalViewsCount = 0;
             item.weeklyViewsCount = 0;
             item.isDeleted = false;
         });
