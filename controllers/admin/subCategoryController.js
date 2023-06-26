@@ -13,6 +13,10 @@ controllers.show = async (req, res) => {
             attributes: ['id', 'name'],
             order: [['id']],
             where: { categoryId: id },
+            include: [{
+                model: models.News,
+                attributes: ['id']
+            }],
             limit: limit,
             offset: limit * (page - 1)
         }
@@ -26,6 +30,9 @@ controllers.show = async (req, res) => {
             queryParams: req.query
         };
 
+        rows.map((item) => {
+            item.countNews = item.News.length;
+        })
         res.locals.subCategories = rows;
         res.render('admin-subCategory', { layout: 'admin-layout', inCategory: "#0d6efd", type_name: `category/${id}?name=${nameCategory}`, nameCategory, catId: id });
     } catch (error) {
@@ -62,7 +69,17 @@ controllers.update = async (req, res) => {
 
 controllers.delete = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id, countNews } = req.body;
+        if (countNews != 0) {
+            let news = await models.News.findAll({
+                where: { categoryId: id }
+            });
+
+            for (const item of news) {
+                await item.destroy();
+            }
+        }
+
         const subCategory = await models.SubCategory.findByPk(id);
         if (!subCategory) {
             return res.status(404).json({ error: 'không tìm thấy subCategory.' });

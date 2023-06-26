@@ -8,7 +8,7 @@ controller.show = async (req, res) => {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
         let options = {
-            attribute: ['id', 'title', 'tinyImagePath', 'isDraft'],
+            attributes: ['id', 'title', 'tinyImagePath', 'isDraft'],
             order: [['id']],
 
             include: [{

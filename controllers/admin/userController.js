@@ -9,7 +9,7 @@ controller.showSubscriber = async (req, res) => {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
         let options = {
-            attribute: ['id', 'fullName', 'email', 'premiumExpiredTime', 'avatarPath'],
+            attributes: ['id', 'fullName', 'email', 'premiumExpiredTime', 'avatarPath'],
             order: [['id']],
             limit: limit,
             offset: limit * (page - 1)
@@ -90,7 +90,7 @@ controller.showWriter = async (req, res) => {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
         let options = {
-            attribute: ['id', 'fullName', 'email', 'pseudonym', 'avatarPath'],
+            attributes: ['id', 'fullName', 'email', 'pseudonym', 'avatarPath'],
             order: [['id']],
             limit: limit,
             offset: limit * (page - 1)
