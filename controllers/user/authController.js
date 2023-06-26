@@ -1,7 +1,7 @@
 'use strict';
 const passport = require('../passport');
 const bcrypt = require('bcrypt');
-const userHelper = require('../../public/javascript/userHelper');
+const userHelper = require('./userHelper');
 const { sendResetPasswordMail } = require('../mail');
 const models = require('../../models');
 

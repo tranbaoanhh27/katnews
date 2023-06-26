@@ -3,7 +3,7 @@
 const models = require("../../models");
 const Sequelize = require("sequelize");
 const puppeteer = require("puppeteer");
-const userHelper = require("../../public/javascript/userHelper");
+const userHelper = require('./userHelper');
 const DEFAULT_USER_AVATAR_PATH = "/images/default-user-icon.jpg";
 
 const controller = {};
@@ -42,7 +42,7 @@ controller.showNewsList = async (request, response) => {
                 attributes: ["id", "name"],
             },
         ],
-        where: { isDraft: false },
+        where: { isDraft: false, isPremium: false },
         order: [["updatedAt", "DESC"]],
         limit: NEWS_LIMIT,
         offset: newsOffset,
@@ -66,12 +66,14 @@ controller.showNewsList = async (request, response) => {
         categoryId = currentCategory.id;
     }
 
-    // If user is not premium, sort to bring premium news on top
-    if (userHelper.isPremium(request.user))
+    // If user is premium, show premium news and sort to bring premium news on top
+    if (userHelper.isPremium(request.user)) {
         newsQueryConfigs.order = [
             ["isPremium", "DESC"],
             ["updatedAt", "DESC"],
         ];
+        newsQueryConfigs.where = { isDraft: false };
+    }
 
     const news = await models.News.findAll(newsQueryConfigs);
 
@@ -146,7 +148,11 @@ controller.showNewsDetails = async (request, response, next) => {
             transaction: t,
         });
 
-        if (!news) return response.render("error", { message: "404 - Page not found!" });
+        // If news not found, pass to next controller
+        if (!news) return next();
+
+        // If news is premium but user is not premium, pass to next controller
+        if (news.isPremium && !userHelper.isPremium(request.user)) return next();
 
         news.updatedAtString = new Date(news.updatedAt).toLocaleString("vi-VN");
         response.locals.pageTitle = news.title;
