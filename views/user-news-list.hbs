@@ -1,11 +1,11 @@
 <main class="container">
     <div class="row" style="display: flex; justify-content: space-between;">
-        <div class="col-8">
+        <div class="col-lg-8">
             <div class="row mt-3 flex-row align-items-center">
-                <div class="col-4 align-self-start">
+                <div class="col-lg-4 align-self-start">
                     <h5 class="mb-0 mt-1">Chuyên mục:</h5>
                 </div>
-                <div class="col-8">
+                <div class="col-lg-8">
                     <div class="user-news__categories">
                         {{#if showAllCategories}}
                         <span class="btn btn-primary user-news__active-category"><a href="/news">Tất cả</a></span>
@@ -24,10 +24,10 @@
                 </div>
             </div>
             <div class="row mt-3 flex-row align-items-center">
-                <div class="col-4 align-self-start">
+                <div class="col-lg-4 align-self-start">
                     <h5 class="mb-0 mt-1">Chuyên mục con:</h5>
                 </div>
-                <div class="col-8">
+                <div class="col-lg-8">
                     <div class="user-news__categories">
                         {{#if showAllSubCategories}}
                         <span class="btn btn-primary user-news__active-category"><a
@@ -94,7 +94,7 @@
                 {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
             </nav>
         </div>
-        <div class="col-3 user-news__col-select-tag">
+        <div class="col-lg-3 user-news__col-select-tag">
             <h5>Danh sách nhãn</h5>
             <div class="user-news__tag-select row">
                 {{#each tags}}

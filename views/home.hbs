@@ -1,95 +1,97 @@
-
-    <main class="container">
-        <div class="row homepage__main-container">
-            <div class="col-8">
-                <h3 class="homepage__section-title">Bài viết nổi bật trong tuần</h3>
-                <div id="articlesOfTheWeek" class="carousel slide" data-bs-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="0" class="active" aria-current="true" aria-label="First slide"></li>
-                        <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="1" aria-label="Second slide"></li>
-                        <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="2" aria-label="Third slide"></li>
-                    </ol>
-                    <div class="carousel-inner homepage__carousel-inner" role="listbox">
-                        {{#each weeklyTopThree}}
-                        <div class="carousel-item homepage__carousel-item">
-                            {{> homepage-carousel-overlay }}
-                        </div>
-                        {{/each}}
+<main class="container">
+    <div class="row homepage__main-container">
+        <div class="col-lg-8">
+            <h3 class="homepage__section-title">Bài viết nổi bật trong tuần</h3>
+            <div id="articlesOfTheWeek" class="carousel slide" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="0" class="active" aria-current="true"
+                        aria-label="First slide"></li>
+                    <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="1" aria-label="Second slide"></li>
+                    <li data-bs-target="#articlesOfTheWeek" data-bs-slide-to="2" aria-label="Third slide"></li>
+                </ol>
+                <div class="carousel-inner homepage__carousel-inner" role="listbox">
+                    {{#each weeklyTopThree}}
+                    <div class="carousel-item homepage__carousel-item">
+                        {{> homepage-carousel-overlay }}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#articlesOfTheWeek" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#articlesOfTheWeek" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <h3 class="homepage__section-title mt-5">Tin tức được xem nhiều nhất</h3>
-                <div id="most-viewed">
-                    {{#each twoMostViews}}
-                    {{> homepage-wide-news-item }}
                     {{/each}}
-                    <div class="row gx-3">
-                        {{#each fourMostViews}}
-                        <div class="col-3 gy-2">
-                            {{> homepage-small-news-item }}
-                        </div>
-                        {{/each}}
-                    </div>
-                    <div class="row gx-3">
-                        {{#each nextFourMostViews}}
-                        <div class="col-3 gy-4">
-                            {{> homepage-small-news-item }}
-                        </div>
-                        {{/each}}
-                    </div>
                 </div>
-                <h3 class="homepage__section-title mt-5">Tin tức mới nhất</h3>
-                <div id="latest-news">
-                    {{#each twoLatest}}
-                    {{> homepage-wide-news-item }}
+                <button class="carousel-control-prev" type="button" data-bs-target="#articlesOfTheWeek"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#articlesOfTheWeek"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <h3 class="homepage__section-title mt-5">Tin tức được xem nhiều nhất</h3>
+            <div id="most-viewed">
+                {{#each twoMostViews}}
+                {{> homepage-wide-news-item }}
+                {{/each}}
+                <div class="row gx-3">
+                    {{#each fourMostViews}}
+                    <div class="col-lg-3 gy-2">
+                        {{> homepage-small-news-item }}
+                    </div>
                     {{/each}}
-                    <div class="row gx-3">
-                        {{#each fourLatest}}
-                        <div class="col-3 gy-2">
-                            {{> homepage-small-news-item }}
-                        </div>
-                        {{/each}}
+                </div>
+                <div class="row gx-3">
+                    {{#each nextFourMostViews}}
+                    <div class="col-lg-3 gy-4">
+                        {{> homepage-small-news-item }}
                     </div>
-                    <div class="row gx-3">
-                        {{#each nextFourLatest}}
-                        <div class="col-3 gy-4">
-                            {{> homepage-small-news-item }}
-                        </div>
-                        {{/each}}
-                    </div>
+                    {{/each}}
                 </div>
             </div>
-            <div class="col-4 homepage__col-top-category">
-                <h3 class="homepage__section-title">Top 10 chuyên mục</h3>
-                {{#each topCategories}}
-                <div class="homepage__top-category">
-                    <img src="{{latestPost.tinyImagePath}}" width="100%" height="100%" alt="">
-                    <div class="homepage__top-category-blackcover"></div>
-                    <div class="homepage__top-category-overlay-content">
-                        <div class="homepage__top-category-title">
-                            <span class="top-number" style="background-color: {{badgeColor}};">{{rank}}</span>
-                            <span class="category-name" style="background-color: {{badgeColor}};">
-                                <a href="/news?subCategoryId={{id}}">{{name}}</a>
-                            </span>
-                        </div>
-                        <a href="/news/{{latestPost.id}}" class="homepage__top-category-article-title">{{latestPost.title}}</a>
-                        <p>{{latestPost.updatedAtString}}</p>
-                    </div>
-                </div>
+            <h3 class="homepage__section-title mt-5">Tin tức mới nhất</h3>
+            <div id="latest-news">
+                {{#each twoLatest}}
+                {{> homepage-wide-news-item }}
                 {{/each}}
+                <div class="row gx-3">
+                    {{#each fourLatest}}
+                    <div class="col-lg-3 gy-2">
+                        {{> homepage-small-news-item }}
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="row gx-3">
+                    {{#each nextFourLatest}}
+                    <div class="col-lg-3 gy-4">
+                        {{> homepage-small-news-item }}
+                    </div>
+                    {{/each}}
+                </div>
             </div>
         </div>
-    </main>
-    <script>
-        document.querySelector('.homepage__main-container .carousel-inner')
-            .querySelector('.homepage__carousel-item:first-child')
-            .classList.add('active');
-    </script>
-
+        <div class="col-lg-4 homepage__col-top-category">
+            <h3 class="homepage__section-title">Top 10 chuyên mục</h3>
+            {{#each topCategories}}
+            <div class="homepage__top-category">
+                <img src="{{latestPost.tinyImagePath}}" width="100%" height="100%" alt="">
+                <div class="homepage__top-category-blackcover"></div>
+                <div class="homepage__top-category-overlay-content">
+                    <div class="homepage__top-category-title">
+                        <span class="top-number" style="background-color: {{badgeColor}};">{{rank}}</span>
+                        <span class="category-name" style="background-color: {{badgeColor}};">
+                            <a href="/news?subCategoryId={{id}}">{{name}}</a>
+                        </span>
+                    </div>
+                    <a href="/news/{{latestPost.id}}"
+                        class="homepage__top-category-article-title">{{latestPost.title}}</a>
+                    <p>{{latestPost.updatedAtString}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</main>
+<script>
+    document.querySelector('.homepage__main-container .carousel-inner')
+        .querySelector('.homepage__carousel-item:first-child')
+        .classList.add('active');
+</script>

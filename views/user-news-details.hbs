@@ -31,7 +31,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-9">
+            <div class="col-lg-9">
                 <div class="user-news-details__tag-list">
                     Nhãn:
                     {{#each news.Tags}}
@@ -45,7 +45,7 @@
                     <img class="user-news-details__content-image" src="{{news.largeImagePath}}" alt="{{news.title}}">
                     {{{news.content}}}
                     {{#if news.youtubePath}}
-                    <iframe class="user-news-details__content-youtube-iframe" width="560" height="315"
+                    <iframe class="user-news-details__content-youtube-iframe" width="80%" height="400px"
                         src="{{news.youtubePath}}" title="{{news.title}}" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen>
@@ -87,7 +87,7 @@
                 </nav>
                 {{/if}}
             </div>
-            <div class="col-3">
+            <div class="col-lg-3">
                 <h3 class="mt-5">Tin liên quan</h3>
                 <div id="related-news" class="carousel slide" data-bs-ride="carousel">
                     <ol class="carousel-indicators user-news-details__carousel-indicators">
