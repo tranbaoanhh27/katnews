@@ -30,28 +30,33 @@
                             <tr>
                                 <th class="list__header" style="width: auto;">Chọn</th>
                                 <th class="list__header" style="width: auto;">Tên</th>
+                                <th class="list__header" style="width: auto;">Số chuyên mục con</th>
                                 <th class="list__header" style="width: 14%;"></th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if categories}}
                             {{#each categories}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-category" value="{{id}}">
                                 </td>
                                 <td class="list__cat"><a href="/category/{{id}}?name={{name}}"
                                         class="text-decoration-none text-dark">{{name}}</a></td>
+                                <td class="list__sub">{{countSub}}</td>
                                 <td class="list__actions text-end">
                                     <div class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal"
                                         onclick="openEditModal({{id}}, '{{name}}')"><i class="fa-solid fa-pen"></i>
                                     </div>
-                                    <div class="btn btn-danger" onclick="deleteRow({{id}})"><i
+                                    <div class="btn btn-danger" onclick="deleteRow({{id}}, {{countSub}})"><i
                                             class="fa-solid fa-trash"></i></div>
                                 </td>
                             </tr>
                             {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
 
+                    {{#if categories}}
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
@@ -63,7 +68,9 @@
                             </nav>
                         </div>
                     </div>
-
+                    {{else}}
+                    <div class="m-3 text-center alert alert-warning">Không có chuyên mục nào </div>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -142,22 +149,69 @@
 
 <!-- xoa tag -->
 <script>
-    async function deleteRow(id) {
-        if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
-            let res = await fetch('/category', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    id
-                })
-            });
-            if (res.status == 200) {
-                window.location.reload();
+    async function deleteRow(id, countSub) {
+        if (countSub === 0) {
+            if (confirm('Bạn có chắc chắn muốn xóa chuyên mục này không?')) {
+                let res = await fetch('/category', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id,
+                        countSub,
+                        countNew: 0
+                    })
+                });
+                if (res.status == 200) {
+                    window.location.reload();
+                }
             }
         }
+        else {
+            let res = await fetch(`/category/countNews?categoryId=${id}`);
+            let json = await res.json();
+            if (json.count === 0) {
+                if (confirm(`Chuyên mục này có ${countSub} chuyên mục con. Tuy nhiên không có bài báo nào thuộc chuyên mục này. Bạn có chắc chắn muốn xóa không?`)) {
+                    let res = await fetch('/category', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id,
+                            countSub,
+                            countNew: 0
+                        })
+                    });
+                    if (res.status == 200) {
+                        window.location.reload();
+                    }
+                }
+            }
+            else {
+                if (confirm(`Chuyên mục này có ${countSub} chuyên mục con và tổng cộng ${json.count} bài báo. Bạn chắc chắn muốn xóa nó không?`)) {
+                    let res = await fetch('/category', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id,
+                            countSub,
+                            countNew: json.count
+                        })
+                    });
+                    if (res.status == 200) {
+                        window.location.reload();
+                    }
+                }
+            }
+        }
+
 
     }
 </script>
@@ -182,27 +236,79 @@
 
         // Kiểm tra xem có dòng nào được chọn không
         if (selectedRows.length === 0) {
-            alert("Vui lòng chọn tag trước khi xóa.");
+            alert("Vui lòng chọn chuyên mục trước khi xóa.");
         } else {
-            // Hiển thị hộp thoại xác nhận xóa
-            if (confirm("Bạn có chắc chắn muốn xóa những tag này?")) {
-                // Xóa các dòng đã chọn
-                for (const row of selectedRows) {
-                    let res = await fetch('/category', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: row.querySelector('input[type="checkbox"]').value
-                        })
-                    });
+            let countAllSub = 0, countAllNews = 0, tmp = [];
+            for (const row of selectedRows) {
+
+                let countSub = parseInt(row.querySelector('.list__sub').textContent);
+                let id = row.querySelector('input[type="checkbox"]').value;
+                let res = await fetch(`/category/countNews?categoryId=${id}`);
+                let json = await res.json();
+
+                tmp.push([id, countSub, json.count]);
+                countAllNews += json.count;
+                countAllSub += countSub;
+            }
+            if (countAllSub === 0) {
+                if (confirm('Bạn có chắc chắn muốn xóa các chuyên mục đã chọn không?')) {
+                    for (let item of tmp) {
+                        let res = await fetch('/category', {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: item[0],
+                                countSub: 0,
+                                countNew: 0
+                            })
+                        });
+                    }
                 }
             }
+            else {
+                if (countAllNews === 0) {
+                    if (confirm(`Những chuyên mục này có tất của ${countAllSub} chuyên mục con. Tuy nhiên các chuyên mục không ảnh hưởng đến bất kỳ bài báo nào. Bạn có chắc chắn muốn xóa không?`)) {
+                        for (let item of tmp) {
+                            let res = await fetch('/category', {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    id: item[0],
+                                    countSub: item[1],
+                                    countNew: 0
+                                })
+                            });
+                        }
+                    }
+                }
+                else {
+                    if (confirm(`Những chuyên mục này có tất của ${countAllSub} chuyên mục con, và có tổng cộng ${countAllNews} bài viết. Bạn có chắc chắn muốn xóa không?`)) {
+                        for (let item of tmp) {
+                            let res = await fetch('/category', {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    id: item[0],
+                                    countSub: item[1],
+                                    countNew: item[2]
+                                })
+                            });
+                        }
+                    }
+                }
+            }
+
             window.location.reload();
         }
-
         // Xóa danh sách các dòng đã chọn
         selectedRows = [];
     }

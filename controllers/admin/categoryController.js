@@ -9,6 +9,9 @@ controllers.show = async (req, res) => {
         const limit = 10;
         let options = {
             attributes: ['id', 'name'],
+            include: [{
+                model: models.SubCategory
+            }],
             order: [['id']],
             limit: limit,
             offset: limit * (page - 1)
@@ -23,6 +26,9 @@ controllers.show = async (req, res) => {
             queryParams: req.query
         };
 
+        rows.map((item) => {
+            item.countSub = item.SubCategories.length;
+        })
         res.locals.categories = rows;
         res.render('admin-category', { layout: 'admin-layout', inCategory: "#0d6efd", type_name: 'category' });
     } catch (error) {
@@ -59,7 +65,29 @@ controllers.update = async (req, res) => {
 
 controllers.delete = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id, countSub, countNew } = req.body;
+        if (countNew) {
+            const news = await models.News.findAll({
+                attributes: ['id'],
+                include: [{
+                    model: models.SubCategory,
+                    where: { categoryId: id }
+                }]
+            });
+            for (const item of news) {
+                await item.destroy();
+            }
+        }
+
+        if (countSub) {
+            const subCategories = await models.SubCategory.findAll({
+                where: { categoryId: id }
+            });
+            for (const item of subCategories) {
+                await item.destroy();
+            }
+        }
+
         const Category = await models.Category.findByPk(id);
         if (!Category) {
             return res.status(404).json({ error: 'không tìm thấy Category.' });
@@ -84,6 +112,19 @@ controllers.updateEditor = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi xóa doanh mục.' });
     }
+}
+
+controllers.countNews = async (req, res) => {
+    const { categoryId } = req.query;
+    const news = await models.News.findAll({
+        attributes: ['id'],
+        include: [{
+            model: models.SubCategory,
+            where: { categoryId }
+        }]
+    });
+
+    res.status(200).json({ count: news.length });
 }
 
 module.exports = controllers;
