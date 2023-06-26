@@ -347,11 +347,13 @@ controller.search = async (req, res) => {
     };
 
     let news = await models.News.findAll(options);
+    if (!userHelper.isPremium(req.user)) news = news.filter(item => item.isPremium === false);
 
     // Manually get count (because sequelize findAndCountAll works wrong on many-to-many association...)
     options.limit = null;
     options.offset = null;
-    const tempNews = await models.News.findAll(options);
+    let tempNews = await models.News.findAll(options);
+    if (!userHelper.isPremium(req.user)) tempNews = tempNews.filter(item => item.isPremium === false);
     let newIds = new Set();
     for (let item of tempNews) newIds.add(item.id);
     const count = newIds.size;
@@ -374,6 +376,7 @@ controller.search = async (req, res) => {
 
     res.locals.pageTitle = `Tìm kiếm: ${String(req.query.keyword)}`;
     res.locals.keyword = String(req.query.keyword);
+    res.locals.hasNews = news.length > 0;
 
     res.locals.news = news;
     res.render("user-news-search-result");

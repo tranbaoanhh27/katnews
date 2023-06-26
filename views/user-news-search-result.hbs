@@ -4,6 +4,7 @@
         <input class="form-control shadow-none me-2" type="text" name="keyword" value="{{keyword}}" placeholder="Nhập từ khóa..." aria-label="Search">
         <button class="btn header__search-submit-button" type="submit">Tìm kiếm</button>
     </form>
+    {{#if hasNews }}
     <div class="user-news__article-list">
         {{#each news}}
         {{#if isPremium}}
@@ -51,4 +52,7 @@
     <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
         {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
     </nav>
+    {{else}}
+    <div class="alert alert-warning my-5 text-center">Không có kết quả</div>
+    {{/if}}
 </main>
