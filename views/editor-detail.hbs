@@ -3,20 +3,20 @@
     <div class='container-fluid mt-2' style='z-index: -1;'>
         <div class="card bg-dark text-white " style='z-index: -1;'>
             <img class="img-fluid opacity-25 " src="{{largeImagePath}}" alt="Card image "
-                style="height: 40vh; object-fit:cover;">    
+                style="height: 60vh; object-fit:cover;">
 
-            <div class="card-img-overlay">
+            <div class="card-img-overlay m-5">
                 <div class="rounded-3 d-inline p-1" style="background-color: lightgreen;">{{SubCategory.name}}</div>
                 <h2 class='title p-2'>{{title}}</h2>
                 <p>{{abstract}}
                 <p>
-                <div class='d-flex flex-row gap-3'>
-                    <img src='/images/avatar.svg' style='width: 50px; height: 50px' class="bg-light rounded-circle"
+                <div class='d-flex flex-row gap-3 p-2'>
+                    <img src="{{Writer.avatarPath}}" style='width: 50px; height: 50px' class="bg-light rounded-circle"
                         alt='avatar-image'>
-                    <p>Hạnh Nguyên</p>
+                    <p>{{Writer.fullName}}</p>
                     <p>-</p>
-                    <p>{{updatedAt}}</p>
-                    <p>15:16</p>
+                    <p>{{date}}</p>
+                    <p>{{time}}</p>
 
 
                 </div>
@@ -28,13 +28,17 @@
         <div class='mb-2'>
             <p class='m-3 d-inline'>Nhãn: </p>
             {{#each Tags}}
-            <div class="rounded-3 d-inline p-1 text-white" style="background-color: lightgreen;">{{name}}</div>
+            <div class="rounded-3 d-inline p-1 text-white" style="background-color: lightgray;">{{name}}</div>
             {{/each}}
         </div>
         {{{content}}}
 
 
     </div>
+    <div class="text-center">
+        <iframe width="420" height="315" src="{{youtubePath}}">
+    </div>
+    </iframe>
     <hr class='shadow'>
     <div class='container mt-4 d-flex justify-content-around gap-5 mb-5'>
         <a href='/edit/reject/{{id}}'><button type="button" class="btn btn-danger">Từ chối</button></a>

@@ -137,7 +137,7 @@ controllers.editNews = async (req, res) => {
         if (!news) {
             res.redirect('/listNews');
         }
-        else if (writerId !== news.writerId || !status || status.status == 'approved') {
+        else if (writerId !== news.writerId || !status || status.status == 'approved') { // check writer is valid
             res.redirect('/listNews');
         }
         else {
@@ -156,7 +156,7 @@ controllers.editNews = async (req, res) => {
             news.tag = tagName.trim().slice(0, -1);
             news.categoryId = Number(news.categoryId)
             console.log('news', news)
-            res.render('writer-edit', { layout: 'writer-news-layout', news: news, category: category });
+            res.render('writer-edit', { layout: 'writer-news-layout', news: news, category: category, createFail: req.flash('createFail') });
         }
     } catch (err) {
         res.redirect('/listNews');
@@ -172,7 +172,7 @@ controllers.updateNews = async (req, res) => {
     if (!news) {
         res.redirect('/listNews');
     }
-    else if (writerId !== news.writerId || !status || status.status == "approved") {
+    else if (writerId !== news.writerId || !status || status.status == "approved") { // check writer is valid
         res.redirect('/listNews');
     }
     else {

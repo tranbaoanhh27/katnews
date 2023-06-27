@@ -7,6 +7,8 @@ const checkEditor = require('./checkEditor')
 controllers.showAccept = async (req, res) => {
     const newsId = req.params.id;
     const editorId = req.user;
+    const category = await models.SubCategory.findAll({attributes: ['id', 'name']})
+    console.log('category', category);
     if (!checkEditor(editorId, newsId)) {
         res.redirect('/');
         return;
@@ -19,25 +21,21 @@ controllers.showAccept = async (req, res) => {
                 attributes: ['name'],
                 model: models.Tag
             }
-                , {
-                attributes: ['name'],
-                model: models.SubCategory
-            },
+            ,
             {
                 attributes: ['publishDate'],
                 model: models.NewsStatus
             }
             ]
         });
-        console.log(news)
+
         news.tag = news.Tags.reduce((res, cur, index) => {
             return res + cur.name + ',';
         }, '').slice(0, -1);
 
         const publishDate = news.NewsStatus.publishDate;
         news.publishDate = `${publishDate.getFullYear()}-` + ("0" + `${publishDate.getMonth() + 1}`).slice(-2) + `-${publishDate.getDate()}`
-        console.log(news.publishDate);
-        res.render('editor-accept', { layout: 'editor-news-layout', news: news })
+        res.render('editor-accept', { layout: 'editor-news-layout', news: news , category: category})
     }
 }
 
@@ -62,9 +60,7 @@ controllers.accept = async (req, res) => {
             })
 
             // update category
-            const category = await models.SubCategory.findOne({
-                where: { name: req.body.category.trim() }
-            })
+            const category = await models.News.update({categoryId: req.body.category});
             if (!category) {
                 throw "Chủ đề không hợp lệ";
             }
@@ -99,6 +95,7 @@ controllers.accept = async (req, res) => {
         res.redirect('/listNews');
     }
     catch (err) {
+        console.log(err);
         req.flash('failureMessage', "Duyệt bài thất bại")
         res.redirect('/listNews')
     }
@@ -129,7 +126,8 @@ controllers.reject = async (req, res) => {
         }
         await models.NewsStatus.update({
             status: "rejected",
-            reasonReject: req.body.reasonReject
+            reasonReject: req.body.reasonReject,
+            editorId: editorId
         }, {
             where: {newsId: newsId}
         })

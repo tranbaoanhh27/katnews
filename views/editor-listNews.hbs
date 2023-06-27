@@ -1,33 +1,37 @@
 <main>
     <div class='container ' style='width: 80%;'>
         <h2 class="m-5">Danh sách bài viết theo chuyên mục<h2>
-            {{#if successMessage}}
-            <div class="alert alert-success" style="font-size: 13px;">{{successMessage}}</div>
-            {{else if failureMessage}}
-            <div class="alert alert-danger" style="font-size: 13px;">{{failureMessage}}</div>
-            {{/if}}
-            {{#each listNews}}
+                {{#if successMessage}}
+                <div class="alert alert-success" style="font-size: 13px;">{{successMessage}}</div>
+                {{else if failureMessage}}
+                <div class="alert alert-danger" style="font-size: 13px;">{{failureMessage}}</div>
+                {{/if}}
+                {{#each listNews}}
                 <div class='card rounded-4 shadow-lg m-4 border-success border-top-0'
                     style='width: 100%;background-color: lightgrey;'>
                     <div class='row g-2'>
                         <div class='col-2'>
-                            <img src='{{News.tinyImagePath}}' class='card-img mw-100 rounded-circle'>
+                            <img src='{{tinyImagePath}}' class='card-img mw-100 rounded-circle'
+                                style="aspect-ratio: 1/1">
                         </div>
                         <div class='col-8'>
                             <div class='card-body'>
-                                <div class='card-title'>{{News.title}}</div>
-                                <p style='font-size: 13px;'>{{News.abstract}}</p>
+                                <div class='card-title'>{{title}}</div>
+                                <p style='font-size: 13px;'>{{abstract}}</p>
                             </div>
                         </div>
                         <div class='col-2 d-flex flex-column justify-content-center'>
-                            <a href="/detail/{{News.id}}"><button type="button" class="btn rounded-5 m-auto"
+                            <a href="/detail/{{id}}"><button type="button" class="btn rounded-5 m-auto"
                                     style="background-color: lightyellow;"><i class="bi bi-eye-fill"></i> Chi
                                     tiết</button></a>
                         </div>
 
                     </div>
                 </div>
-            {{/each}}
+                {{/each}}
+                <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
+                    {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
+                </nav>
     </div>
 
 

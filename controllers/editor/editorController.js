@@ -2,7 +2,6 @@
 
 const controllers = {};
 const models = require('../../models');
-const checkEditor = require('./checkEditor');
 
 controllers.showLoginPage = (req, res) => {
     res.render('editor-login', {layout: 'editor-login-layout', messageEditorLogin: req.flash('messageEditorLogin')});
@@ -10,22 +9,36 @@ controllers.showLoginPage = (req, res) => {
 
 controllers.showListNews = async (req, res) => {
     const editorId = req.user;
-    let listNews = await models.NewsStatus.findAll({
-        where: {editorId},
+    const page = isNaN(req.query.page)? 1 : parseInt(req.query.page);
+    const LIMIT = 2;
+    const offset = LIMIT * (page - 1);
+    let {rows, count} = await models.News.findAndCountAll({
         include: [{
-            attributes: ['id', 'title', 'tinyImagePath', 'abstract'],
-            model: models.News
-        }]
-    })
-    listNews = listNews.filter(item => item.status == 'unconfirm');
-
-    res.render('editor-listNews', {layout: 'editor-news-layout', listNews: listNews, successMessage: req.flash('successMessage'), failureMessage: req.flash('failureMessage')});
+            model: models.SubCategory,
+            include: [{
+                model: models.Category,
+                where: {editorId: editorId}
+            }]
+        },{
+            attributes: ['status'],
+            model: models.NewsStatus,
+            where: {status: "unconfirm"}
+        }],
+        order: [['id', 'DESC']],
+        limit: LIMIT,
+        offset: offset
+    });
+    res.render('editor-listNews',{
+        layout: 'editor-news-layout',
+        listNews: rows, successMessage: req.flash('successMessage'), 
+        failureMessage: req.flash('failureMessage'),
+        pagination: {page: page, limit: LIMIT, totalRows: count, queryParams: req.params}
+    });
 }
 
 controllers.showDetail = async (req, res)=> {
     const newsId = req.params.id;
     const editorId = req.user;
-    console.log(newsId);
     const news = await models.News.findOne({
         where: {id: newsId},
         include: [{
@@ -39,16 +52,22 @@ controllers.showDetail = async (req, res)=> {
         {
             attributes: ['id', 'name'],
             model: models.Tag
+        },{
+            attributes: ['id', 'fullName', 'avatarPath'],
+            model: models.Writer
         }
               
         ]
     });
 
-    if (news.SubCategory.Category.editorId != editorId){
+    if (news.SubCategory.Category.editorId != editorId){ //check editor valid
         res.redirect("/");
         return;
     }
-
+    const date = new Date(news.updatedAt);
+    news.updatedAt = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+    news.date = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    news.time = `${date.getHours()}:${date.getMinutes()}`;
     res.render('editor-detail', {layout: 'editor-news-layout', news: news});
 }
 
@@ -59,5 +78,23 @@ controllers.showInformation = async (req, res) => {
     })
     editor.date = `${editor.updatedAt.getDate()}/${editor.updatedAt.getMonth() + 1}/${editor.updatedAt.getFullYear()}`;  
     res.render('editor-information', {layout: 'editor-news-layout', editor: editor});
+}
+
+controllers.showWorks = async (req, res) => {
+    const editorId = req.user;
+    const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    const NEWS_LIMIT = 3;
+    const newsOffset = NEWS_LIMIT * (page - 1);
+    const {rows, count} = await models.News.findAndCountAll({
+        include: [{
+            model: models.NewsStatus,
+            where: {
+                editorId: editorId
+            }
+        }],
+        limit: NEWS_LIMIT,
+        offset: newsOffset
+    })
+    res.render('editor-works', {layout: 'editor-news-layout', works: rows, pagination: { page: page, limit: NEWS_LIMIT, totalRows: count, queryParams: req.params }});
 }
 module.exports = controllers;
