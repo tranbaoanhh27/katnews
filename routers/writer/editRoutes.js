@@ -24,6 +24,14 @@ router.post('/password',
         }
         return true;
     }),
+    (req, res, next) => {
+        let message = getErrorMessage(req);
+        console.log('message', message);
+        if (message) {
+            return res.render('writer-login',{messageWriterAuth: message, layout: 'writer-login-layout'});
+        }
+        next();
+    },
     controllers.changePassword);
 
 router.get('/news/:id', authController.isLoggedIn, controllers.editNews);

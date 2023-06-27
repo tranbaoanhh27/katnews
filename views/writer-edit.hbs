@@ -29,6 +29,15 @@
                 <input type="file" name="image">
                 <label>Ảnh bìa bài báo</label>
             </div>
+            <select class="mb-3 form-control form-select" name="categoryId" id="select"> 
+            {{#each category}}
+                {{#if (equal ../news.categoryId id)}} 
+                <option value="{{id}}" selected>{{name}}</option>
+                {{else}}
+                <option value="{{id}}">{{name}}</option>
+                {{/if}}
+            {{/each}}
+            </select>
             <div class="mb-3">
                 <input type="text" class="form-control" id="youtubePath" name="youtubePath" placeholder='Link youtube'
                     value="{{news.youtubePath}}">

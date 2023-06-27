@@ -10,9 +10,9 @@ const upload = multer({storage: storage});
 
 router.get('/',  controllers.showLoginPage);
 router.get('/register', controllers.showRegisterPage);
-router.get('/otp', controllers.showOtpPage);
+// router.get('/otp', controllers.showOtpPage);
 
-router.get('/forgotPassword',authController.isLoggedIn, controllers.showForgotPasswordPage);
+// router.get('/forgotPassword',authController.isLoggedIn, controllers.showForgotPasswordPage);
 router.get('/listNews', authController.isLoggedIn, controllers.showListNews);
 router.get('/information',authController.isLoggedIn, controllers.showInformationPage);
 router.get('/changePassword',authController.isLoggedIn, controllers.showChangePasswordPage);

@@ -3,7 +3,6 @@ const models = require('../../models');
 const { initializeApp } = require('firebase/app');
 const { getStorage, ref, getDownloadURL, uploadBytes } = require('firebase/storage')
 
-
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -17,7 +16,6 @@ const firebase = initializeApp(firebaseConfig);
 const firebaseStorage = getStorage(firebase);
 
 controllers.showLoginPage = (req, res) => {
-    console.log("show loggin page");
     const writerId = req.user;
     if (writerId) {
         res.redirect("/listNews")
@@ -25,20 +23,17 @@ controllers.showLoginPage = (req, res) => {
         res.render('writer-login', { layout: 'writer-login-layout', messageWriterAuth: req.flash('messageWriterLogin'), messageWriterSignupSuccess: req.flash('messageWriterSignupSuccess') });
     }
 }
+
 controllers.showRegisterPage = (req, res) => {
     res.render('writer-register', { layout: 'writer-login-layout', messageWriterSignup: req.flash("messageWriterSignup") });
 }
-controllers.showOtpPage = (req, res) => {
-    res.render('writer-otp', { layout: 'writer-login-layout' })
-}
-controllers.showForgotPasswordPage = (req, res) => {
-    res.render('writer-forgotPassword', { layout: 'writer-login-layout' })
-}
+
 controllers.showListNews = async (req, res) => {
     const writerId = req.user;
-    console.log("writerId", writerId)
-
-    const listNews = await models.NewsStatus.findAll({
+    const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
+    const NEWS_LIMIT = 10;
+    const newsOffset = NEWS_LIMIT * (page - 1);
+    const {rows, count} = await models.NewsStatus.findAndCountAll({
         attributes: ['id', 'status', 'updatedAt'],
         include: [{
             model: models.News,
@@ -47,23 +42,23 @@ controllers.showListNews = async (req, res) => {
             where: { writerId: writerId }
         }
         ],
-        order: [['id', "DESC"]]
-    })
-    res.render('writer-list-news', { layout: 'writer-news-layout', listNews });
+        order: [['status', 'DESC'], ['id', "DESC"]],
+        limit: NEWS_LIMIT,
+        offset: newsOffset,
+    }) 
+    res.render('writer-list-news', { layout: 'writer-news-layout', listNews: rows, pagination: { page: page, limit: NEWS_LIMIT, totalRows: count, queryParams: req.params } });
 
 }
 
 controllers.showInformationPage = async (req, res) => {
     const writerId = req.user;
-    console.log(writerId)
     const writer = await models.Writer.findOne({ where: { id: writerId } });
-    console.log(writer);
     res.render('writer-information', { layout: 'writer-news-layout', writer: writer })
 }
+
 controllers.showChangePasswordPage = async (req, res) => {
     const writerId = req.user;
     const writer = await models.Writer.findOne({ where: { id: writerId } });
-
     res.render('writer-changePassword', {
         layout: 'writer-news-layout',
         writer: writer,
@@ -75,7 +70,6 @@ controllers.showChangePasswordPage = async (req, res) => {
 
 controllers.editInformation = async (req, res) => {
     const writerId = req.user;
-    console.log(req.body)
     try {
         await models.Writer.update({
             fullName: req.body.fullName,
@@ -92,11 +86,9 @@ controllers.editInformation = async (req, res) => {
 }
 
 controllers.editAvatar = async (req, res) => {
-    console.log("hello edit avatar")
     const writerId = req.user;
     try {
         const file = req.file;
-        console.log('file', file)
         const name = file.originalname.split('.')[0];
         const type = file.originalname.split('.')[1];
         const filename = `writer-avatar-images/${name}_${Date.now()}.${type}`;

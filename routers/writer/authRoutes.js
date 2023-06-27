@@ -11,6 +11,7 @@ router.post('/login',
     body('password').trim().notEmpty().withMessage("Password cần được nhập"),
     (req, res, next) => {
         let message = getErrorMessage(req);
+        console.log('message', message);
         if (message) {
             return res.render('writer-login',{messageWriterAuth: message, layout: 'writer-login-layout'});
         }

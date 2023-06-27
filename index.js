@@ -60,11 +60,8 @@ app.engine(
         },
         helpers: {
             createPagination,
-            statusEqualsApproved: function (status) {
-                return status === "approved";
-            },
-            statusEquelsUnconfirm: function (status) {
-                return status == "unconfirm";
+            equal: function(a , b) {
+                return a === b;
             }
         },
     })

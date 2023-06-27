@@ -15,20 +15,21 @@
                             </div>
                         </div>
 
-                        {{#if (statusEqualsApproved status)}}
+                        {{#if (equal status "approved")}}
                         <div class='col-2 d-flex flex-column justify-content-center'>
                             <div class=" rounded-5 m-auto p-2" style="background-color: lightgreen; font-size: 15px"><i
                                     class="bi bi-check2-circle rounded-circle"
                                     style="background-color: greenyellow;"></i>Thành công</div>
                         </div>
-                        {{else if (statusEquelsUnconfirm status)}}
+                        {{else if (equal status "unconfirm")}}
                         <div class='col-2 d-flex flex-column justify-content-center'>
                             <div class=" rounded-5 m-auto  p-2" style="background-color: orange; font-size: 15px"><i
                                     class="bi bi bi-arrow-repeat rounded-circle"
                                     style="background-color: greenyellow;"></i>Chờ xác nhận</div>
                             <div type="button" class="btn rounded-5 m-auto p-2" style="background-color: lightsalmon;">
                                 <i class="bi bi-pencil-fill rounded-circle"></i><a href="/edit/news/{{News.id}}"
-                                    class='text-black text-decoration-none'>Sửa lại</a></div>
+                                    class='text-black text-decoration-none'>Sửa lại</a>
+                            </div>
                         </div>
                         {{else}}
                         <div class='col-2 d-flex flex-column justify-content-center'>
@@ -36,12 +37,16 @@
                                     class="bi bi-file-earmark-medical"></i>Từ chối</div>
                             <div type="button" class="btn rounded-5 m-auto p-2" style="background-color: lightsalmon;">
                                 <i class="bi bi-pencil-fill rounded-circle"></i><a href="/edit/news/{{News.id}}"
-                                    class='text-black text-decoration-none'>Sửa lại</a></div>
+                                    class='text-black text-decoration-none'>Sửa lại</a>
+                            </div>
                         </div>
                         {{/if}}
                     </div>
                 </div>
                 {{/each}}
+                <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
+                    {{{ createPagination pagination paginationClass='pagination' leftText='Trước' rightText='Sau'}}}
+                </nav>
     </div>
 
 
