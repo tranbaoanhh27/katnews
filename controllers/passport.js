@@ -117,7 +117,7 @@ passport.use('user-local-register', new passportLocal({
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/redirect",
+    callbackURL: process.env.GOOGLE_AUTH_REDIRECT_URL,
     passReqToCallback: true
 }, async (request, accessToken, refreshToken, profile, done) => {
     try {
@@ -167,7 +167,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "/auth/facebook/redirect",
+    callbackURL: process.env.FACEBOOK_AUTH_REDIRECT_URL,
     profileFields: ['id', 'displayName', 'photos', 'email'],
 }, async (request, accessToken, refreshToken, profile, done) => {
     try {
