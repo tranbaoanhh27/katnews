@@ -89,19 +89,12 @@ controller.showEnterOTPPage = async (request, response) => {
             });
 
             // If it's resend OTP request
-            let successMessage = null;
             if (request.body.resend === "true")
-                successMessage = 'Chúng tôi đã gửi lại mã OTP! Vui lòng kiểm tra email!';
+                request.flash('successMessage', 'Chúng tôi đã gửi lại mã OTP! Vui lòng kiểm tra email!');
 
             // Redirect to enter-otp page (use redirect instead of render to prevent re-post on reload)
-            const url = require('url');
-            response.redirect(url.format({
-                pathname: '/auth/forgot-password/enter-otp',
-                query: {
-                    "email": email,
-                    "successMessage": successMessage
-                }
-            }));
+            request.flash('email', email);
+            response.redirect('/auth/forgot-password/enter-otp');
         })
         .catch(error => {
             console.log('Send email error', error);

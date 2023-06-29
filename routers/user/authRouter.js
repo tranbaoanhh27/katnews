@@ -52,8 +52,8 @@ router.post(
 router.get("/forgot-password/enter-otp", (request, response) => {
     return response.render("user-enter-otp", {
         pageTitle: "Nhập mã OTP",
-        email: request.query.email,
-        successMessage: request.query.successMessage,
+        email: request.flash('email'),
+        successMessage: request.flash('successMessage'),
     });
 });
 
