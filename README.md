@@ -26,7 +26,7 @@ The project uses a number of open-source projects to work properly:
 ## Deployed website
 The website is deployed on Render: [https://katnews-ptudw-20tn-nhom2.onrender.com](https://katnews-ptudw-20tn-nhom2.onrender.com)
 
-## Installation & Running on localhost
+## Install & Run on localhost
 * This project was developed using [NodeJS](https://nodejs.org/) version 18.16.0. It requires NodeJS installed to run. Follow instructions on [NodeJS official website](https://nodejs.org/en/) to install NodeJS.
 * Clone the project:
   ```bash
@@ -35,7 +35,7 @@ The website is deployed on Render: [https://katnews-ptudw-20tn-nhom2.onrender.co
 * Configure Database connection in ./config/config.json
 * Install dependencies and run:
   ```bash
-  cd katnews \\
-  npm install \\
+  cd katnews &&\
+  npm install &&\
   npm start
   ```
