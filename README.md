@@ -35,7 +35,7 @@ The website is deployed on Render: [https://katnews-ptudw-20tn-nhom2.onrender.co
 * Configure Database connection in ./config/config.json
 * Install dependencies and run:
   ```bash
-  cd katnews &&\
-  npm install &&\
+  cd katnews &&
+  npm install &&
   npm start
   ```
