@@ -12,13 +12,13 @@ controllers.logout = (req, res, next) => {
     })
 }
 
-controllers.signup = async (req, res, next) => {
+controllers.signup = async (req, res) => {
     try{
         const user = await models.Writer.findOne({ where: {email: req.body.email } })
         if (user){  
             req.flash("messageWriterSignup", "Tên đăng nhập đã tồn tại")
             res.redirect("/register");
-            next();
+            return;
         }else{
             const writer = await models.Writer.create({
                 email: req.body.email,
@@ -29,11 +29,11 @@ controllers.signup = async (req, res, next) => {
             if (writer){
                 req.flash("messageWriterSignupSuccess", "Đã đăng ký thành công");
                 res.redirect("/");
-                next();
+                return;
             }else{
                 req.flash("messageWriterSignup", "Đăng ký thất bại");
                 res.redirect("/register");
-                next();
+                return;
             }    
         }
     }catch(error){

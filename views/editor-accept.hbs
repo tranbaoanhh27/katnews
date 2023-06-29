@@ -34,6 +34,11 @@
                 <button type="submit" class=" text-center  btn btn-primary mt-3 px-3"> Duyệt</button>
             </div>
         </form>
+        {{#if acceptMessage}}
+        <div class="alert alert-danger m-2">
+            {{{acceptMessage}}}
+        </div>
+        {{/if}}
         {{/with}}
         <div class="text-end mt-3">
             <a href="/listNews">Trở về trang chính</a>

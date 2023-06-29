@@ -3,20 +3,29 @@
     <div class='container mt-3 rounded-3 shadow-lg' style='width: 80%'>
         <div class='row'>
             <div class="col-lg-3 col-md-3 col-sm-6">
-                <img src="{{avatarPath}}" alt='avater-image' style="width: 100%;" class='rounded-circle '>
+                <form action="edit/avatar" method="post" enctype="multipart/form-data" id="form">
+                    <label for="avatar">
+                        <img src="{{avatarPath}}" alt='avater-image' style="width: 100%;" class='rounded-circle '>
+                    </label>
+                    <input id="avatar" type="file" style="display: none" name="avatar">
+                    <button type="submit" style="display: none;"></button>
+                </form>
             </div>
             <div class='col-lg-9 col-ld-9 sol-sm-6'>
-                <div>
-                    <h5 class="mb-3 mb-sm-4 d-inline my-5"> Tên biên tập viên: </h5>
-                    <p class='mx-5 d-inline'>{{fullName}}</p>
+                <div class="p-3">
+                    <form action="edit/information" method="post">
+                        <h5 class="mb-3 mb-sm-4 d-inline my-5 form-label"> Tên biên tập viên: </h5>
+                        <input class=' d-inline form-control' value="{{fullName}}" name="fullName"></input>
+                        <button type='submit' class="btn btn-primary p-2">Đổi tên</button>
+                    </form>
                 </div>
                 <hr>
-                <div>
-                    <h5 class="mb-3 mb-sm-4 d-inline my-5"> Ngày đăng ký: </h5>
+                <div class="p-3">
+                    <h5 class="mb-3 mb-sm-4 d-inline my-5 form-label"> Ngày đăng ký: </h5>
                     <p class='mx-5 d-inline'>{{date}}</p>
                 </div>
                 <hr>
-              
+
                 <a href='/auth/logout'><button type="button" class="btn btn-primary mt-3">Đăng xuất</button></a>
             </div>
         </div>
@@ -24,3 +33,8 @@
     {{/with}}
 
 </main>
+<script>
+    document.getElementById("avatar").onchange = function() {
+    document.getElementById("form").submit();
+};
+</script>
