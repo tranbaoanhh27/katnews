@@ -15,6 +15,15 @@ const { initializeApp } = require("firebase/app");
 const logger = require('morgan');
 const braintree = require('braintree');
 
+// Configure redis connection
+const redisClient = createClient({ url: process.env.REDIS_URL });
+const connectRedis = async () => await redisClient.connect();
+try {
+    connectRedis();
+} catch (error) {
+    console.log(error);
+}
+
 // Paypal Braintree Gateway configs
 const braintreeGateway = new braintree.BraintreeGateway({
     environment: braintree.Environment.Sandbox,
@@ -35,19 +44,14 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 module.exports = { braintreeGateway, firebaseApp };
 
-// Configure redis connection
-const redisClient = createClient({
-    url: process.env.REDIS_URL,
-});
-redisClient.connect().catch(console.error);
-
 // Initialize ExpressJS application
 const app = express();
 app.use(logger('dev'));
-//set static folder
+
+// Set static folder
 app.use(express.static(__dirname + "/public"));
 
-//config handlebars
+// Config handlebars
 app.engine(
     "hbs",
     handlebars.engine({
@@ -80,11 +84,15 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 20 * 60 * 1000,
             httpOnly: true,
         },
     })
 );
+
+// Setup Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // To create database tables
 app.use("/create-database-tables", (req, res) => {
@@ -100,10 +108,6 @@ app.use((request, response, next) => {
     request.session.subdomains = request.subdomains;
     next();
 });
-
-// Setup Passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Setup Connect Flash
 app.use(connectFlash());
@@ -163,5 +167,5 @@ app.use((error, req, res, next) => {
 
 app.set("port", process.env.PORT || 5000);
 app.listen(app.get("port"), () => {
-    console.log(`server is running on port ${app.get("port")}`);
+    console.log(`Server is running on port ${app.get("port")}`);
 });
