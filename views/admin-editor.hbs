@@ -31,6 +31,7 @@
                                 <th class="list__header" style="width: auto;">Tên</th>
                                 <th class="list__header" style="width: auto;">Email</th>
                                 <th class="list__header" style="width: auto;">Chuyên mục</th>
+                                <th class="list__header" style="width: auto;">Trạng thái</th>
                                 <th class="list__header" style="width: 14%;"></th>
                             </tr>
                         </thead>
@@ -46,14 +47,30 @@
 
                                 <td class="list_email">{{email}}</td>
                                 <td class="list_cat"> {{#each Categories}}
-                                    <p class="border d-inline p-1">{{name}}</p> {{/each}}
+                                    <p class="border d-inline p-0 px-1">{{name}}</p> {{/each}}
                                 </td>
+                                {{#if isApproved}}
+                                <td class="list__status">Đã phê duyệt</td>
+                                {{else}}
+                                <td class="list__status">Chưa phê duyệt</td>
+                                {{/if}}
+
                                 <td class="list__actions text-end">
+                                    {{#if isApproved}}
                                     <div class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit-modal"
                                         onclick="openEditModal({{id}}, '{{fullName}}','{{email}}', event)"><i
-                                            class="fa-solid fa-pen"></i></div>
+                                            class="fa-solid fa-pen"></i>
+                                    </div>
+                                    {{else}}
+                                    <div class="btn btn-info"
+                                        onclick="ConvertStatus(this, {{id}}, '{{fullName}}', '{{email}}')"><i
+                                            class="fa-solid fa-repeat"></i></div>
+
+                                    {{/if}}
+
                                     <div class="btn btn-danger" onclick="deleteRow({{id}})"><i
-                                            class="fa-solid fa-trash"></i> </div>
+                                            class="fa-solid fa-trash"></i>
+                                    </div>
 
                                 </td>
                             </tr>
@@ -289,6 +306,44 @@
     }
 
 </script>
+
+<!-- // Chuyển đổi trạng thái -->
+<script>
+    async function ConvertStatus(row, id, fullName, email) {
+        let res = await fetch('/user/editor-admin', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                id
+            })
+        });
+
+        if (res.status == 200) {
+            if (confirm("Xuất bản bài viết thành công!")) {
+                const statusCell = row.closest('.list__item').querySelector('.list__status');
+                statusCell.textContent = 'Xuất bản';
+                const Button = document.createElement('div');
+                Button.classList.add('btn', 'btn-warning');
+                Button.dataset.bsToggle = 'modal';
+                Button.dataset.bsTarget = '#edit-modal';
+                Button.setAttribute('onclick', `openEditModal(${id}, '${fullName}', '${email}', event)`);
+
+                const icon = document.createElement('i');
+                icon.classList.add('fa-solid', 'fa-pen');
+
+                Button.appendChild(icon);
+
+                // Thay thế phần tử ban đầu bằng phần tử mới
+                row.parentNode.replaceChild(Button, row);
+            }
+        }
+    }
+
+</script>
+
 
 {{!-- Xử lý hiện thanh phân trang --}}
 <script>

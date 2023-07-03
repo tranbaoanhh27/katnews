@@ -16,6 +16,7 @@ router.get('/countNewsOfWriter', controller.countNewsOfWriter);
 
 //editor
 router.get('/editor-admin', controller.showEditor);
+router.put('/editor-admin', controller.updateEditor);
 router.delete('/editor-admin', controller.deleteEditor);
 
 

@@ -143,7 +143,7 @@ controller.showEditor = async (req, res) => {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
         let options = {
-            attributes: ['id', 'fullName', 'email', 'avatarPath'],
+            attributes: ['id', 'fullName', 'email', 'avatarPath', 'isApproved'],
             order: [['id']],
             include: {
                 model: models.Category,
@@ -167,6 +167,21 @@ controller.showEditor = async (req, res) => {
         res.render('admin-editor', { layout: 'admin-layout', inEditor: "#FFA600", inUser: "#0d6efd", type_name: 'user/editor-admin' });
     } catch (error) {
         res.status(500);
+    }
+}
+
+controller.updateEditor = async (req, res) => {
+    try {
+        const { id } = req.body;
+        const editor = await models.Editor.findByPk(id);
+        if (!editor) {
+            return res.status(404).json({ error: 'không tìm thấy editor.' });
+        }
+        editor.isApproved = true;
+        await editor.save();
+        res.status(200).json({ message: 'Chuyển trạng thái bài viết thành công.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Lỗi khi xóa editor.' });
     }
 }
 
