@@ -151,8 +151,17 @@ controller.showNewsDetails = async (request, response, next) => {
         // If news not found, pass to next controller
         if (!news) return next();
 
-        // If news is premium but user is not premium, pass to next controller
-        if (news.isPremium && !userHelper.isPremium(request.user)) return next();
+        // If news is premium but user is not logged in, require log in
+        if (news.isPremium && !request.user) {
+            request.flash('loginMessage', 'Đây là bài viết Premium, bạn cần đăng nhập tài khoản Premium để xem!');
+            return response.redirect(`/auth/login?reqUrl=/news/${newsId}`);
+        }
+
+        // If news is premium and user is not premium, require buy premium account
+        if (news.isPremium && !userHelper.isPremium(request.user)) {
+            request.flash('errorMessage', 'Đây là bài viết Premium, bạn cần gia hạn tài khoản Premium để xem!');
+            return response.redirect('/account/premium');
+        }
 
         news.updatedAtString = new Date(news.updatedAt).toLocaleString("vi-VN");
         response.locals.pageTitle = news.title;

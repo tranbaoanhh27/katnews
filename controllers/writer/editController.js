@@ -2,10 +2,8 @@
 
 const { initializeApp } = require('firebase/app');
 const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
-const { link } = require('../../routers/writer/editRoutes');
 const models = require('../../models');
 const bcrypt = require('bcrypt');
-const controller = require('../admin/authContrller');
 const controllers = {};
 
 const firebaseConfig = {
@@ -68,32 +66,35 @@ controllers.createNews = async (req, res) => {
             writerId: writerId
         };
 
-        // insert news
-        const newNews = await models.News.create(newData);
-        if (!newNews) {
-            throw "Không thể thêm bài viết mới"
-        }
-
-        // insert tags
-        const tags = news.tag.trim().split(",");
-        for (let tagName of tags) {
-            tagName = tagName.trim(); 
-            let newTag = await models.Tag.findOne({ where: { name: tagName } });
-            if (!newTag) {
-                newTag = await models.Tag.create({ name: tagName });
+        await models.sequelize.transaction(async (t) => {
+            // insert news
+            const newNews = await models.News.create(newData);
+            if (!newNews) {
+                throw "Không thể thêm bài viết mới"
             }
-            newNews.addTag(newTag);
-        }
 
-        // insert status
-        const newsStatus = await models.NewsStatus.create({
-            status: "unconfirm",
-            publishDate: Date.now(),
-            newsId: newNews.id
-        })
-        if (!newsStatus) {
-            throw "Không cập nhật được trạng thái của bài viết bạn vừa đăng"
-        }
+            // insert tags
+            const tags = news.tag.trim().split(",");
+            for (let tagName of tags) {
+                tagName = tagName.trim();
+                if (tagName.length == 0) continue;
+                let newTag = await models.Tag.findOne({ where: { name: tagName } });
+                if (!newTag) {
+                    newTag = await models.Tag.create({ name: tagName });
+                }
+                newNews.addTag(newTag);
+            }
+
+            // insert status
+            const newsStatus = await models.NewsStatus.create({
+                status: "unconfirm",
+                publishDate: Date.now(),
+                newsId: newNews.id
+            })
+            if (!newsStatus) {
+                throw "Không cập nhật được trạng thái của bài viết bạn vừa đăng"
+            }
+        });
         req.flash('createSuccess', 'Tạo bài viết thành công')
         res.redirect('/edit');
     }
@@ -127,13 +128,13 @@ controllers.changePassword = async (req, res) => {
 
 }
 
-controllers.editNews = async (req, res) => {
+controllers.showUpdateNews = async (req, res) => {
     try {
         const newsId = req.params.id;
         const writerId = req.user;
         const news = await models.News.findOne({ where: { id: newsId } });
         const status = await models.NewsStatus.findOne({ where: { newsId: newsId } });
-        const category = await models.SubCategory.findAll({ attributes: ['id', 'name']});
+        const category = await models.SubCategory.findAll({ attributes: ['id', 'name'] });
         if (!news) {
             res.redirect('/listNews');
         }
@@ -207,40 +208,42 @@ controllers.updateNews = async (req, res) => {
                 Object.assign(updateNews, { tinyImagePath: linkimages[0], largeImagePath: linkimages[1] });
             }
 
-            // update news
-            const newNews = await models.News.update(updateNews, {
-                where: { id: newsId }
-            })
-
-            // remove tags
-            const tagsRemove = await models.Tag.findAll({
-                include: [{
-                    model: models.News,
+            await models.sequelize.transaction(async (t) => {
+                // update news
+                const newNews = await models.News.update(updateNews, {
                     where: { id: newsId }
-                }]
-            })
-            for (let tag of tagsRemove) {
-                news.removeTag(tag);
-            }
+                })
 
-            // update status
-            const newsStatus = await models.NewsStatus.update({
-                status: "unconfirm",
-                publishDate: Date.now()
-            }, { where: { newsId: newsId } });
-
-            const tags = tag.split(",");
-            for (let tagName of tags) {
-                tagName = tagName.trim();
-                console.log(tagName);
-                let newTag;
-                newTag = await models.Tag.findOne({ where: { name: tagName } });
-                console.log('tag', newTag);
-                if (!newTag) {
-                    newTag = await models.Tag.create({ name: tagName });
+                // remove tags
+                const tagsRemove = await models.Tag.findAll({
+                    include: [{
+                        model: models.News,
+                        where: { id: newsId }
+                    }]
+                })
+                for (let tag of tagsRemove) {
+                    news.removeTag(tag);
                 }
-                news.addTag(newTag);
-            }
+
+                // update status
+                const newsStatus = await models.NewsStatus.update({
+                    status: "unconfirm",
+                    publishDate: Date.now()
+                }, { where: { newsId: newsId } });
+
+                const tags = tag.split(",");
+                for (let tagName of tags) {
+                    tagName = tagName.trim();
+                    if (tagName.length == 0) continue;
+                    let newTag;
+                    newTag = await models.Tag.findOne({ where: { name: tagName } });
+                    console.log('tag', newTag);
+                    if (!newTag) {
+                        newTag = await models.Tag.create({ name: tagName });
+                    }
+                    news.addTag(newTag);
+                }
+            });
 
             res.redirect('/listNews');
         } catch (err) {

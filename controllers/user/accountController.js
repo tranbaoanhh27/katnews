@@ -130,8 +130,8 @@ controller.updateAccountPassword = async (request, response, next) => {
 controller.showPremiumPage = (request, response) => {
     response.locals.premiumPage = true;
     response.locals.pageTitle = "Gia hạn Premium";
-    response.locals.successMessage = request.query.successMessage;
-    response.locals.errorMessage = request.query.errorMessage;
+    response.locals.successMessage = request.flash('successMessage');
+    response.locals.errorMessage = request.flash('errorMessage');
     response.locals.currencyIsoCode = 'USD';
     
     const SEVEN_DAYS_MILLIS = 7 * 24 * 60 * 60 * 1000;
@@ -167,20 +167,14 @@ controller.beginPaymentTransaction = (request, response) => {
         let successMessage = null, errorMessage = null;
         if (result.success) {
             successMessage = `Bạn đã thanh toán thành công số tiền ${result.transaction.amount}${result.transaction.currencyIsoCode} để gia hạn tài khoản Premium!`;
-
+            request.flash('successMessage', successMessage);
+            
             // Update new premium expired time for user
             const user = await models.User.findOne({ where: { id: request.user.id }});
             if (user) await user.update({ premiumExpiredTime: new Date(request.body.newPremiumExpiredTime) });
         }
-        else errorMessage = result.message;
-        const url = require('url');
-        response.redirect(url.format({
-            pathname: '/account/premium',
-            query: {
-                "successMessage": successMessage,
-                "errorMessage": errorMessage
-            }
-        }));
+        else request.flash('errorMessage', result.message);
+        response.redirect('/account/premium');
     });    
 }
 

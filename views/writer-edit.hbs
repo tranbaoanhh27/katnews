@@ -16,20 +16,20 @@
         {{/if}}
             <div class="mb-3">
                 <input type="text" class="form-control" id="title" name="title" placeholder='Tiêu đề'
-                    value="{{news.title}}">
+                    value="{{news.title}}" required>
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" id="tag" name="tag" placeholder='Tag' value="{{news.tag}}">
+                <input type="text" class="form-control" id="tag" name="tag" placeholder='Tag' value="{{news.tag}}" required>
             </div>
             <div class="mb-3 form-control">
-                <input type="file" name="image">
+                <input type="file" name="image" >
                 <lable class="">Ảnh đại diện bài báo</lable>
             </div>
             <div class="mb-3 form-control">
-                <input type="file" name="image">
+                <input type="file" name="image" >
                 <label>Ảnh bìa bài báo</label>
             </div>
-            <select class="mb-3 form-control form-select" name="categoryId" id="select"> 
+            <select class="mb-3 form-control form-select" name="categoryId" id="select" required> 
             {{#each category}}
                 {{#if (equal ../news.categoryId id)}} 
                 <option value="{{id}}" selected>{{name}}</option>
@@ -39,17 +39,17 @@
             {{/each}}
             </select>
             <div class="mb-3">
-                <input type="text" class="form-control" id="youtubePath" name="youtubePath" placeholder='Link youtube'
-                    value="{{news.youtubePath}}">
+                <input type="url" class="form-control" id="youtubePath" name="youtubePath" placeholder='Link youtube'
+                    value="{{news.youtubePath}}" required>
             </div>
             <div class='mb-3'>
                 <textarea class="form-control" name="abstract"
                     
-                    placeholder="Tóm tắt nôị dung">{{news.abstract}}</textarea>
+                    placeholder="Tóm tắt nôị dung" required>{{news.abstract}}</textarea>
             </div>
 
             <div class='mb-3'>
-                <textarea id="editor" class="ckeditor" name="content">{{news.content}}</textarea>
+                <textarea id="editor" class="ckeditor" name="content" required>{{news.content}}</textarea>
             </div>
             <input type="hidden" name="tinyImagePath" value="{{news.tinyImagePath}}">
             <input type="hidden" name="largeImagePath" value="{{news.largeImagePath}}">

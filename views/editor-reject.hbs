@@ -1,13 +1,13 @@
 <main>
-    {{#with news}}
     <div class='container mt-2' style="width: 80%">
+        {{#with news}}
         <h2>{{title}}</h2>
         <hr>
         <form action="/edit/reject/{{id}}" method="post">
             <div class="mb-3">
                 <label for="rejectReason" class="form-label">Lý do từ chối</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                    placeholder='Lý do từ chối là ...' name="reasonReject"></textarea>
+                    placeholder='Lý do từ chối là ...' name="reasonReject" required></textarea>
             </div>
             <hr>
             <div class='text-center'>
@@ -16,10 +16,16 @@
             </div>
 
         </form>
+        {{#if rejectMessage}}
+        <div class="alert alert-danger m-2">
+            {{{rejectMessage}}}
+        </div>
+        
+        {{/if}}
+        {{/with}}
         <div class="text-end mt-3">
             <a href="/listNews">Trở về trang chính</a>
 
         </div>
     </div>
-    {{/with}}
 </main>

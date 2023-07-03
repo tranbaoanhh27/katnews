@@ -10,24 +10,28 @@ controllers.showLoginPage = (req, res) => {
 controllers.showListNews = async (req, res) => {
     const editorId = req.user;
     const page = isNaN(req.query.page)? 1 : parseInt(req.query.page);
-    const LIMIT = 2;
+    const LIMIT = 10;
     const offset = LIMIT * (page - 1);
     let {rows, count} = await models.News.findAndCountAll({
         include: [{
             model: models.SubCategory,
+            required: true,
             include: [{
                 model: models.Category,
                 where: {editorId: editorId}
             }]
         },{
+            require: true,
             attributes: ['status'],
             model: models.NewsStatus,
             where: {status: "unconfirm"}
         }],
         order: [['id', 'DESC']],
         limit: LIMIT,
-        offset: offset
+        offset: offset,
+        distinct: true
     });
+    console.log(rows);
     res.render('editor-listNews',{
         layout: 'editor-news-layout',
         listNews: rows, successMessage: req.flash('successMessage'), 
@@ -61,6 +65,7 @@ controllers.showDetail = async (req, res)=> {
     });
 
     if (news.SubCategory.Category.editorId != editorId){ //check editor valid
+        console.log('editorId', news.SubCategory.Category.editorId)
         res.redirect("/");
         return;
     }
@@ -83,7 +88,7 @@ controllers.showInformation = async (req, res) => {
 controllers.showWorks = async (req, res) => {
     const editorId = req.user;
     const page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
-    const NEWS_LIMIT = 3;
+    const NEWS_LIMIT = 10;
     const newsOffset = NEWS_LIMIT * (page - 1);
     const {rows, count} = await models.News.findAndCountAll({
         include: [{

@@ -13,6 +13,12 @@ const bcrypt = require('bcrypt');
 router.post('/news',
     authController.isLoggedIn,
     upload.array('image', 2),
+    body('title').trim().notEmpty().withMessage("Cần phải nhập tiêu đề cho bài báo"),
+    body('tag').trim().notEmpty().withMessage('Cần phải nhập tag cho bài báo'),
+    body('categoryId').notEmpty().withMessage('Cần phải chọn chuyên mục cho bài báo'),
+    body('youtubePath').trim().notEmpty().withMessage('Cần phải nhập link youtube cho bài báo'),
+    body('abstract').trim().notEmpty().withMessage('Cần phải nhập nội dung tóm tắt cho bài báo'),
+    body('content').trim().notEmpty().withMessage('Cần phải nhập nội dung cho bài báo'),
     body('youtubePath').custom(
         (youtubePath, { req }) => {
             if (youtubePath.length > 0 && !isValidUrl(linkYoutube)) {
@@ -51,11 +57,17 @@ router.post('/password',
     },
     controllers.changePassword);
 
-router.get('/news/:id', authController.isLoggedIn, controllers.editNews);
+router.get('/news/:id', authController.isLoggedIn, controllers.showUpdateNews);
 
 router.post('/news/:id',
     authController.isLoggedIn,
     upload.array('image', 2),
+    body('title').trim().notEmpty().withMessage("Cần phải nhập tiêu đề cho bài báo"),
+    body('tag').trim().notEmpty().withMessage('Cần phải nhập tag cho bài báo'),
+    body('categoryId').notEmpty().withMessage('Cần phải chọn chuyên mục cho bài báo'),
+    body('youtubePath').trim().notEmpty().withMessage('Cần phải nhập link youtube cho bài báo'),
+    body('abstract').trim().notEmpty().withMessage('Cần phải nhập nội dung tóm tắt cho bài báo'),
+    body('content').trim().notEmpty().withMessage('Cần phải nhập nội dung cho bài báo'),
     body('youtubePath').custom(
         (youtubePath, { req }) => {
             // if (youtubePath && youtubePath.length > 0 && !isValidUrl(youtubePath)) {
@@ -66,7 +78,7 @@ router.post('/news/:id',
     ), (req, res, next) => {
         const message = getErrorMessage(req);
         if (message) {
-            req.flash('createFail', message);   
+            req.flash('createFail', message);
             return res.redirect(`/edit/news/${req.params.id}`)
         }
         next();
@@ -74,11 +86,11 @@ router.post('/news/:id',
     controllers.updateNews);
 module.exports = router;
 
-const isValidUrl = urlString=> {
-    try { 
-        return Boolean(new URL(urlString)); 
+const isValidUrl = urlString => {
+    try {
+        return Boolean(new URL(urlString));
     }
-    catch(e){ 
-        return false; 
+    catch (e) {
+        return false;
     }
 }
