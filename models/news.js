@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      News.belongsTo(models.Writer, { foreignKey: "writerId" })
-      News.belongsTo(models.SubCategory, { foreignKey: "categoryId" })
-      News.belongsToMany(models.Tag, { through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId' , onDelete: 'CASCADE'})
-      News.hasMany(models.Comment, { foreignKey: 'newsId' });
-      News.hasOne(models.NewsStatus, {foreignKey: 'newsId'});
+      News.belongsTo(models.Writer, { foreignKey: "writerId", onDelete: 'CASCADE' })
+      News.belongsTo(models.SubCategory, { foreignKey: "categoryId", onDelete: 'CASCADE' })
+      News.belongsToMany(models.Tag, { through: 'NewsTag', foreignKey: 'newsId', otherKey: 'tagId', onDelete: 'CASCADE' })
+      News.hasMany(models.Comment, { foreignKey: 'newsId', onDelete: 'CASCADE' });
+      News.hasOne(models.NewsStatus, { foreignKey: 'newsId' });
 
     }
   }

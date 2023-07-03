@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Comment, { foreignKey: 'userId' });
+      User.hasMany(models.Comment, { foreignKey: 'userId', onDelete: 'CASCADE' });
     }
   }
   User.init({
-    email: { type: DataTypes.STRING, allowNull: false, unique: true},
+    email: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
-    fullName: { type: DataTypes.STRING, allowNull: false},
+    fullName: { type: DataTypes.STRING, allowNull: false },
     birthdate: DataTypes.DATE,
     premiumExpiredTime: DataTypes.DATE,
     avatarPath: DataTypes.STRING,

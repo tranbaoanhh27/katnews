@@ -35,6 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if tags}}
                             {{#each tags}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-tag" value={{id}}></td>
@@ -49,9 +50,11 @@
                                 </td>
                             </tr>
                             {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
 
+                    {{#if tags}}
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
@@ -63,6 +66,9 @@
                             </nav>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="m-3 text-center alert alert-warning">Không có nhãn nào </div>
+                    {{/if}}
 
                 </div>
             </div>

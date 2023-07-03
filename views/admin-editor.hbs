@@ -35,6 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if editors}}
                             {{#each editors}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-category" value="{{id}}">
@@ -57,9 +58,11 @@
                                 </td>
                             </tr>
                             {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
 
+                    {{#if editors}}
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
@@ -71,6 +74,9 @@
                             </nav>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="m-3 text-center alert alert-warning">Không có biên tập viên nào </div>
+                    {{/if}}
 
                 </div>
             </div>

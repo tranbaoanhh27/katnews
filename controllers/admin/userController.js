@@ -2,6 +2,7 @@
 
 const controller = {};
 const models = require('../../models');
+const braintreeHelper = require('../../controllers/braintree')
 
 //subscriber
 controller.showSubscriber = async (req, res) => {
@@ -77,7 +78,8 @@ controller.deleteSubscribers = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'không tìm thấy user.' });
         }
-        await user.destroy();
+        braintreeHelper.deleteBraintreeVaultCustomer(user.braintreeCustomerId); // xoa customer tren he thong thanh toan
+        await user.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa user thành công.' });
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi xóa user.' });
@@ -119,11 +121,20 @@ controller.deleteWriter = async (req, res) => {
         if (!writer) {
             return res.status(404).json({ error: 'không tìm thấy writer.' });
         }
-        await writer.destroy();
+        await writer.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa writer thành công.' });
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi xóa writer.' });
     }
+}
+
+controller.countNewsOfWriter = async (req, res) => {
+    const { idWriter } = req.query;
+    const countNews = await models.News.findAll({
+        attributes: ['id'],
+        where: { writerId: idWriter }
+    });
+    res.status(200).json({ count: countNews.length });
 }
 
 // editor

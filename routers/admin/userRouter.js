@@ -12,6 +12,7 @@ router.delete('/subscriber-admin', controller.deleteSubscribers);
 //writer
 router.get('/writer-admin', controller.showWriter);
 router.delete('/writer-admin', controller.deleteWriter);
+router.get('/countNewsOfWriter', controller.countNewsOfWriter);
 
 //editor
 router.get('/editor-admin', controller.showEditor);

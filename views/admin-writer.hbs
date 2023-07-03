@@ -36,6 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if writers}}
                             {{#each writers}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-user" value="{{id}}"></td>
@@ -50,9 +51,11 @@
                                 </td>
                             </tr>
                             {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
 
+                    {{#if writers}}
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
@@ -64,6 +67,9 @@
                             </nav>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="m-3 text-center alert alert-warning">Không có phóng viên nào </div>
+                    {{/if}}
 
                 </div>
             </div>
@@ -93,7 +99,15 @@
 <!-- xoa user -->
 <script>
     async function deleteRow(id) {
-        if (confirm("Bạn có chắc chắn muốn xóa phóng viên này?")) {
+        let res = await fetch(`/user/countNewsOfWriter?idWriter=${id}`);
+        let countNews = await res.json();
+        let message = `Phóng viên này đã đóng góp ${countNews.count} bài báo. Bạn có chắc chắn muốn xóa?`;
+
+        if (!countNews.count) {
+            message = `Bạn có chắc chắn muốn xóa phóng viên này?`;
+        }
+
+        if (confirm(`${message}`)) {
             let res = await fetch('/user/writer-admin', {
                 method: 'DELETE',
                 headers: {
@@ -108,6 +122,8 @@
                 window.location.reload();
             }
         }
+
+
 
     }
 </script>

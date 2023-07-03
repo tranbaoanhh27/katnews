@@ -159,9 +159,7 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        id,
-                        countSub,
-                        countNew: 0
+                        id
                     })
                 });
                 if (res.status == 200) {
@@ -181,9 +179,7 @@
                             'Accept': 'application/json'
                         },
                         body: JSON.stringify({
-                            id,
-                            countSub,
-                            countNew: 0
+                            id
                         })
                     });
                     if (res.status == 200) {
@@ -200,9 +196,7 @@
                             'Accept': 'application/json'
                         },
                         body: JSON.stringify({
-                            id,
-                            countSub,
-                            countNew: json.count
+                            id
                         })
                     });
                     if (res.status == 200) {
@@ -260,9 +254,7 @@
                                 'Accept': 'application/json'
                             },
                             body: JSON.stringify({
-                                id: item[0],
-                                countSub: 0,
-                                countNew: 0
+                                id: item[0]
                             })
                         });
                     }
@@ -279,9 +271,7 @@
                                     'Accept': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    id: item[0],
-                                    countSub: item[1],
-                                    countNew: 0
+                                    id: item[0]
                                 })
                             });
                         }
@@ -297,9 +287,7 @@
                                     'Accept': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    id: item[0],
-                                    countSub: item[1],
-                                    countNew: item[2]
+                                    id: item[0]
                                 })
                             });
                         }

@@ -70,22 +70,22 @@ controllers.update = async (req, res) => {
 
 controllers.delete = async (req, res) => {
     try {
-        const { id, countNews } = req.body;
-        if (countNews != 0) {
-            let news = await models.News.findAll({
-                where: { categoryId: id }
-            });
+        const { id } = req.body;
+        // if (countNews != 0) {
+        //     let news = await models.News.findAll({
+        //         where: { categoryId: id }
+        //     });
 
-            for (const item of news) {
-                await item.destroy();
-            }
-        }
+        //     for (const item of news) {
+        //         await item.destroy();
+        //     }
+        // }
 
         const subCategory = await models.SubCategory.findByPk(id);
         if (!subCategory) {
             return res.status(404).json({ error: 'không tìm thấy subCategory.' });
         }
-        await subCategory.destroy();
+        await subCategory.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa subCategory thành công.' });
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi xóa subCategory.' });

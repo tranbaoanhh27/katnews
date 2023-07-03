@@ -37,6 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if posts}}
                             {{#each posts}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-post" value="{{id}}"></td>
@@ -57,9 +58,11 @@
                                 </td>
                             </tr>
                             {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
 
+                    {{#if posts}}
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
@@ -71,6 +74,9 @@
                             </nav>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="m-3 text-center alert alert-warning">Không có bài viết nào </div>
+                    {{/if}}
 
                 </div>
             </div>
@@ -99,7 +105,7 @@
 <!-- xoa bài viết -->
 <script>
     async function deleteRow(id) {
-        if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
+        if (confirm("Bạn có chắc chắn muốn xóa bài viết này?")) {
             let res = await fetch('/post', {
                 method: 'DELETE',
                 headers: {

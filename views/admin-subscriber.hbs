@@ -37,6 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{#if subscribers}}
                             {{#each subscribers}}
                             <tr class="list__item">
                                 <td class="list__check"><input type="checkbox" name="select-user" value="{{id}}"></td>
@@ -70,9 +71,11 @@
                                 </td>
                             </tr>
                             {{/each}}
+                            {{/if}}
                         </tbody>
                     </table>
 
+                    {{#if subscribers}}
                     <div class="row">
                         <!-- Pagination -->
                         <div class="col-md-12 mt-4">
@@ -84,6 +87,9 @@
                             </nav>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="m-3 text-center alert alert-warning">Không có người dùng nào </div>
+                    {{/if}}
 
                 </div>
             </div>

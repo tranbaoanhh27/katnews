@@ -58,7 +58,7 @@ redisClient.connect().then(() => {
             },
             helpers: {
                 createPagination,
-                equal: function(a , b) {
+                equal: function (a, b) {
                     return a === b;
                 }
             },
@@ -84,10 +84,6 @@ redisClient.connect().then(() => {
         })
     );
 
-    // Setup Passport
-    app.use(passport.initialize());
-    app.use(passport.session());
-
     // To create database tables
     app.use("/create-database-tables", (req, res) => {
         const models = require("./models");
@@ -102,6 +98,10 @@ redisClient.connect().then(() => {
         request.session.subdomains = request.subdomains;
         next();
     });
+
+    // Setup Passport
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     // Setup Connect Flash
     app.use(connectFlash());

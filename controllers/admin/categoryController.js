@@ -66,34 +66,34 @@ controllers.update = async (req, res) => {
 
 controllers.delete = async (req, res) => {
     try {
-        const { id, countSub, countNew } = req.body;
-        if (countNew) {
-            const news = await models.News.findAll({
-                attributes: ['id'],
-                include: [{
-                    model: models.SubCategory,
-                    where: { categoryId: id }
-                }]
-            });
-            for (const item of news) {
-                await item.destroy();
-            }
-        }
+        const { id } = req.body;
+        // if (countNew) {
+        //     const news = await models.News.findAll({
+        //         attributes: ['id'],
+        //         include: [{
+        //             model: models.SubCategory,
+        //             where: { categoryId: id }
+        //         }]
+        //     });
+        //     for (const item of news) {
+        //         await item.destroy();
+        //     }
+        // }
 
-        if (countSub) {
-            const subCategories = await models.SubCategory.findAll({
-                where: { categoryId: id }
-            });
-            for (const item of subCategories) {
-                await item.destroy();
-            }
-        }
+        // if (countSub) {
+        //     const subCategories = await models.SubCategory.findAll({
+        //         where: { categoryId: id }
+        //     });
+        //     for (const item of subCategories) {
+        //         await item.destroy();
+        //     }
+        // }
 
         const Category = await models.Category.findByPk(id);
         if (!Category) {
             return res.status(404).json({ error: 'không tìm thấy Category.' });
         }
-        await Category.destroy();
+        await Category.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa Category thành công.' });
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi xóa Category.' });

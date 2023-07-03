@@ -61,7 +61,7 @@ controller.delete = async (req, res) => {
         if (!post) {
             return res.status(404).json({ error: 'không tìm thấy post.' });
         }
-        await post.destroy();
+        await post.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa post thành công.' });
     } catch (error) {
         res.status(500).json({ error: 'Lỗi khi xóa post.' });

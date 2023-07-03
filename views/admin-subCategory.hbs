@@ -162,8 +162,7 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        id,
-                        countNews
+                        id
                     })
                 });
                 if (res.status == 200) {
@@ -180,8 +179,7 @@
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        id,
-                        countNews
+                        id
                     })
                 });
                 if (res.status == 200) {
@@ -232,8 +230,7 @@
                                 'Accept': 'application/json'
                             },
                             body: JSON.stringify({
-                                id: row.querySelector('input[type="checkbox"]').value,
-                                countNews: parseInt(row.querySelector('.list__countNew').textContent)
+                                id: row.querySelector('input[type="checkbox"]').value
                             })
                         });
                     }
@@ -252,8 +249,7 @@
                                 'Accept': 'application/json'
                             },
                             body: JSON.stringify({
-                                id: row.querySelector('input[type="checkbox"]').value,
-                                countNews: parseInt(row.querySelector('.list__countNew').textContent)
+                                id: row.querySelector('input[type="checkbox"]').value
                             })
                         });
                     }
