@@ -21,7 +21,8 @@ controllers.show = async (req, res) => {
             offset: limit * (page - 1)
         }
 
-        let { rows, count } = await models.SubCategory.findAndCountAll(options);
+        let rows = await models.SubCategory.findAll(options);
+        let count = await models.SubCategory.count({ where: { categoryId: id } });
 
         res.locals.pagination = {
             page: page,
