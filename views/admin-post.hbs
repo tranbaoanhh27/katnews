@@ -43,7 +43,8 @@
                                 <td class="list__check"><input type="checkbox" name="select-post" value="{{id}}"></td>
                                 <td class="list__img text-center p-1"> <img src="{{tinyImagePath}}" width="100%"
                                         height="100%" class="d-block" alt="First slide"></td>
-                                <td class="list__title">{{title}}</td>
+                                <td class="list__title"><a class="text-decoration-none text-dark"
+                                        href="/post/{{id}}">{{title}}</a></td>
                                 <td class="list__cat">{{SubCategory.name}}</td>
                                 <td class="list__writer">{{Writer.fullName}}</td>
                                 <td class="list__status">{{#if isDraft}}Bản nháp{{else}}Xuất bản{{/if}}</td>

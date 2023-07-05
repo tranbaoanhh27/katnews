@@ -1,0 +1,192 @@
+<main>
+    <div class="container">
+        <div class="row">
+            {{> admin-left-sidebar}}
+            <!-- Sidebar bên phải -->
+            <div class="col-md-9" id="sidebar-right">
+                <a href="/post" class="nav-link fw-bold px-0 d-inline-block"> Danh sách bài viết</a> > <a href=""
+                    class="nav-link text-dark px-0 d-inline-block">Chi tiết bài viết</a>
+
+                <div class="container mt-3 p-1">
+                    <!-- Hàng đầu tiên với box search và nút thêm -->
+                    <div class="row mb-3 header">
+                        <div class="col-md-8 header__search d-flex direction-row">
+                            <p class="fw-bold">Trạng thái:</p>
+                            {{#if news.isDraft}}
+                            <input type="text" value="Bản nháp" readonly class="new-status mx-3 text-center">
+                            {{else}}
+                            <input type="text" value="Đã xuất bản" readonly class="new-status mx-3 text-center">
+                            {{/if}}
+                        </div>
+                        <div class=" col-md-4 header__add-button">
+                            <button class="btn btn-danger float-end" onclick="deleteNew({{news.id}})">Xoá</button>
+                            {{#if news.isDraft}}
+                            <button class="btn btn-primary float-end mx-2 add-btn"
+                                onclick="ConvertStatus(this, {{news.id}})">Chuyển đổi
+                            </button>
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <div class=" user-news-details__article-info">
+                        <img class="user-news-details__main-image" src="{{news.largeImagePath}}" alt="{{news.title}}">
+                        <div class="user-news-details-article-info__black-cover"></div>
+                        <div class="user-news-details-article-info__overlay-content">
+                            <div style="display: flex; width: 100%; justify-content: space-between">
+                                <div style="display: flex; gap: 10px">
+                                    {{#if news.isPremium}}
+                                    <span class="user-news__premium-badge">Premium</span>
+                                    {{/if}}
+                                    <span><a
+                                            href="/news?subCategoryId={{news.categoryId}}">{{news.SubCategory.name}}</a></span>
+                                </div>
+                                {{#if news.isPremium}}
+                                {{#if authenticatedUser.isPremium}}
+                                <div class="dropdown open user-news-details__premium-feature">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Premium
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="triggerId">
+                                        <button class="dropdown-item"><a href="/news/{{news.id}}?export=true">Tải xuống
+                                                PDF</a></button>
+                                    </div>
+                                </div>
+                                {{/if}}
+                                {{/if}}
+                            </div>
+                            <h1>{{news.title}}</h1>
+                            <h5>{{news.abstract}}</h5>
+                            <p>{{news.Writer.pseudonym}} - {{news.updatedAtString}}</p>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="user-news-details__tag-list">
+                            Nhãn:
+                            {{#each news.Tags}}
+                            <span><a href="/news?tagId={{id}}">{{name}}</a></span>
+                            {{/each}}
+                        </div>
+                        <div style="display: flex; justify-content: center; width: 100%;">
+                            <img class="user-news-details__content-image" src="" alt="">
+                        </div>
+                        <div class="user-news-details-content">
+                            <img class="user-news-details__content-image" src="{{news.largeImagePath}}"
+                                alt="{{news.title}}">
+                            {{{news.content}}}
+                            {{#if news.youtubePath}}
+                            <iframe class="user-news-details__content-youtube-iframe" width="80%" height="400px"
+                                src="{{news.youtubePath}}" title="{{news.title}}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen>
+                            </iframe>
+                            {{/if}}
+                        </div>
+                        <h3>{{commentCount}} Bình luận</h3>
+                        <div class="comments-list">
+                            {{#each comments}}
+                            <div class="container_comment row  border ">
+                                <div class="user-news-details__comment col-11">
+                                    <img src="{{User.avatarPath}}" width="75px" height="75px" alt="{{User.fullName}}">
+                                    <div class="user-news-details__comment-content">
+                                        <p>{{User.fullName}}</p>
+                                        <p>{{updatedAtString}}</p>
+                                        <p>{{content}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-1 float-end d-flex align-items-center">
+                                    <div class="btn btn-danger" onclick="deleteComment({{id}})"><i
+                                            class="fa-solid fa-trash"></i></div>
+                                </div>
+
+                            </div>
+                            {{/each}}
+                        </div>
+                        {{#if hasComment}}
+                        <nav class="user-news-details__comment-pagination-container" aria-label="Page navigation">
+                            {{{ createPagination pagination paginationClass='pagination' leftText='Trước'
+                            rightText='Sau'}}}
+                        </nav>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer>
+    <!-- place footer here -->
+</footer>
+
+<!-- // Chuyển đổi trạng thái -->
+<script>
+    async function ConvertStatus(convertButton, id) {
+        let res = await fetch('/post', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                id,
+                isDraft: false
+            })
+        });
+
+        if (res.status == 200) {
+            if (confirm("Xuất bản bài viết thành công!")) {
+                const statusCell = document.querySelector('.new-status');
+                statusCell.value = 'Đã xuất bản';
+
+                convertButton.remove();
+            }
+        }
+    }
+
+</script>
+
+<!-- xoa bài viết -->
+<script>
+    async function deleteNew(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa bài viết này?")) {
+            let res = await fetch('/post', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id
+                })
+            });
+            if (res.status == 200) {
+                alert("Bài viết đã được xóa thành công.");
+                window.location.href = '/post';
+            }
+        }
+
+    }
+</script>
+
+<!-- xoa bài viết -->
+<script>
+    async function deleteComment(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa bình luận này?")) {
+            let res = await fetch('/post/comment', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id
+                })
+            });
+            if (res.status == 200) {
+                window.location.reload();
+            }
+        }
+
+    }
+</script>
