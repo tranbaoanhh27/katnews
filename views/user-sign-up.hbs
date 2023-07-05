@@ -1,3 +1,4 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <main>
     <div class="user-sign-up-card">
         <form action="/auth/register" method="post" id="user-register-form">
@@ -36,6 +37,7 @@
             {{#if registerMessage }}
             <div class="alert alert-warning mt-3">{{{registerMessage}}}</div>
             {{/if}}
+            <div class="g-recaptcha mt-5" data-sitekey="6LfCIvcmAAAAAAwqVl_eWkb5UoUD7JLuvKC5WF1F"></div>
             <div class="user-sign-up-card__submit-and-link-to-sign-in">
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
                 <div class="user-sign-up-card__link-to-sign-in">

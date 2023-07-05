@@ -39,10 +39,16 @@ controller.showSignUpPage = (request, response) => {
     });
 }
 
-controller.register = (request, response, next) => {
+controller.register = async (request, response, next) => {
     const reqUrl = request.body.reqUrl
         ? request.body.reqUrl
         : "/account";
+    const reCaptchaToken = request.body['g-recaptcha-response'];
+    const verifyReCaptcha = await checkCaptcha(reCaptchaToken);
+    if (!verifyReCaptcha) {
+        request.flash('registerMessage', 'Xác minh Captcha không thành công! Hãy thử lại')
+        return response.redirect('/auth/register');
+    }
     passport.authenticate("user-local-register", (error, user) => {
         if (error) return next(error);
         if (!user) return response.redirect(`/auth/register?reqUrl=${reqUrl}`);
@@ -51,6 +57,18 @@ controller.register = (request, response, next) => {
             response.redirect(reqUrl);
         });
     })(request, response, next);
+}
+
+const checkCaptcha = async (token) => {
+    const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+        method: 'POST',
+        body: `secret=${process.env.GOOGLE_RECAPTCHA_SECRET_KEY}&response=${token}`,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    });
+    const data = await response.json();
+    return data.success;
 }
 
 controller.showForgotPasswordPage = (request, response) => {
