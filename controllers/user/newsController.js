@@ -36,13 +36,9 @@ controller.showNewsList = async (request, response) => {
             {
                 model: models.SubCategory,
                 attributes: ["id", "name"],
-            },
-            {
-                model: models.Tag,
-                attributes: ["id", "name"],
-            },
+            }
         ],
-        where: { isDraft: false, isPremium: false },
+        where: { isDraft: false },
         order: [["updatedAt", "DESC"]],
         limit: NEWS_LIMIT,
         offset: newsOffset,
@@ -72,31 +68,23 @@ controller.showNewsList = async (request, response) => {
             ["isPremium", "DESC"],
             ["updatedAt", "DESC"],
         ];
-        newsQueryConfigs.where = { isDraft: false };
     }
 
-    const news = await models.News.findAll(newsQueryConfigs);
-
-    // Manually get count (because sequelize findAndCountAll works wrong on many-to-many association...)
-    newsQueryConfigs.limit = null;
-    newsQueryConfigs.offset = null;
-    const tempNews = await models.News.findAll(newsQueryConfigs);
-    let newIds = new Set();
-    for (let item of tempNews) newIds.add(item.id);
-    const count = newIds.size;
+    const { rows, count } = await models.News.findAndCountAll(newsQueryConfigs);
 
     const colors = ["#E98733", "#CA335C", "#70AFBE", "#7D618F", "#0CA9A8"];
     let colorIndex = 0;
 
-    news.forEach((item) => {
-        item.updatedAtString = new Date(item.updatedAt).toLocaleString("vi-VN");
-        item.Tags = item.Tags.slice(0, 3);
-        let shortAbstract = item.abstract.slice(0, 100);
-        if (item.abstract.length > 100) shortAbstract += "...";
-        item.shortAbstract = shortAbstract;
-        item.categoryColor = colors[colorIndex++ % colors.length];
-    });
-    response.locals.news = news;
+    for (let i = 0; i < rows.length; i++) {
+        rows[i].updatedAtString = new Date(rows[i].updatedAt).toLocaleString("vi-VN");
+        rows[i].Tags = await queryTags(rows[i].id);
+        rows[i].Tags = rows[i].Tags.slice(0, 3);
+        let shortAbstract = rows[i].abstract.slice(0, 100);
+        if (rows[i].abstract.length > 100) shortAbstract += "...";
+        rows[i].shortAbstract = shortAbstract;
+        rows[i].categoryColor = colors[colorIndex++ % colors.length];
+    }
+    response.locals.news = rows;
 
     // Comments pagination
     response.locals.pagination = {
@@ -143,7 +131,16 @@ controller.showNewsDetails = async (request, response, next) => {
         const exportPdf = request.query.export;
 
         const news = await models.News.findOne({
-            include: [{ model: models.SubCategory }, { model: models.Writer }, { model: models.Tag }, { model: models.Comment }],
+            include: [{
+                model: models.SubCategory,
+                attributes: ['id', 'name']
+            }, { 
+                model: models.Writer,
+                attributes: ['id', 'pseudonym']
+            }, { 
+                model: models.Tag,
+                attributes: ['id', 'name']
+            }],
             where: { id: newsId, isDraft: false },
             transaction: t,
         });
@@ -166,8 +163,6 @@ controller.showNewsDetails = async (request, response, next) => {
         news.updatedAtString = new Date(news.updatedAt).toLocaleString("vi-VN");
         response.locals.pageTitle = news.title;
         response.locals.news = news;
-        response.locals.commentCount = news.Comments.length;
-        response.locals.hasComment = news.Comments.length > 0;
 
         if (exportPdf === "true" && news.isPremium) {
             // Check if user logged in
@@ -210,6 +205,8 @@ controller.showNewsDetails = async (request, response, next) => {
                 if (!comment.User.avatarPath) comment.User.avatarPath = DEFAULT_USER_AVATAR_PATH;
             });
             response.locals.comments = rows;
+            response.locals.commentCount = count;
+            response.locals.hasComment = count > 0;
 
             // Comments pagination
             response.locals.pagination = {
@@ -339,33 +336,14 @@ controller.search = async (req, res) => {
 
     const limit = 10;
     const options = {
-        include: [
-            {
-                model: models.SubCategory,
-                attributes: ["id", "name"],
-            },
-            {
-                model: models.Tag,
-                attributes: ["id", "name"],
-            },
-        ],
+        include: [{ model: models.SubCategory, attributes: ["id", "name"] }],
         where: Sequelize.literal(`ts_rank("ts", to_tsquery('english', '${keyword}')) > 0.1`),
         order: [[Sequelize.literal(`ts_rank("ts", to_tsquery('english', '${keyword}'))`), "DESC"]],
         limit: limit,
         offset: limit * (page - 1),
     };
 
-    let news = await models.News.findAll(options);
-    if (!userHelper.isPremium(req.user)) news = news.filter(item => item.isPremium === false);
-
-    // Manually get count (because sequelize findAndCountAll works wrong on many-to-many association...)
-    options.limit = null;
-    options.offset = null;
-    let tempNews = await models.News.findAll(options);
-    if (!userHelper.isPremium(req.user)) tempNews = tempNews.filter(item => item.isPremium === false);
-    let newIds = new Set();
-    for (let item of tempNews) newIds.add(item.id);
-    const count = newIds.size;
+    const { rows, count } = await models.News.findAndCountAll(options);
 
     res.locals.pagination = {
         page: page,
@@ -376,19 +354,30 @@ controller.search = async (req, res) => {
 
     const colors = ["#E98733", "#CA335C", "#70AFBE", "#7D618F", "#0CA9A8"];
     let colorIndex = 0;
-    news.forEach((article) => {
-        article.shortAbstract = article.abstract.slice(0, 200);
-        if (article.abstract.length > 200) article.shortAbstract += "...";
-        article.updatedAtString = new Date(article.updatedAt).toLocaleString("vi-VN");
-        article.categoryColor = colors[colorIndex++ % colors.length];
-    });
+
+    for (let i = 0; i < rows.length; i++) {
+        rows[i].Tags = await queryTags(rows[i].id);
+        rows[i].shortAbstract = rows[i].abstract.slice(0, 200);
+        if (rows[i].abstract.length > 200) rows[i].shortAbstract += "...";
+        rows[i].updatedAtString = new Date(rows[i].updatedAt).toLocaleString("vi-VN");
+        rows[i].categoryColor = colors[colorIndex++ % colors.length];
+        console.log("tags", rows[i].Tags);
+    }
 
     res.locals.pageTitle = `Tìm kiếm: ${String(req.query.keyword)}`;
     res.locals.keyword = String(req.query.keyword);
-    res.locals.hasNews = news.length > 0;
+    res.locals.hasNews = rows.length > 0;
 
-    res.locals.news = news;
+    res.locals.news = rows;
     res.render("user-news-search-result");
 };
+
+const queryTags = async (newsId) => {
+    const tags = await models.Tag.findAll({
+        attributes: ['id', 'name'],
+        include: [{ model: models.News, where: { id: newsId } }]
+    });
+    return tags;
+}
 
 module.exports = controller;
