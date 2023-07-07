@@ -6,7 +6,7 @@ const Sequelize = require("sequelize");
 const userHelper = require('../user/userHelper');
 const DEFAULT_USER_AVATAR_PATH = "/images/default-user-icon.jpg";
 
-controller.show = async (req, res) => {
+controller.show = async (req, res, next) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
@@ -38,36 +38,40 @@ controller.show = async (req, res) => {
         res.locals.posts = rows;
         res.render('admin-post', { layout: 'admin-layout', inPost: "#0d6efd", type_name: 'post' });
     } catch (error) {
-        res.status(500);
+        next(error);
     }
 }
 
-controller.update = async (req, res) => {
+controller.update = async (req, res, next) => {
     try {
         const { id, isDraft } = req.body;
         const post = await models.News.findByPk(id);
         if (!post) {
-            return res.status(404).json({ error: 'không tìm thấy post.' });
+            // return res.status(404).json({ error: 'không tìm thấy post.' });
+            next();
         }
         post.isDraft = isDraft;
         await post.save();
         res.status(200).json({ message: 'Chuyển trạng thái bài viết thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa post.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa post.' });
+        next(error);
     }
 }
 
-controller.delete = async (req, res) => {
+controller.delete = async (req, res, next) => {
     try {
         const { id } = req.body;
         const post = await models.News.findByPk(id);
         if (!post) {
-            return res.status(404).json({ error: 'không tìm thấy post.' });
+            // return res.status(404).json({ error: 'không tìm thấy post.' });
+            next();
         }
         await post.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa post thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa post.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa post.' });
+        next(error);
     }
 }
 
@@ -133,17 +137,19 @@ controller.showPostDetails = async (request, response, next) => {
     }
 };
 
-controller.deleteComment = async (req, res) => {
+controller.deleteComment = async (req, res, next) => {
     try {
         const { id } = req.body;
         const post = await models.Comment.findByPk(id);
         if (!post) {
-            return res.status(404).json({ error: 'không tìm thấy post.' });
+            // return res.status(404).json({ error: 'không tìm thấy post.' });
+            next();
         }
         await post.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa post thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa post.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa post.' });
+        next(error);
     }
 }
 

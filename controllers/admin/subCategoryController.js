@@ -3,7 +3,7 @@
 const models = require('../../models');
 const controllers = {};
 
-controllers.show = async (req, res) => {
+controllers.show = async (req, res, next) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         let id = isNaN(req.params.id) ? 0 : parseInt(req.params.id);
@@ -37,38 +37,42 @@ controllers.show = async (req, res) => {
         res.locals.subCategories = rows;
         res.render('admin-subCategory', { layout: 'admin-layout', inCategory: "#0d6efd", type_name: `category/${id}?name=${nameCategory}`, nameCategory, catId: id });
     } catch (error) {
-        res.status(500);
+        // res.status(500);
+        next(error);
     }
 };
 
-controllers.add = async (req, res) => {
+controllers.add = async (req, res, next) => {
     try {
         const { name, categoryId } = req.body;
         const newCategory = await models.SubCategory.create({ name, categoryId });
 
         return res.status(201).json(newCategory);
     } catch (error) {
-        res.status(500);
+        // res.status(500);
+        next(error);
     }
 }
 
 
-controllers.update = async (req, res) => {
+controllers.update = async (req, res, next) => {
     try {
         const { id, name } = req.body;
         const subCategory = await models.SubCategory.findByPk(id);
         if (!subCategory) {
-            return res.status(404);
+            // return res.status(404);
+            next();
         }
         subCategory.name = name;
         await subCategory.save();
         res.status(200).json({ message: 'Sửa subCategory thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa subCategory.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa subCategory.' });
+        next(error);
     }
 }
 
-controllers.delete = async (req, res) => {
+controllers.delete = async (req, res, next) => {
     try {
         const { id } = req.body;
         // if (countNews != 0) {
@@ -83,12 +87,14 @@ controllers.delete = async (req, res) => {
 
         const subCategory = await models.SubCategory.findByPk(id);
         if (!subCategory) {
-            return res.status(404).json({ error: 'không tìm thấy subCategory.' });
+            // return res.status(404).json({ error: 'không tìm thấy subCategory.' });
+            next();
         }
         await subCategory.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa subCategory thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa subCategory.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa subCategory.' });
+        next(error);
     }
 }
 

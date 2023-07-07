@@ -5,7 +5,7 @@ const models = require('../../models');
 const braintreeHelper = require('../../controllers/braintree')
 
 //subscriber
-controller.showSubscriber = async (req, res) => {
+controller.showSubscriber = async (req, res, next) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
@@ -45,17 +45,18 @@ controller.showSubscriber = async (req, res) => {
         res.locals.subscribers = rows;
         res.render('admin-subscriber', { layout: 'admin-layout', inSub: "#FFA600", inUser: "#0d6efd", type_name: 'user/subscriber-admin' });
     } catch (error) {
-        res.status(500);
+        next(error);
     }
 }
 
-controller.updateSubscribers = async (req, res) => {
+controller.updateSubscribers = async (req, res, next) => {
     try {
         const { id } = req.body;
         console.log(id);
         const user = await models.User.findByPk(id);
         if (!user) {
-            return res.status(404).json({ error: 'không tìm thấy user.' });
+            // return res.status(404).json({ error: 'không tìm thấy user.' });
+            next();
         }
         // tinh toan ngay het han moi
         const currentDate = new Date();
@@ -67,27 +68,30 @@ controller.updateSubscribers = async (req, res) => {
         await user.save();
         res.status(200).json({ message: 'Sửa user thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi sửa user.' });
+        // res.status(500).json({ error: 'Lỗi khi sửa user.' });
+        next(error);
     }
 }
 
-controller.deleteSubscribers = async (req, res) => {
+controller.deleteSubscribers = async (req, res, next) => {
     try {
         const { id } = req.body;
         const user = await models.User.findByPk(id);
         if (!user) {
-            return res.status(404).json({ error: 'không tìm thấy user.' });
+            // return res.status(404).json({ error: 'không tìm thấy user.' });
+            next();
         }
         braintreeHelper.deleteBraintreeVaultCustomer(user.braintreeCustomerId); // xoa customer tren he thong thanh toan
         await user.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa user thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa user.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa user.' });
+        next(error);
     }
 }
 
 //writer
-controller.showWriter = async (req, res) => {
+controller.showWriter = async (req, res, next) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
@@ -110,25 +114,28 @@ controller.showWriter = async (req, res) => {
         res.locals.writers = rows;
         res.render('admin-writer', { layout: 'admin-layout', inWriter: "#FFA600", inUser: "#0d6efd", type_name: 'user/writer-admin' });
     } catch (error) {
-        res.status(500);
+        // res.status(500);
+        next(error);
     }
 }
 
-controller.deleteWriter = async (req, res) => {
+controller.deleteWriter = async (req, res, next) => {
     try {
         const { id } = req.body;
         const writer = await models.Writer.findByPk(id);
         if (!writer) {
-            return res.status(404).json({ error: 'không tìm thấy writer.' });
+            // return res.status(404).json({ error: 'không tìm thấy writer.' });
+            next();
         }
         await writer.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa writer thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa writer.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa writer.' });
+        next(error);
     }
 }
 
-controller.countNewsOfWriter = async (req, res) => {
+controller.countNewsOfWriter = async (req, res, next) => {
     const { idWriter } = req.query;
     const countNews = await models.News.findAll({
         attributes: ['id'],
@@ -138,7 +145,7 @@ controller.countNewsOfWriter = async (req, res) => {
 }
 
 // editor
-controller.showEditor = async (req, res) => {
+controller.showEditor = async (req, res, next) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
@@ -166,36 +173,41 @@ controller.showEditor = async (req, res) => {
         res.locals.categories = categories;
         res.render('admin-editor', { layout: 'admin-layout', inEditor: "#FFA600", inUser: "#0d6efd", type_name: 'user/editor-admin' });
     } catch (error) {
-        res.status(500);
+        // res.status(500);
+        next(error);
     }
 }
 
-controller.updateEditor = async (req, res) => {
+controller.updateEditor = async (req, res, next) => {
     try {
         const { id } = req.body;
         const editor = await models.Editor.findByPk(id);
         if (!editor) {
-            return res.status(404).json({ error: 'không tìm thấy editor.' });
+            // return res.status(404).json({ error: 'không tìm thấy editor.' });
+            next();
         }
         editor.isApproved = true;
         await editor.save();
         res.status(200).json({ message: 'Chuyển trạng thái bài viết thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa editor.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa editor.' });
+        next(error);
     }
 }
 
-controller.deleteEditor = async (req, res) => {
+controller.deleteEditor = async (req, res, next) => {
     try {
         const { id } = req.body;
         const editor = await models.Editor.findByPk(id);
         if (!editor) {
-            return res.status(404).json({ error: 'không tìm thấy editor.' });
+            // return res.status(404).json({ error: 'không tìm thấy editor.' });
+            next();
         }
         await editor.destroy();
         res.status(200).json({ message: 'Xóa editor thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa editor.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa editor.' });
+        next(error);
     }
 }
 

@@ -3,7 +3,7 @@
 const models = require('../../models');
 const controllers = {};
 
-controllers.show = async (req, res) => {
+controllers.show = async (req, res, next) => {
     try {
         let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
         const limit = 10;
@@ -33,38 +33,41 @@ controllers.show = async (req, res) => {
         res.locals.categories = rows;
         res.render('admin-category', { layout: 'admin-layout', inCategory: "#0d6efd", type_name: 'category' });
     } catch (error) {
-        res.status(500);
+        next(error);
     }
 };
 
 
-controllers.add = async (req, res) => {
+controllers.add = async (req, res, next) => {
     try {
         const { name } = req.body;
         const newCategory = await models.Category.create({ name });
         res.status(201).json(newCategory);
 
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi tạo danh mục mới.' });
+        // res.status(500).json({ error: 'Lỗi khi tạo danh mục mới.' });
+        next(error);
     }
 }
 
-controllers.update = async (req, res) => {
+controllers.update = async (req, res, next) => {
     try {
         const { id, name } = req.body;
         const Category = await models.Category.findByPk(id);
         if (!Category) {
-            return res.status(404).json({ error: 'không tìm thấy doanh mục.' });
+            // return res.status(404).json({ error: 'không tìm thấy doanh mục.' });
+            next();
         }
         Category.name = name;
         await Category.save();
         res.status(200).json({ message: 'Sửa danh mục thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa doanh mục.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa doanh mục.' });
+        next(error);
     }
 }
 
-controllers.delete = async (req, res) => {
+controllers.delete = async (req, res, next) => {
     try {
         const { id } = req.body;
         // if (countNew) {
@@ -91,31 +94,35 @@ controllers.delete = async (req, res) => {
 
         const Category = await models.Category.findByPk(id);
         if (!Category) {
-            return res.status(404).json({ error: 'không tìm thấy Category.' });
+            // return res.status(404).json({ error: 'không tìm thấy Category.' });
+            next();
         }
         await Category.destroy({ cascade: true });
         res.status(200).json({ message: 'Xóa Category thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa Category.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa Category.' });
+        next(error);
     }
 }
 
-controllers.updateEditor = async (req, res) => {
+controllers.updateEditor = async (req, res, next) => {
     try {
         const { id, editorId } = req.body;
         const Category = await models.Category.findByPk(id);
         if (!Category) {
-            return res.status(404).json({ error: 'không tìm thấy doanh mục.' });
+            // return res.status(404).json({ error: 'không tìm thấy doanh mục.' });
+            next();
         }
         Category.editorId = editorId;
         await Category.save();
         res.status(200).json({ message: 'Sửa danh mục thành công.' });
     } catch (error) {
-        res.status(500).json({ error: 'Lỗi khi xóa doanh mục.' });
+        // res.status(500).json({ error: 'Lỗi khi xóa doanh mục.' });
+        next(error);
     }
 }
 
-controllers.countNews = async (req, res) => {
+controllers.countNews = async (req, res, next) => {
     const { categoryId } = req.query;
     const news = await models.News.findAll({
         attributes: ['id'],
