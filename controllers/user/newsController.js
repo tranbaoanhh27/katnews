@@ -44,7 +44,9 @@ controller.showNewsList = async (request, response) => {
         offset: newsOffset,
     };
 
-    if (tagId !== -1) newsQueryConfigs.include[1].where = { id: tagId };
+    if (tagId !== -1) {
+        newsQueryConfigs.include.push({ model: models.Tag, attributes: ['id', 'name'], where: { id: tagId } });
+    }
     else if (categoryId !== -1) newsQueryConfigs.include[0].where = { categoryId };
     else if (subCategoryId !== -1) {
         newsQueryConfigs.where.categoryId = subCategoryId;
