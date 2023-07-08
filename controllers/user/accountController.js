@@ -52,6 +52,7 @@ controller.middleware = async (request, response, next) => {
 controller.show = (request, response) => {
     response.locals.accountPage = true;
     response.locals.pageTitle = "Quản lí tài khoản";
+    response.locals.successMessage = request.flash("successMessage");
     response.render("user-account");
 };
 
@@ -75,10 +76,10 @@ controller.updateAccountInfo = async (request, response, next) => {
             email: email,
             birthdate: birthdate !== "" ? new Date(birthdate) : null,
         });
-        response.locals.successMessage = "Cập nhập thông tin thành công!";
+        request.flash("successMessage", "Cập nhập thông tin thành công!");
     }
 
-    next();
+    response.redirect("/account");
 };
 
 controller.updateAvatar = async (request, response) => {

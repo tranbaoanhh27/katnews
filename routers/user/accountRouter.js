@@ -25,8 +25,7 @@ router.post('/',
         }
         next();
     },
-    controller.updateAccountInfo,
-    controller.show
+    controller.updateAccountInfo
 );
 router.post('/uploadAvatarImage', multerUpload.single('avatar'), controller.updateAvatar);
 
