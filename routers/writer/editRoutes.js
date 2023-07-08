@@ -21,9 +21,9 @@ router.post('/news',
     body('content').trim().notEmpty().withMessage('Cần phải nhập nội dung cho bài báo'),
     body('youtubePath').custom(
         (youtubePath, { req }) => {
-            if (youtubePath.length > 0 && !isValidUrl(linkYoutube)) {
-                throw new Error("Link youtube không hợp lệ");
-            }
+            // if (youtubePath.length > 0 && !isValidUrl(linkYoutube)) {
+            //     throw new Error("Link youtube không hợp lệ");
+            // }
             return true;
         }
     ), (req, res, next) => {
@@ -87,10 +87,11 @@ router.post('/news/:id',
 module.exports = router;
 
 const isValidUrl = urlString => {
-    try {
-        return Boolean(new URL(urlString));
-    }
-    catch (e) {
-        return false;
-    }
+    // try {
+    //     return Boolean(new URL(urlString));
+    // }
+    // catch (e) {
+    //     return false;
+    // }
+    return true;
 }

@@ -52,6 +52,12 @@ controller.update = async (req, res, next) => {
         }
         post.isDraft = isDraft;
         await post.save();
+
+        const postStatus = await models.NewsStatus.findOne({ where: { newsId: id }});
+        await postStatus.update({
+            status: "approved"
+        });
+
         res.status(200).json({ message: 'Chuyển trạng thái bài viết thành công.' });
     } catch (error) {
         // res.status(500).json({ error: 'Lỗi khi xóa post.' });

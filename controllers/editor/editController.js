@@ -28,7 +28,7 @@ controllers.showAccept = async (req, res) => {
     }
     else {
         const news = await models.News.findOne({
-            attributes: ['id', 'categoryId'],
+            attributes: ['id', 'categoryId', 'title'],
             where: { id: newsId },
             include: [{
                 attributes: ['name'],

@@ -1,7 +1,7 @@
 <main>
     <div class='container' style='width: 80%;' onclick="handleOnclickBody()">
-        <h2 class='mx-3 mb-5'>Trái cây rớt thảm giá nào cũng có</h2>
         {{#with news}}
+        <h2 class='mx-3 mb-5'>{{title}}</h2>
         <form action="/edit/accept/{{id}}" method="post">
 
             <div class="row">
