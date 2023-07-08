@@ -85,12 +85,12 @@ redisClient.connect().then(() => {
     );
 
     // To create database tables
-    app.use("/create-database-tables", (req, res) => {
-        const models = require("./models");
-        models.sequelize.sync().then(() => {
-            res.send("models created successfully");
-        });
-    });
+    // app.use("/create-database-tables", (req, res) => {
+    //     const models = require("./models");
+    //     models.sequelize.sync().then(() => {
+    //         res.send("models created successfully");
+    //     });
+    // });
 
     // Save subdomains to session so that passport.deserializeUser knows
     // what subdomain being used
